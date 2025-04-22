@@ -9,8 +9,7 @@
 - NICOLAU, Jorge
 - VERDEJO, Manuel
 ---
-# dwa-lite
-## Solución Liviana de Data Warehouse Automation (DWA)
+## dwa-lite - Solución Liviana de Data Warehouse Automation (DWA)
 
 Este repositorio implementa una solución open source y ligera de Data Warehouse Automation (DWA) utilizando herramientas visuales y de fácil despliegue. El objetivo es desarrollar un flujo end-to-end que permita la ingesta, control de calidad, enriquecimiento, almacenamiento y visualización de datos partiendo de archivos .CSV.
 
