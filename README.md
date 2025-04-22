@@ -1,3 +1,13 @@
+![Universidad Austral](logo-md-austral-1.png)
+### Universidad Austral 
+### Facultad de Ingeniería
+### MCD 2024/2025
+### Introducción a Dataware Housing
+
+- CANCELAS, Martín
+- NICOLAU, Jorge
+- VERDEJO, Manuel
+---
 # dwa-lite
 ## Solución Liviana de Data Warehouse Automation (DWA)
 
