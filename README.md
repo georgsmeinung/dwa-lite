@@ -43,7 +43,7 @@ dwa-lite/
 ├── .github/
 │   └── workflows/            # Automatización del flujo ETL con GitHub Actions (opcional)
 │       └── ejecutar-knime.yml
-├── README.md                 # Este archivo
+└── README.md                 # Este archivo
 ```
 
 ## Flujo general del DWA
