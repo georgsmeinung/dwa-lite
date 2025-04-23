@@ -11,7 +11,7 @@
 ---
 ## dwa-lite - Solución Liviana de Data Warehouse Automation (DWA)
 
-Este repositorio implementa una solución open source y ligera de Data Warehouse Automation (DWA) utilizando herramientas visuales y de fácil despliegue. El objetivo es desarrollar un flujo end-to-end que permita la ingesta, control de calidad, enriquecimiento, almacenamiento y visualización de datos partiendo de archivos .CSV.
+Este repositorio implementa una solución open source y ligera de Data Warehouse Automation (DWA) utilizando herramientas visuales y de fácil despliegue. El objetivo es desarrollar un flujo end-to-end que permita la ingesta, control de calidad, enriquecimiento, almacenamiento y visualización de datos partiendo de archivos .CSV. La visualización final se realiza mediante Power BI Desktop sobre una base de datos SQLite.
 
 ## Herramientas utilizadas
 
@@ -19,13 +19,13 @@ Este repositorio implementa una solución open source y ligera de Data Warehouse
 |-------------------|-------------------------------------------------------------------------|
 | KNIME             | ETL visual, control de calidad, enriquecimiento, carga inicial y actualización de datos |
 | SQLite            | Almacén físico con estructura en capas: TMP_, DWA_, DWM_, DQM_, MET_, DP_ |
+| Power BI Desktop  | Dashboards interactivos para productos de datos (DP_), calidad (DQM_) y memoria (DWM_) |
 | Metabase          | Catálogo vivo y documentado del modelo de datos (tablas y campos)       |
-| Apache Superset   | Dashboards interactivos para datos finales (DP_), calidad (DQM_) y memoria (DWM_) |
 
 ## Estructura del repositorio
 
 ```plaintext
-dwa-light/
+dwa-lite/
 ├── data/                     # Archivos CSV de entrada (ingesta inicial y de novedades)
 │   ├── ingesta1/
 │   └── ingesta2/
@@ -36,7 +36,8 @@ dwa-light/
 │   ├── actualizacion-ingesta2.knwf
 │   └── generar-productos.knwf
 ├── dashboards/
-│   └── superset/             # Configuraciones y assets de Superset (JSON opcional)
+│   └── powerbi/              # Archivo Power BI Desktop (.pbix) con los dashboards
+│       └── dwa-dashboard.pbix
 ├── metabase/                 # Archivo JSON del catálogo de metadata para importar
 │   └── metamodelo_documentado.json
 ├── .github/
@@ -53,7 +54,7 @@ dwa-light/
 4. Generación de historial completo (SCD tipo 2) en DWM_
 5. Documentación del modelo en MET_ y visualización en Metabase
 6. Generación de productos de datos en DP_
-7. Visualización final en dashboards con Superset
+7. Visualización final en Power BI Desktop mediante dashboards .pbix
 
 ## Automatización (opcional)
 
@@ -62,13 +63,28 @@ Si se desea automatizar el proceso, se incluye un workflow para GitHub Actions q
 - Ejecuta el flujo definido en modo headless
 - Puede activarse al hacer push de nuevos archivos CSV
 
+## Conexión Power BI con SQLite
+
+Para conectar Power BI Desktop con SQLite:
+1. Instalar el controlador ODBC de SQLite: https://www.ch-werner.de/sqliteodbc/
+2. Crear una conexión ODBC apuntando al archivo `dwa.sqlite`
+3. En Power BI: Obtener datos > ODBC > Seleccionar DSN configurado
+4. Importar tablas DP_, DWM_, DQM_ y otras de interés
+5. Crear relaciones, visuales y filtros según los productos de datos generados
+
 ## Requisitos
 
 - KNIME Analytics Platform
-- DBeaver (opcional para explorar la base de datos)
-- Apache Superset
+- SQLiteStudio (opcional para explorar la base de datos)
+- Power BI Desktop (Windows)
 - Metabase
 - Python 3 (solo si se automatiza Superset o se utilizan scripts auxiliares)
+
+## Próximos pasos
+
+- Mejorar el control de calidad (DQM_) con reglas parametrizadas
+- Agregar pruebas de validación en KNIME o utilizando Great Expectations
+- Extender los dashboards con filtros por período, país, entre otros
 
 ## Licencia
 
