@@ -25,18 +25,19 @@ REM   - Scripts SQL y Python deben estar en la carpeta `transform/`
 REM ================================================================================
 
 echo === Iniciando pipeline DWA en Windows ===
+DB_PATH=db\dwa-lite.db
 
 echo [1] Cargando CSV a TMP_
 python transform\10_load_csv_to_tmp.py
 
 echo [2] Generando o extendiendo DWA_Time
-sqlite3 db\dwa.sqlite < transform\15_generate_dwa_time.sql
+sqlite3 %DB_PATH% < transform\15_generate_dwa_time.sql
 
 echo [3] Transformando TMP_ a DWA_
-sqlite3 db\dwa.sqlite < transform\20_transform_tmp_to_dwa.sql
+sqlite3 %DB_PATH% < transform\20_transform_tmp_to_dwa.sql
 
 echo [4] Asignando claves de fecha a hechos
-sqlite3 db\dwa.sqlite < transform\25_assign_date_keys_to_facts.sql
+sqlite3 %DB_PATH% < transform\25_assign_date_keys_to_facts.sql
 
 echo [5] Aplicando SCD Tipo 2
 python transform\30_update_dwm_from_dwa.py
@@ -45,10 +46,10 @@ echo [6] Validando calidad
 python transform\40_validate_quality.py
 
 echo [7] Generando productos analíticos
-sqlite3 db\dwa.sqlite < transform\50_generate_data_products.sql
+sqlite3 %DB_PATH% < transform\50_generate_data_products.sql
 
 echo [8] Registrando metadata
-sqlite3 db\dwa.sqlite < transform\60_register_metadata.sql
+sqlite3 %DB_PATH% < transform\60_register_metadata.sql
 
 echo === Pipeline finalizado correctamente ===
 pause

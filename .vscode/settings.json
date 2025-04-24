@@ -1,0 +1,10 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "dwa-lite",
+            "database": "M:\\202 - IDW -  Introducción a Data Warehousing\\TPG01 - Flujo DWA\\dwa-lite\\db\\dwa-lite.db"
+        }
+    ]
+}

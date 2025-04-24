@@ -26,7 +26,7 @@ import uuid
 from datetime import datetime
 
 # Configuración
-DB_PATH = 'db/dwa.sqlite'
+DB_PATH = 'db/dwa-lite.db'
 CSV_FOLDER = 'data/ingesta1'
 USER = 'pipeline-headless'
 

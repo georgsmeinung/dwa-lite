@@ -26,9 +26,9 @@ echo === Inicializando creación de todas las tablas del DWA por capas ===
 
 REM Crear carpeta y base SQLite si no existen
 if not exist db mkdir db
-if not exist db\dwa.sqlite (
+if not exist db\dwa-lite.db (
     echo [✓] Creando nueva base de datos SQLite
-    type nul > db\dwa.sqlite
+    type nul > db\dwa-lite.db
 )
 
 REM Ejecutar scripts por capa en orden lógico
@@ -41,7 +41,7 @@ for %%L in (%DWA_LAYERS%) do (
     echo === Ejecutando scripts en %%L ===
     for %%F in (%%L\*.sql) do (
         echo    [▶] %%F
-        sqlite3 db\dwa.sqlite < %%F
+        sqlite3 db\dwa-lite.db < %%F
     )
 )
 
