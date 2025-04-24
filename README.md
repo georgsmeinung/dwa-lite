@@ -21,7 +21,7 @@ Automatizar de punta a punta el flujo de un DWA académico, incluyendo:
 
 - Carga de datos desde archivos CSV (`TMP_`)
 - Transformación y normalización (`DWA_`)
-- Versionado histórico SCD2 (`DWM_`)
+- Versionado histórico con Slowly Changing Dimension Type 2 (`DWM_`)
 - Control de calidad de datos (`DQM_`)
 - Generación de productos analíticos (`DP_`)
 - Trazabilidad y metadata (`MET_`)
@@ -32,14 +32,21 @@ Automatizar de punta a punta el flujo de un DWA académico, incluyendo:
 
 ```
 dwa-lite/
-├── data/                # Archivos de Dashboards Power BI
-
+├── dashboards/          # Archivos de Dashboards Power BI
 ├── data/                # CSVs de entrada (Ingesta1, Ingesta2)
 ├── db/                  # Base SQLite (dwa.sqlite)
+├── knime-flows/         # Diagramas DAG para KNIME
+├── models/              # Scripts SQL de creación de capas
+│   ├── dp               # Creacion Tablas Data Product (DP_)
+│   ├── dqm              # Creacion Tablas Data Quality Mart (DQM_)
+│   ├── dwa              # Creacion Tablas Data Warehouse (DWA_)
+│   ├── dwm              # Creacion Tablas Memoria SCD2 (DWM_)
+│   ├── dwm              # Creacion Tablas Metadata (MET_)
+│   └── tmp              # Creacion Tablas Temporales (TMP_)
 ├── transform/           # Scripts SQL y Python del pipeline
 │   ├── *.py             # Scripts de procesamiento (ingesta, calidad, etc.)
 │   └── *.sql            # Scripts de transformación y carga
-├── run_pipeline.cmd     # Ejecución completa en Windows
+├── run_pipeline.cmd     # Ejecución pipeline completo en Windows
 └── README.md            # Este archivo
 ```
 
