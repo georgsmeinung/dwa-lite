@@ -30,22 +30,24 @@ Automatizar de punta a punta el flujo de un DWA académico, incluyendo:
 
 ```
 dwa-lite/
-├── dashboards/          # Archivos de Dashboards Power BI
-├── data/                # CSVs de entrada (Ingesta1, Ingesta2)
-├── db/                  # Base SQLite (dwa.sqlite)
-├── knime-flows/         # Diagramas DAG para KNIME
-├── models/              # Scripts SQL de creación de capas
-│   ├── dp               # Creacion Tablas Data Product (DP_)
-│   ├── dqm              # Creacion Tablas Data Quality Mart (DQM_)
-│   ├── dwa              # Creacion Tablas Data Warehouse (DWA_)
-│   ├── dwm              # Creacion Tablas Memoria SCD2 (DWM_)
-│   ├── dwm              # Creacion Tablas Metadata (MET_)
-│   └── tmp              # Creacion Tablas Temporales (TMP_)
-├── transform/           # Scripts SQL y Python del pipeline
-│   ├── *.py             # Scripts de procesamiento (ingesta, calidad, etc.)
-│   └── *.sql            # Scripts de transformación y carga
-├── run_pipeline.cmd     # Ejecución pipeline completo en Windows
-└── README.md            # Este archivo
+├── dashboards/                      # Archivos de Dashboards Power BI
+├── data/                            # CSVs de entrada (Ingesta1, Ingesta2)
+├── db/                              # Base SQLite (dwa.sqlite)
+├── knime-flows/                     # Diagramas DAG para KNIME
+├── models/                          # Scripts SQL de creación de capas
+│   ├── dp                           # Creacion Tablas Data Product (DP_)
+│   ├── dqm                          # Creacion Tablas Data Quality Mart (DQM_)
+│   ├── dwa                          # Creacion Tablas Data Warehouse (DWA_)
+│   ├── dwm                          # Creacion Tablas Memoria SCD2 (DWM_)
+│   ├── dwm                          # Creacion Tablas Metadata (MET_)
+│   └── tmp                          # Creacion Tablas Temporales (TMP_)
+├── transform/                       # Scripts SQL y Python del pipeline
+│   ├── *.py                         # Scripts de procesamiento (ingesta, calidad, etc.)
+│   └── *.sql                        # Scripts de transformación y carga
+├── create_all_models.cmd            # Creación Inicial de Modelos en Windows
+├── run_pipeline.cmd                 # Ejecución pipeline completo en Windows
+├── run_incremental_pipeline.cmd     # Ejecución pipeline incremental en Windows
+└── README.md                        # Este archivo
 ```
 
 ---
