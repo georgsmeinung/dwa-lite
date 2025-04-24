@@ -113,6 +113,32 @@ Cada fila de negocio relevante cuenta con un campo `uuid` generado en la ingesta
 
 Se puede conectar directamente **Power BI Desktop** o **Metabase** a `db/dwa.sqlite` y crear dashboards a partir de las tablas `DP_` o explorar la metadata en `MET_`.
 
+## 📦 Productos de Datos Generados (DP_)
+
+Al final del pipeline se generan seis productos de datos que resumen información clave para análisis de negocio. Estas tablas se pueden consumir directamente desde Power BI, Metabase u otra herramienta de visualización conectada a `db/dwa.sqlite`.
+
+### 🧾 Descripción de cada producto
+
+| Tabla                        | Descripción                                                                 |
+|-----------------------------|-----------------------------------------------------------------------------|
+| `DP_SalesByProductMonth`    | Ventas agregadas por producto y mes calendario (año, mes, total vendido).  |
+| `DP_TopCustomersByRevenue`  | Ranking de clientes por facturación acumulada.                             |
+| `DP_RegionalSalesByQuarter` | Ventas totales por región geográfica y trimestre calendario.               |
+| `DP_EmployeePerformance`    | Monto total vendido por empleado por año (rendimiento comercial).          |
+| `DP_ProductReturns`         | Órdenes con descuentos como proxy de devoluciones o promociones.           |
+| `DP_ShippingDelays`         | Pedidos entregados con retraso, incluyendo días de demora y bandera lógica.|
+
+### 🧩 Ejemplo de visualizaciones posibles
+
+- Evolución mensual de ventas por categoría de producto.
+- Comparación interanual del desempeño por empleado o región.
+- Análisis de clientes top 10 por volumen de facturación.
+- Identificación de entregas críticas o fuera de SLA.
+- Tasa de órdenes con descuento por producto o canal.
+
+> Todos estos DP_ están trazados hasta el origen con `uuid`, permitiendo
+> rastrear cada métrica hasta los registros originales de ingreso (`.csv`).
+
 ---
 
 ## 📄 Licencia
