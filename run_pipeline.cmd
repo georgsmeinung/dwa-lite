@@ -1,4 +1,29 @@
 @echo off
+REM ================================================================================
+REM Script: run_pipeline.cmd
+REM Descripción:
+REM   Este script ejecuta el pipeline completo de Data Warehouse Automation (DWA)
+REM   en modo headless sobre Windows. Automatiza la ejecución secuencial de:
+REM     - Ingesta de CSVs
+REM     - Generación de dimensión de tiempo
+REM     - Transformaciones a modelo dimensional
+REM     - Enriquecimiento con claves temporales
+REM     - Gestión de versiones históricas (SCD Tipo 2)
+REM     - Validación de calidad de datos
+REM     - Generación de productos analíticos
+REM     - Registro de metadata y linaje
+REM
+REM Uso:
+REM   Ejecutar este archivo desde la raíz del proyecto:
+REM       > run_pipeline.cmd
+REM
+REM Requisitos:
+REM   - Python 3.x con pandas instalado
+REM   - SQLite 3.x instalado y accesible como `sqlite3`
+REM   - La base `db/dwa.sqlite` debe existir (o ser creada previamente)
+REM   - Scripts SQL y Python deben estar en la carpeta `transform/`
+REM ================================================================================
+
 echo === Iniciando pipeline DWA en Windows ===
 
 echo [1] Cargando CSV a TMP_

@@ -62,12 +62,15 @@ Instalación rápida de dependencias:
 ```bash
 pip install pandas
 ```
+Creación inicial de modelos (una única vez):
+```cmd
+create_all_models.cmd
+```
 
 ---
 
 ## 🧪 Ejecución local
 
-### En Windows
 ```cmd
 run_pipeline.cmd
 ```
