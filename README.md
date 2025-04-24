@@ -52,7 +52,7 @@ dwa-lite/
 
 ---
 
-## ⚙️ Requisitos
+## ✅ Requisitos
 
 - Python 3.10+
 - SQLite 3.x
@@ -71,14 +71,14 @@ create_all_models.cmd
 
 ---
 
-## 🧪 Ejecución local
+## 💻 Ejecución local
 
 Carga inicial de `data/ingesta1`
 ```cmd
 run_pipeline.cmd
 ```
 
-Carga incremetnal de `data/ingesta2`
+Carga [incremetnal](INCREMENTAL.md) de `data/ingesta2`
 ```cmd
 run_incremental_pipeline.cmd
 ```
@@ -92,7 +92,7 @@ El proyecto puede ejecutarse de punta a punta en modo completamente automatizado
 | Paso | Propósito                               | Herramienta   | Script/Artefacto                        | Capa       |
 |------|-----------------------------------------|---------------|-----------------------------------------|------------|
 | 1.a  | Cargar inicial CSV en SQLite            | Python        | `transform/10_load_csv_to_tmp.py`          | TMP_       |
-| 1.b  | Cargar incremental CSV en SQLite        | Python        | `transform/11_update_csv_to_tmp.py`          | TMP_       |
+| 1.b  | Cargar [incremetnal](INCREMENTAL.md) CSV en SQLite        | Python        | `transform/11_update_csv_to_tmp.py`          | TMP_       |
 | 2    | Generar/Extender dimensión de tiempo    | SQL           | `transform/15_generate_dwa_time.sql`       | DWA_Time   |
 | 3    | Transformar TMP_ a modelo dimensional   | SQL           | `transform/20_transform_tmp_to_dwa.sql`    | DWA_       |
 | 4    | Asignar claves temporales a hechos      | SQL           | `transform/25_assign_date_keys_to_facts.sql`| DWA_      |
