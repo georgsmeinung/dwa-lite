@@ -11,6 +11,8 @@
 
 Este proyecto implementa una solución lightweight de **Data Warehouse Automation (DWA)** utilizando SQLite como motor, Python para ingesta y control de calidad, SQL para transformaciones y generación de productos analíticos, y Power BI o Metabase para visualización. Todo puede ejecutarse localmente y en modo *headless*.
 
+Esta es la solución propuesta al [Trabajo Práctico TPGO1 de Introducción al Data Warehousing](MCD_2025_IDW-TPG01_Flujo_DWA-1e.md).
+
 ---
 
 ## 🚀 Objetivo
