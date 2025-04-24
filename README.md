@@ -5,9 +5,9 @@
 ### Introducción a Dataware Housing
 ## TPG01 - Flujo DWA
 
-- CANCELAS, Martín
-- NICOLAU, Jorge
-- VERDEJO, Manuel
+- [CANCELAS, Martín](https://www.linkedin.com/in/mart%C3%ADn-cancelas-2313a1154/)
+- [NICOLAU, Jorge](https://jorgenicolau.ar/)
+- [VERDEJO, Manuel](https://www.linkedin.com/in/manuel-nicol%C3%A1s-verdejo-b19255126/)
 ---
 # 🧠 DWA Lite – Solución Liviana de Data Warehouse Automation (DWA) con SQLite
 
