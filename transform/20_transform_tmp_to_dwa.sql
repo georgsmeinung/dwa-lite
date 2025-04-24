@@ -1,4 +1,30 @@
--- Script SQL para transformar datos de TMP_ a DWA_ en SQLite
+-- =============================================================================
+-- Script: transform_tmp_to_dwa.sql
+-- Descripción:
+--   Este script transforma los datos crudos de la capa TMP_ y los carga
+--   en las tablas de la capa DWA_ aplicando reglas de limpieza, enriquecimiento
+--   y normalización según el modelo dimensional del DWA.
+--
+-- Funcionalidad:
+--   - Elimina duplicados, normaliza formatos y filtra columnas irrelevantes.
+--   - Aplica joins necesarios entre TMP_ y tablas auxiliares (e.g., categorías).
+--   - Propaga los UUID de trazabilidad desde TMP_ hacia DWA_.
+--   - Inserta datos transformados en las tablas de dimensión (Customers, Products, etc.)
+--     y en las tablas de hechos (SalesFact, DeliveriesFact).
+--   - Calcula métricas derivadas como `totalAmount` en ventas.
+--
+-- Supuestos:
+--   - Las tablas TMP_ ya están pobladas.
+--   - La tabla DWA_Time fue generada previamente con las fechas necesarias.
+--
+-- Recomendación:
+--   Ejecutar este script después de la carga de CSV y la generación de DWA_Time,
+--   y antes de aplicar SCD2 en la capa DWM_.
+--
+-- Uso:
+--   Se puede ejecutar en forma automática como parte del pipeline o manualmente
+--   durante el desarrollo y testing.
+-- =============================================================================
 
 -- Cargar dimensión Customers
 INSERT INTO DWA_Customers (

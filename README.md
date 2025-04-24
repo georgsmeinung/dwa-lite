@@ -9,83 +9,94 @@
 - NICOLAU, Jorge
 - VERDEJO, Manuel
 ---
-## dwa-lite - Solución Liviana de Data Warehouse Automation (DWA)
+# 🧠 DWA Lite – Solución Liviana de Data Warehouse Automation (DWA) con SQLite
 
-Este repositorio implementa una solución open source y ligera de Data Warehouse Automation (DWA) utilizando herramientas visuales y de fácil despliegue. El objetivo es desarrollar un flujo end-to-end que permita la ingesta, control de calidad, enriquecimiento, almacenamiento y visualización de datos partiendo de archivos .CSV. La visualización final se realiza mediante Power BI Desktop sobre una base de datos SQLite.
+Este proyecto implementa una solución lightweight de **Data Warehouse Automation (DWA)** utilizando SQLite como motor, Python para ingesta y control de calidad, SQL para transformaciones y generación de productos analíticos, y Power BI o Metabase para visualización. Todo puede ejecutarse localmente y en modo *headless*.
 
-## Herramientas utilizadas
+---
 
-| Herramienta       | Función                                                                 |
-|-------------------|-------------------------------------------------------------------------|
-| KNIME             | ETL visual, control de calidad, enriquecimiento, carga inicial y actualización de datos |
-| SQLite            | Almacén físico con estructura en capas: TMP_, DWA_, DWM_, DQM_, MET_, DP_ |
-| Power BI Desktop  | Dashboards interactivos para productos de datos (DP_), calidad (DQM_) y memoria (DWM_) |
-| Metabase          | Catálogo vivo y documentado del modelo de datos (tablas y campos)       |
+## 🚀 Objetivo
 
-## Estructura del repositorio
+Automatizar de punta a punta el flujo de un DWA académico, incluyendo:
 
-```plaintext
+- Carga de datos desde archivos CSV (`TMP_`)
+- Transformación y normalización (`DWA_`)
+- Versionado histórico SCD2 (`DWM_`)
+- Control de calidad de datos (`DQM_`)
+- Generación de productos analíticos (`DP_`)
+- Trazabilidad y metadata (`MET_`)
+
+---
+
+## 🧱 Estructura del proyecto
+
+```
 dwa-lite/
-├── data/                     # Archivos CSV de entrada (ingesta inicial y de novedades)
-│   ├── ingesta1/
-│   └── ingesta2/
-├── sqlite/                   # Base de datos SQLite con todas las capas
-│   └── dwa.sqlite
-├── knime-flows/              # Flujos .knwf de KNIME (ETL, actualización, productos)
-│   ├── carga-ingesta1.knwf
-│   ├── actualizacion-ingesta2.knwf
-│   └── generar-productos.knwf
-├── dashboards/
-│   └── powerbi/              # Archivo Power BI Desktop (.pbix) con los dashboards
-│       └── dwa-dashboard.pbix
-├── metabase/                 # Archivo JSON del catálogo de metadata para importar
-│   └── metamodelo_documentado.json
-├── .github/
-│   └── workflows/            # Automatización del flujo ETL con GitHub Actions (opcional)
-│       └── ejecutar-knime.yml
-└── README.md                 # Este archivo
+├── data/                # Archivos de Dashboards Power BI
+
+├── data/                # CSVs de entrada (Ingesta1, Ingesta2)
+├── db/                  # Base SQLite (dwa.sqlite)
+├── transform/           # Scripts SQL y Python del pipeline
+│   ├── *.py             # Scripts de procesamiento (ingesta, calidad, etc.)
+│   └── *.sql            # Scripts de transformación y carga
+├── run_pipeline.cmd     # Ejecución completa en Windows
+└── README.md            # Este archivo
 ```
 
-## Flujo general del DWA
+---
 
-1. Ingesta de CSVs hacia tablas TMP_ en SQLite
-2. Validación y control de calidad registrados en DQM_
-3. Transformación y enriquecimiento en DWA_ y DWM_
-4. Generación de historial completo (SCD tipo 2) en DWM_
-5. Documentación del modelo en MET_ y visualización en Metabase
-6. Generación de productos de datos en DP_
-7. Visualización final en Power BI Desktop mediante dashboards .pbix
+## ⚙️ Requisitos
 
-## Automatización (opcional)
+- Python 3.10+
+- SQLite 3.x
+- Paquetes Python: `pandas`
+- Power BI Desktop (opcional)
+- Metabase (opcional, para documentación visual del linaje)
 
-Si se desea automatizar el proceso, se incluye un workflow para GitHub Actions que:
-- Instala KNIME en un runner Ubuntu
-- Ejecuta el flujo definido en modo headless
-- Puede activarse al hacer push de nuevos archivos CSV
+Instalación rápida de dependencias:
+```bash
+pip install pandas
+```
 
-## Conexión Power BI con SQLite
+---
 
-Para conectar Power BI Desktop con SQLite:
-1. Instalar el controlador ODBC de SQLite: https://www.ch-werner.de/sqliteodbc/
-2. Crear una conexión ODBC apuntando al archivo `dwa.sqlite`
-3. En Power BI: Obtener datos > ODBC > Seleccionar DSN configurado
-4. Importar tablas DP_, DWM_, DQM_ y otras de interés
-5. Crear relaciones, visuales y filtros según los productos de datos generados
+## 🧪 Ejecución local
 
-## Requisitos
+### En Windows
+```cmd
+run_pipeline.cmd
+```
+---
 
-- KNIME Analytics Platform
-- SQLiteStudio (opcional para explorar la base de datos)
-- Power BI Desktop (Windows)
-- Metabase
-- Python 3 (solo si se automatiza Superset o se utilizan scripts auxiliares)
+## ⚙️ Ejecución Headless (modo automático y sin entorno gráfico)
 
-## Próximos pasos
+El proyecto puede ejecutarse de punta a punta en modo completamente automatizado, sin entorno gráfico ni herramientas interactivas como KNIME o Metabase, mediante los scripts alojados en la carpeta `transform/`.
 
-- Mejorar el control de calidad (DQM_) con reglas parametrizadas
-- Agregar pruebas de validación en KNIME o utilizando Great Expectations
-- Extender los dashboards con filtros por período, país, entre otros
+| Paso | Propósito                               | Herramienta   | Script/Artefacto                        | Capa       |
+|------|-----------------------------------------|---------------|-----------------------------------------|------------|
+| 1    | Cargar CSV en SQLite                    | Python        | `transform/load_csv_to_tmp.py`          | TMP_       |
+| 2    | Generar/Extender dimensión de tiempo    | SQL           | `transform/generate_dwa_time.sql`       | DWA_Time   |
+| 3    | Transformar TMP_ a modelo dimensional   | SQL           | `transform/transform_tmp_to_dwa.sql`    | DWA_       |
+| 4    | Asignar claves temporales a hechos      | SQL           | `transform/assign_date_keys_to_facts.sql`| DWA_      |
+| 5    | Aplicar lógica SCD Tipo 2               | Python        | `transform/update_dwm_from_dwa.py`      | DWM_       |
+| 6    | Validar calidad y registrar issues      | Python        | `transform/validate_quality.py`         | DQM_       |
+| 7    | Generar productos analíticos            | SQL           | `transform/generate_data_products.sql`  | DP_        |
+| 8    | Registrar metadata y linaje             | SQL           | `transform/register_metadata.sql`       | MET_       |
 
-## Licencia
+---
 
-Este proyecto está publicado bajo la licencia MIT.
+## 🧬 Trazabilidad completa por UUID
+
+Cada fila de negocio relevante cuenta con un campo `uuid` generado en la ingesta inicial. Este identificador se propaga a lo largo de todas las capas (`DWA_`, `DWM_`, `DP_`, `DQM_`, `MET_`) para garantizar un linaje total desde el `.csv` de origen hasta los dashboards.
+
+---
+
+## 📊 Visualización
+
+Se puede conectar directamente **Power BI Desktop** o **Metabase** a `db/dwa.sqlite` y crear dashboards a partir de las tablas `DP_` o explorar la metadata en `MET_`.
+
+---
+
+## 📄 Licencia
+
+MIT License. Uso libre con atribución.

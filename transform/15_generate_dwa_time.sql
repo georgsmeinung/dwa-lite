@@ -1,4 +1,27 @@
--- Script SQL para extender automáticamente DWA_Time según las fechas presentes en TMP_Orders
+-- =============================================================================
+-- Script: generate_dwa_time.sql
+-- Descripción:
+--   Este script genera y/o extiende la tabla DWA_Time, que actúa como 
+--   dimensión de tiempo en el modelo dimensional del DWA.
+--
+-- Funcionalidad:
+--   - Crea la tabla DWA_Time si no existe.
+--   - Detecta la fecha máxima en TMP_Orders (considerando orderDate, 
+--     requiredDate y shippedDate).
+--   - Compara contra la última fecha cargada en DWA_Time.
+--   - Inserta automáticamente nuevas fechas faltantes hasta cubrir el rango
+--     requerido.
+--   - Calcula atributos derivados como: año, trimestre, mes, nombre del mes,
+--     día, día de la semana, fin de semana, semana del año, etc.
+--
+-- Recomendación:
+--   Ejecutar este script como paso previo a la carga de tablas de hechos,
+--   para asegurar que las claves de fecha estén disponibles.
+--
+-- Uso:
+--   Puede invocarse manualmente o como parte de un pipeline automatizado.
+--   No sobrescribe datos existentes, solo agrega fechas nuevas si es necesario.
+-- =============================================================================
 
 -- Obtener fechas mínimas y máximas de interés
 WITH bounds AS (

@@ -1,5 +1,23 @@
-# load_csv_to_tmp.py
-# Script para cargar archivos CSV de Ingesta1 en tablas TMP_ en SQLite, con trazabilidad UUID
+"""
+Script: load_csv_to_tmp.py
+Descripción:
+  Carga automáticamente los archivos CSV de la carpeta `data/ingesta1/` a
+  las tablas `TMP_` en SQLite. Para cada archivo:
+    - Se crea un DataFrame con pandas.
+    - Se agrega un campo `uuid` si la tabla lo requiere (Customers, Employees, Products).
+    - Se carga en la tabla `TMP_` correspondiente.
+    - Se registra la carga en `DQM_LoadResults` con cantidad de filas y estado.
+    - Se deja traza en `MET_Lineage` para trazabilidad de origen.
+
+Uso:
+  Ejecutar desde la raíz del proyecto con:
+    $ python scripts/load_csv_to_tmp.py
+
+Dependencias:
+  - pandas
+  - sqlite3
+  - uuid
+"""
 
 import sqlite3
 import pandas as pd
