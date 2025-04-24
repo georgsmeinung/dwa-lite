@@ -71,9 +71,16 @@ create_all_models.cmd
 
 ## 🧪 Ejecución local
 
+Carga inicial de `data/ingesta1`
 ```cmd
 run_pipeline.cmd
 ```
+
+Carga incremetnal de `data/ingesta2`
+```cmd
+run_incremental_pipeline.cmd
+```
+
 ---
 
 ## ⚙️ Ejecución Headless (modo automático y sin entorno gráfico)
@@ -82,14 +89,15 @@ El proyecto puede ejecutarse de punta a punta en modo completamente automatizado
 
 | Paso | Propósito                               | Herramienta   | Script/Artefacto                        | Capa       |
 |------|-----------------------------------------|---------------|-----------------------------------------|------------|
-| 1    | Cargar CSV en SQLite                    | Python        | `transform/load_csv_to_tmp.py`          | TMP_       |
-| 2    | Generar/Extender dimensión de tiempo    | SQL           | `transform/generate_dwa_time.sql`       | DWA_Time   |
-| 3    | Transformar TMP_ a modelo dimensional   | SQL           | `transform/transform_tmp_to_dwa.sql`    | DWA_       |
-| 4    | Asignar claves temporales a hechos      | SQL           | `transform/assign_date_keys_to_facts.sql`| DWA_      |
-| 5    | Aplicar lógica SCD Tipo 2               | Python        | `transform/update_dwm_from_dwa.py`      | DWM_       |
-| 6    | Validar calidad y registrar issues      | Python        | `transform/validate_quality.py`         | DQM_       |
-| 7    | Generar productos analíticos            | SQL           | `transform/generate_data_products.sql`  | DP_        |
-| 8    | Registrar metadata y linaje             | SQL           | `transform/register_metadata.sql`       | MET_       |
+| 1.a  | Cargar inicial CSV en SQLite            | Python        | `transform/10_load_csv_to_tmp.py`          | TMP_       |
+| 1.b  | Cargar incremental CSV en SQLite        | Python        | `transform/11_update_csv_to_tmp.py`          | TMP_       |
+| 2    | Generar/Extender dimensión de tiempo    | SQL           | `transform/15_generate_dwa_time.sql`       | DWA_Time   |
+| 3    | Transformar TMP_ a modelo dimensional   | SQL           | `transform/20_transform_tmp_to_dwa.sql`    | DWA_       |
+| 4    | Asignar claves temporales a hechos      | SQL           | `transform/25_assign_date_keys_to_facts.sql`| DWA_      |
+| 5    | Aplicar lógica SCD Tipo 2               | Python        | `transform/30_update_dwm_from_dwa.py`      | DWM_       |
+| 6    | Validar calidad y registrar issues      | Python        | `transform/40_validate_quality.py`         | DQM_       |
+| 7    | Generar productos analíticos            | SQL           | `transform/50_generate_data_products.sql`  | DP_        |
+| 8    | Registrar metadata y linaje             | SQL           | `transform/60_register_metadata.sql`       | MET_       |
 
 ---
 
