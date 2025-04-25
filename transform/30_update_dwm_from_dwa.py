@@ -34,7 +34,7 @@ Uso:
 import sqlite3
 from datetime import datetime
 
-DB_PATH = 'dwa.sqlite'
+DB_PATH = 'db/dwa-lite.db'
 now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 conn = sqlite3.connect(DB_PATH)
@@ -94,7 +94,7 @@ for table in scd_tables:
                 INSERT INTO {table['dwm']} (
                     {table['business_key']}, {', '.join(table['columns'])},
                     validFrom, validTo, isCurrent
-                ) VALUES ({', '.join(['?'] * (len(values)+3))})
+                ) VALUES ({', '.join(['?'] * (1 + len(values) + 3))})
             """, (business_id, *values, now, '9999-12-31', 1))
         elif row_differs(values, current):
             # Cierre versión actual

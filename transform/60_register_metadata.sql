@@ -1,4 +1,4 @@
--- =============================================================================
+-- ================================================================================
 -- Script: register_metadata.sql
 -- Descripción:
 --   Este script actualiza la capa MET_ de metadata, registrando:
@@ -11,41 +11,47 @@
 --   - Inserta descripciones básicas en `MET_Tables`
 --   - Registra campos con trazabilidad y clasificación en `MET_Columns`
 --   - Documenta la ejecución del pipeline en `MET_Executions`
---   - Traza el linaje entre capas, basado en tablas y procesos ejecutados
+--   - Traza el linaje entre capas basado en UUID y entidades
 --
 -- Requisitos:
 --   - Las capas del DWA deben estar ya creadas y pobladas.
---   - Se recomienda ejecutar al final de cada pipeline para dejar constancia.
+--   - Se recomienda ejecutar al final de cada pipeline.
 --
 -- Uso:
---   Este script puede integrarse al final de una ejecución headless o
---   invocarse manualmente para documentar una nueva versión.
--- =============================================================================
+--   Integrar al final de una ejecución headless o manualmente.
+-- ================================================================================
 
--- Registra algunas tablas claves
-INSERT INTO MET_Tables (tableName, dataLayer, description)
+-- Registra tablas claves
+INSERT INTO MET_Tables (tableName, layer, description, createdAt, createdBy, lastModified)
 VALUES 
-  ('TMP_Customers', 'TMP', 'Clientes originales desde CSV'),
-  ('DWA_Customers', 'DWA', 'Clientes normalizados'),
-  ('DWM_Customers', 'DWM', 'Clientes con versiones históricas'),
-  ('DP_TopCustomersByRevenue', 'DP', 'Ranking de clientes por facturación'),
-  ('DQM_TableStatistics', 'DQM', 'Indicadores generales de calidad de tabla');
+  ('TMP_Customers', 'TMP', 'Clientes originales desde CSV', datetime('now'), 'headless', datetime('now')),
+  ('DWA_Customers', 'DWA', 'Clientes normalizados', datetime('now'), 'headless', datetime('now')),
+  ('DWM_Customers', 'DWM', 'Clientes con versiones históricas', datetime('now'), 'headless', datetime('now')),
+  ('DP_TopCustomersByRevenue', 'DP', 'Ranking de clientes por facturación', datetime('now'), 'headless', datetime('now')),
+  ('DQM_TableStatistics', 'DQM', 'Indicadores generales de calidad de tabla', datetime('now'), 'headless', datetime('now'));
 
--- Registrar algunas columnas con rol
-INSERT INTO MET_Columns (tableName, columnName, columnRole, description, isUUID)
+-- Registrar columnas con su rol
+INSERT INTO MET_Columns (tableName, columnName, dataType, isPrimaryKey, isForeignKey, isUUID, description)
 VALUES 
-  ('DWA_Customers', 'customerID', 'PK', 'Identificador natural del cliente', 0),
-  ('DWA_Customers', 'uuid', 'Trace', 'Identificador de trazabilidad universal', 1),
-  ('DWM_Customers', 'validFrom', 'Technical', 'Inicio de vigencia del registro', 0),
-  ('DP_TopCustomersByRevenue', 'totalRevenue', 'Metric', 'Monto total de ventas por cliente', 0);
+  ('DWA_Customers', 'customerID', 'TEXT', 1, 0, 0, 'Identificador natural del cliente'),
+  ('DWA_Customers', 'uuid', 'TEXT', 0, 0, 1, 'Identificador de trazabilidad universal'),
+  ('DWM_Customers', 'validFrom', 'TEXT', 0, 0, 0, 'Inicio de vigencia del registro'),
+  ('DP_TopCustomersByRevenue', 'totalRevenue', 'REAL', 0, 0, 0, 'Monto total de ventas por cliente');
 
--- Registrar una ejecución de pipeline
-INSERT INTO MET_Executions (executionID, startTime, endTime, executedBy, description)
+-- Registrar una ejecución del pipeline
+INSERT INTO MET_Executions (processName, executedBy, startTime, endTime, status, log)
 VALUES 
-  ('exec_' || strftime('%Y%m%d%H%M%S', 'now'), datetime('now', '-10 minutes'), datetime('now'), 'headless', 'Ejecución completa del pipeline');
+  ('Full Pipeline Execution', 'headless', datetime('now', '-10 minutes'), datetime('now'), 'SUCCESS', 'Pipeline ejecutado en modo automático.');
 
--- Registrar linaje de ejemplo
-INSERT INTO MET_Lineage (sourceType, sourceName, targetType, targetName, recordCount, loadDateTime, sourceUUID, targetUUID)
+-- Registrar linaje de carga
+INSERT INTO MET_Lineage (sourceEntity, targetEntity, sourceUUID, targetUUID, transformationDescription, transformationScript, lineageType, createdAt)
 SELECT 
-  'TABLE', 'TMP_Customers', 'TABLE', 'DWA_Customers', COUNT(*), datetime('now'), uuid, uuid
+  'TMP_Customers', 
+  'DWA_Customers', 
+  uuid, 
+  uuid,
+  'Carga directa desde TMP_Customers hacia DWA_Customers',
+  NULL,
+  'direct',
+  datetime('now')
 FROM DWA_Customers;

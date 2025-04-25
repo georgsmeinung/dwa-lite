@@ -1,38 +1,30 @@
 """
 Script: validate_quality.py
 Descripción:
-  Este script ejecuta validaciones automáticas de calidad sobre las tablas
-  del DWA (DWA_, DWM_) y registra los resultados en la capa DQM_.
-  Evalúa aspectos clave como valores nulos, duplicados, y consistencia referencial,
-  permitiendo generar alertas e indicadores que alimentan dashboards técnicos.
+  Ejecuta validaciones automáticas de calidad sobre las tablas del DWA
+  y registra los resultados en DQM_TableStatistics y DQM_FieldIssues.
 
-Funcionalidad:
-  - Recorre cada tabla relevante del DWA (o lista parametrizable).
-  - Cuenta valores nulos por columna y los compara contra umbrales.
-  - Detecta duplicados basados en claves naturales o surrogate keys.
-  - Registra resultados en `DQM_TableStatistics` y `DQM_FieldIssues`.
-  - Opcionalmente, puede validar integridad entre claves foráneas.
-
-Entradas esperadas:
-  - Base de datos SQLite con las capas DWA_, DWM_ y DQM_ ya creadas.
-  - Las tablas deben contener datos actualizados.
-
-Salidas:
-  - Nuevas filas en `DQM_TableStatistics` y `DQM_FieldIssues`
-  - Impresiones por consola para debug y trazabilidad
-
-Recomendación:
-  - Ejecutar después de poblar o actualizar las tablas DWA_/DWM_
-  - Usar como paso previo a la generación de productos DP_
+Mejoras:
+  - Carga configuración dinámica desde un archivo .env
+  - Evita hardcodear el path a la base de datos.
 
 Uso:
-  Este script puede invocarse en un entorno automatizado (headless)
+  1. Definir el archivo .env en la raíz del proyecto con:
+     DB_PATH=db/dwa-lite.db
+  2. Ejecutar el script normalmente:
+     $ python transform/validate_quality.py
 """
 
 import sqlite3
+import os
+from dotenv import load_dotenv
 from datetime import datetime
 
-DB_PATH = "db/dwa.sqlite"
+# Cargar variables de entorno desde .env
+load_dotenv()
+
+DB_PATH = os.getenv('DB_PATH', 'db/dwa-lite.db')  # Default de seguridad
+
 TABLES_TO_VALIDATE = [
     "DWA_Customers",
     "DWA_Products",
@@ -67,7 +59,7 @@ def validate_table_quality(conn, table):
 
     # Registrar estadísticas generales
     cursor.execute("""
-        INSERT INTO DQM_TableStatistics (tableName, rowCount, nullFields, checkDateTime, dataLayer)
+        INSERT INTO DQM_TableStatistics (tableName, rowCount, nullCount, createdAt, dataLayer)
         VALUES (?, ?, ?, ?, ?)
     """, (table, row_count, len(nulls), datetime.now().isoformat(), table.split('_')[0]))
     conn.commit()
@@ -75,7 +67,7 @@ def validate_table_quality(conn, table):
     # Registrar problemas de calidad
     for table_name, col, issue_type, count, severity in issues:
         cursor.execute("""
-            INSERT INTO DQM_FieldIssues (tableName, columnName, issueType, issueCount, issueDateTime, severity)
+            INSERT INTO DQM_FieldIssues (tableName, fieldName, issueType, issueCount, createdAt, severity)
             VALUES (?, ?, ?, ?, ?, ?)
         """, (table_name, col, issue_type, count, datetime.now().isoformat(), severity))
     conn.commit()
@@ -84,6 +76,9 @@ def validate_table_quality(conn, table):
 
 # Conexión y ejecución directa para ejecución en cadena
 conn = sqlite3.connect(DB_PATH)
+print(f"Conectado a base: {DB_PATH}")
+
 for table in TABLES_TO_VALIDATE:
     validate_table_quality(conn, table)
+
 conn.close()

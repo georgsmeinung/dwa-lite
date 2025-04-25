@@ -1,99 +1,121 @@
--- =============================================================================
+-- ================================================================================
 -- Script: generate_data_products.sql
 -- Descripción:
---   Este script genera y carga los productos de datos (DP_) a partir de las
---   tablas de hechos y dimensiones del DWA o DWM. Estos productos están
---   diseñados para ser consumidos por dashboards de negocio en Power BI
---   u otras herramientas analíticas.
+--   Genera los productos de datos (DP_) a partir de las tablas DWA_ y DWM_.
+--   Pensado para consumo analítico en dashboards Power BI / Metabase.
 --
 -- Funcionalidad:
---   - Crea e inserta datos en 6 productos de datos:
---     1. Ventas por producto y mes
---     2. Ranking de clientes por facturación
---     3. Ventas por región y trimestre
---     4. Desempeño de empleados
---     5. Análisis de devoluciones
---     6. Entregas demoradas
+--   - Ventas por producto y mes
+--   - Ranking de clientes por facturación
+--   - Ventas por región y trimestre
+--   - Desempeño de empleados
+--   - Análisis de devoluciones
+--   - Entregas demoradas
 --
 -- Requisitos:
---   - Las tablas DWA_, DWM_ y DWA_Time deben estar correctamente pobladas.
---   - Las claves de fecha deben estar asociadas a timeKey.
+--   - Tablas DWA_ y DWM_ creadas y pobladas
+--   - Fechas correctamente asociadas vía DWA_Time
 --
 -- Recomendación:
---   Ejecutar este script luego de validar la calidad de datos
---   y antes de actualizar la metadata.
--- =============================================================================
-
+--   Ejecutar después de validar calidad y cargar DWM_
+-- ================================================================================
 
 -- 1. Ventas por producto y mes
-INSERT INTO DP_SalesByProductMonth (productID, productName, year, month, totalAmount, uuid)
+INSERT INTO DP_SalesByProductMonth (uuid, productName, year, month, totalUnitsSold, totalRevenue)
 SELECT
-    p.productID,
+    p.uuid,
     p.productName,
     t.year,
     t.month,
-    SUM(sf.totalAmount) AS totalAmount,
-    p.uuid
+    SUM(sf.quantity) AS totalUnitsSold,
+    SUM(sf.totalAmount) AS totalRevenue
 FROM DWA_SalesFact sf
-JOIN DWA_Products p ON sf.productID = p.productID
+JOIN DWA_Products p ON sf.productKey = p.productKey
 JOIN DWA_Time t ON sf.orderDateKey = t.timeKey
-GROUP BY p.productID, t.year, t.month;
+GROUP BY p.uuid, p.productName, t.year, t.month;
 
--- 2. Top clientes por facturación
-INSERT INTO DP_TopCustomersByRevenue (customerID, customerName, totalRevenue, uuid)
+-- 2. Ranking de clientes por facturación
+INSERT INTO DP_TopCustomersByRevenue (uuid, customerID, companyName, country, totalRevenue, totalOrders, rank)
+WITH CustomerSales AS (
+    SELECT
+        c.uuid,
+        c.customerID,
+        c.companyName,
+        c.country,
+        SUM(sf.totalAmount) AS totalRevenue,
+        COUNT(sf.orderID) AS totalOrders
+    FROM DWA_SalesFact sf
+    JOIN DWA_Customers c ON sf.customerKey = c.customerKey
+    GROUP BY c.uuid, c.customerID, c.companyName, c.country
+)
 SELECT
-    c.customerID,
-    c.companyName,
-    SUM(sf.totalAmount) AS totalRevenue,
-    c.uuid
-FROM DWA_SalesFact sf
-JOIN DWA_Customers c ON sf.customerID = c.customerID
-GROUP BY c.customerID
-ORDER BY totalRevenue DESC;
+    uuid,
+    customerID,
+    companyName,
+    country,
+    totalRevenue,
+    totalOrders,
+    RANK() OVER (ORDER BY totalRevenue DESC) AS rank
+FROM CustomerSales;
 
 -- 3. Ventas por región y trimestre
-INSERT INTO DP_RegionalSalesByQuarter (regionID, regionName, year, quarter, totalAmount)
+INSERT INTO DP_RegionalSalesByQuarter (regionDescription, year, quarter, totalUnitsSold, totalRevenue)
 SELECT
-    r.regionID,
     r.regionDescription,
     t.year,
     t.quarter,
-    SUM(sf.totalAmount) AS totalAmount
+    SUM(sf.quantity) AS totalUnitsSold,
+    SUM(sf.totalAmount) AS totalRevenue
 FROM DWA_SalesFact sf
-JOIN DWA_Time t ON sf.orderDateKey = t.timeKey
-JOIN DWA_Territories tt ON sf.territoryID = tt.territoryID
+JOIN DWA_Territories tt ON sf.territoryKey = tt.territoryKey
 JOIN DWA_Regions r ON tt.regionID = r.regionID
-GROUP BY r.regionID, t.year, t.quarter;
+JOIN DWA_Time t ON sf.orderDateKey = t.timeKey
+GROUP BY r.regionDescription, t.year, t.quarter;
 
 -- 4. Desempeño de empleados
-INSERT INTO DP_EmployeePerformance (employeeID, employeeName, year, totalSales, uuid)
+INSERT INTO DP_EmployeePerformance (uuid, employeeID, fullName, year, totalOrders, totalRevenue)
 SELECT
+    e.uuid,
     e.employeeID,
-    e.lastName || ', ' || e.firstName,
+    e.fullName,
     t.year,
-    SUM(sf.totalAmount) AS totalSales,
-    e.uuid
+    COUNT(sf.orderID) AS totalOrders,
+    SUM(sf.totalAmount) AS totalRevenue
 FROM DWA_SalesFact sf
-JOIN DWA_Employees e ON sf.employeeID = e.employeeID
+JOIN DWA_Employees e ON sf.employeeKey = e.employeeKey
 JOIN DWA_Time t ON sf.orderDateKey = t.timeKey
-GROUP BY e.employeeID, t.year;
+GROUP BY e.uuid, e.employeeID, e.fullName, t.year;
 
--- 5. Análisis de devoluciones (placeholder: ventas con descuento > 0 como proxy)
-INSERT INTO DP_ProductReturns (orderID, productID, discount, reason)
+-- 5. Análisis de devoluciones (basado en descuentos)
+INSERT INTO DP_ProductReturns (uuid, productID, productName, returnReason, returnCount, totalLostRevenue)
 SELECT
-    sf.orderID,
-    sf.productID,
-    sf.discount,
-    'Discount > 0 (posible devolución)' AS reason
+    p.uuid,
+    p.productID,
+    p.productName,
+    'Discount applied (possible return)' AS returnReason,
+    COUNT(sf.orderID) AS returnCount,
+    SUM(sf.totalAmount * sf.discount) AS totalLostRevenue
 FROM DWA_SalesFact sf
-WHERE sf.discount > 0;
+JOIN DWA_Products p ON sf.productKey = p.productKey
+WHERE sf.discount > 0
+GROUP BY p.uuid, p.productID, p.productName;
 
 -- 6. Entregas demoradas
-INSERT INTO DP_ShippingDelays (orderID, customerID, delayDays, isDelayed)
+INSERT INTO DP_ShippingDelays (uuid, orderID, customerID, regionDescription, orderDate, requiredDate, shippedDate, deliveryDelayDays)
 SELECT
+    df.uuid,
     df.orderID,
-    df.customerID,
-    df.deliveryDelayDays,
-    CASE WHEN df.deliveryDelayDays > 0 THEN 1 ELSE 0 END AS isDelayed
+    c.customerID,
+    r.regionDescription,
+    t_shipped.date AS shippedDate,
+    t_required.date AS requiredDate,
+    t_order.date AS orderDate,
+    df.deliveryDelayDays
 FROM DWA_DeliveriesFact df
+JOIN DWA_Customers c ON df.customerKey = c.customerKey
+LEFT JOIN DWA_Territories tt ON df.shipperID = tt.territoryKey
+LEFT JOIN DWA_Regions r ON tt.regionID = r.regionID
+LEFT JOIN DWA_Time t_shipped ON df.shippedDateKey = t_shipped.timeKey
+LEFT JOIN DWA_Time t_required ON df.requiredDateKey = t_required.timeKey
+LEFT JOIN DWA_Time t_order ON df.shippedDateKey = t_order.timeKey
 WHERE df.isDelivered = 1;
