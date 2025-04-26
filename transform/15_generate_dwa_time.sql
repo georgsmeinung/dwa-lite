@@ -2,26 +2,38 @@
 -- Script: generate_dwa_time.sql
 -- Descripción:
 --   Este script genera y/o extiende la tabla DWA_Time, que actúa como 
---   dimensión de tiempo en el modelo dimensional del DWA.
+--   dimensión de tiempo en el modelo dimensional del DWA (Data Warehouse Automation).
 --
 -- Funcionalidad:
---   - Crea la tabla DWA_Time si no existe.
---   - Detecta la fecha máxima en TMP_Orders (considerando orderDate, 
---     requiredDate y shippedDate).
+--   - Crea la tabla DWA_Time si no existe (se asume creada previamente o fuera de este script).
+--   - Detecta la fecha máxima en TMP_Orders, considerando orderDate, 
+--     requiredDate y shippedDate.
 --   - Compara contra la última fecha cargada en DWA_Time.
---   - Inserta automáticamente nuevas fechas faltantes hasta cubrir el rango
---     requerido.
---   - Calcula atributos derivados como: año, trimestre, mes, nombre del mes,
---     día, día de la semana, fin de semana, semana del año, etc.
+--   - Calcula dinámicamente el rango a cubrir, extendiéndolo en al menos 18 meses
+--     más allá de la fecha máxima encontrada, para contemplar eventos futuros.
+--   - Genera e inserta automáticamente nuevas fechas faltantes hasta completar el rango.
+--   - Calcula atributos derivados por fecha: año, trimestre, mes numérico, 
+--     nombre del mes, día del mes, día de la semana, semana del año y si es fin de semana.
+--   - No sobrescribe datos existentes; sólo agrega fechas nuevas si es necesario.
 --
 -- Recomendación:
 --   Ejecutar este script como paso previo a la carga de tablas de hechos,
---   para asegurar que las claves de fecha estén disponibles.
+--   para asegurar que todas las claves de fecha requeridas estén disponibles.
+--   Se recomienda también ejecutarlo periódicamente como tarea automática para
+--   mantener actualizada la dimensión de tiempo frente a nuevos eventos futuros.
 --
 -- Uso:
---   Puede invocarse manualmente o como parte de un pipeline automatizado.
---   No sobrescribe datos existentes, solo agrega fechas nuevas si es necesario.
+--   Puede invocarse manualmente o como parte de un pipeline ETL/ELT automatizado.
+--   Es especialmente útil en entornos donde se registran eventos futuros,
+--   como órdenes, entregas programadas o fechas estimadas de ejecución.
+--
+-- Notas:
+--   - El rango de fechas generado se basa tanto en los datos existentes como en
+--     la proyección automática de 18 meses adicionales.
+--   - La fecha especial "1900-01-01" puede ser utilizada en DWA_Time para representar
+--     eventos aún no ocurridos o fechas desconocidas, si se desea.
 -- =============================================================================
+
 
 -- Obtener fechas mínimas y máximas de interés
 WITH bounds AS (
