@@ -1,5 +1,8 @@
 -- Script actualizado de creación de tablas TMP_ en SQLite basado en los CSV de Ingesta1, con soporte de UUID
 
+
+PRAGMA foreign_keys = ON; -- Habilitar las foreign keys
+
 CREATE TABLE TMP_Categories (
     categoryID INTEGER PRIMARY KEY,
     categoryName TEXT,
@@ -15,7 +18,7 @@ CREATE TABLE TMP_Customers (
     address TEXT,
     city TEXT,
     region TEXT,
-    postalCode TEXT,
+    postalCode TEXT, -- Conviene ponerle VARCHAR?
     country TEXT,
     phone TEXT,
     fax TEXT,
@@ -24,8 +27,10 @@ CREATE TABLE TMP_Customers (
 
 CREATE TABLE TMP_EmployeeTerritories (
     employeeID INTEGER,
-    territoryID TEXT,
-    PRIMARY KEY (employeeID, territoryID)
+    territoryID INTEGER,
+    PRIMARY KEY (employeeID, territoryID),
+    FOREIGN KEY (territoryID) REFERENCES TMP_Territories(territoryID),
+    FOREIGN KEY (employeeID) REFERENCES TMP_Employees(employeeID)
 );
 
 CREATE TABLE TMP_Employees (
@@ -56,7 +61,9 @@ CREATE TABLE TMP_OrderDetails (
     unitPrice REAL,
     quantity INTEGER,
     discount REAL,
-    PRIMARY KEY (orderID, productID)
+    PRIMARY KEY (orderID, productID),
+    FOREIGN KEY (orderID) REFERENCES TMP_Orders(orderID),
+    FOREIGN KEY (productID) REFERENCES TMP_Products(productID)
 );
 
 CREATE TABLE TMP_Orders (
@@ -73,7 +80,9 @@ CREATE TABLE TMP_Orders (
     shipCity TEXT,
     shipRegion TEXT,
     shipPostalCode TEXT,
-    shipCountry TEXT
+    shipCountry TEXT,
+    FOREIGN KEY (customerID) REFERENCES TMP_Customers(customerID),
+    FOREIGN KEY (employeeID) REFERENCES TMP_Employees(employeeID)
 );
 
 CREATE TABLE TMP_Products (
@@ -87,7 +96,9 @@ CREATE TABLE TMP_Products (
     unitsOnOrder INTEGER,
     reorderLevel INTEGER,
     discontinued INTEGER,
-    uuid TEXT
+    uuid TEXT,
+    FOREIGN KEY (categoryID) REFERENCES TMP_Categories(categoryID),
+    FOREIGN KEY (supplierID) REFERENCES TMP_Suppliers(supplierID)
 );
 
 CREATE TABLE TMP_Regions (
@@ -117,14 +128,15 @@ CREATE TABLE TMP_Suppliers (
 );
 
 CREATE TABLE TMP_Territories (
-    territoryID TEXT PRIMARY KEY,
+    territoryID INTEGER PRIMARY KEY,
     territoryDescription TEXT,
-    regionID INTEGER
+    regionID INTEGER,
+    FOREIGN KEY (regionID) REFERENCES TMP_Regions(regionID)
 );
 
 CREATE TABLE TMP_WorldData2023 (
     Country TEXT,
-    Density_PKm2 INTEGER,
+    Density_PKm2 TEXT, -- Tiene valores con coma
     Abbreviation TEXT,
     Agricultural_Land_PCT TEXT,
     Land_Area_Km2 TEXT,
@@ -138,24 +150,24 @@ CREATE TABLE TMP_WorldData2023 (
     Currency_Code TEXT,
     Fertility_Rate REAL,
     Forested_Area_PCT TEXT,
-    Gasoline_Price TEXT,
-    GDP TEXT,
+    Gasoline_Price TEXT, -- No debería ser REAL?
+    GDP TEXT, -- No debería ser REAL?
     Primary_Education_Enrollment_PCT TEXT,
     Tertiary_Education_Enrollment_PCT TEXT,
     Infant_Mortality REAL,
     Largest_City TEXT,
     Life_Expectancy REAL,
     Maternal_Mortality_Ratio INTEGER,
-    Minimum_Wage TEXT,
+    Minimum_Wage TEXT, -- No debería ser REAL?
     Official_Language TEXT,
-    Out_of_Pocket_Health_Expenditure TEXT,
+    Out_of_Pocket_Health_Expenditure TEXT, -- No debería ser REAL?
     Physicians_per_Thousand REAL,
-    Population TEXT,
+    Population TEXT, -- No debería ser INTEGER?
     Labor_Force_Participation_PCT TEXT,
     Tax_Revenue_PCT TEXT,
     Total_Tax_Rate TEXT,
     Unemployment_Rate TEXT,
-    Urban_Population TEXT,
+    Urban_Population TEXT, -- No debería ser INTEGER?
     Latitude REAL,
     Longitude REAL
 );
