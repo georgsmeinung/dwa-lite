@@ -1,0 +1,25 @@
+-- Script para eliminación de tablas TMP_ en SQLite
+
+DROP TABLE IF EXISTS TMP_Categories;
+
+DROP TABLE IF EXISTS TMP_Customers;
+
+DROP TABLE IF EXISTS TMP_EmployeeTerritories;
+
+DROP TABLE IF EXISTS TMP_Employees;
+
+DROP TABLE IF EXISTS TMP_OrderDetails;
+
+DROP TABLE IF EXISTS TMP_Orders;
+
+DROP TABLE IF EXISTS TMP_Products;
+
+DROP TABLE IF EXISTS TMP_Regions;
+
+DROP TABLE IF EXISTS TMP_Shippers;
+
+DROP TABLE IF EXISTS TMP_Suppliers;
+
+DROP TABLE IF EXISTS TMP_Territories;
+
+DROP TABLE IF EXISTS TMP_WorldData2023;
