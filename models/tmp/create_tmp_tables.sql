@@ -1,6 +1,5 @@
 -- Script actualizado de creación de tablas TMP_ en SQLite basado en los CSV de Ingesta1, con soporte de UUID
 
-
 PRAGMA foreign_keys = ON; -- Habilitar las foreign keys
 
 CREATE TABLE TMP_Categories (

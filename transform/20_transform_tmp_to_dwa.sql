@@ -26,6 +26,7 @@
 --   durante el desarrollo y testing.
 -- =============================================================================
 
+-- Tablas de Dimensiones:
 -- Cargar dimensión Customers
 INSERT INTO DWA_Customers (
     customerID, companyName, contactName, contactTitle,
@@ -62,6 +63,14 @@ SELECT
 FROM TMP_Products p
 LEFT JOIN TMP_Categories c ON p.categoryID = c.categoryID;
 
+-- Cargar dimensión Regiones
+INSERT INTO DWA_Regions (
+    regionID, regionDescription
+)
+SELECT
+    regionID, regionDescription
+FROM TMP_Regions;
+
 -- Cargar dimensión Suppliers
 INSERT INTO DWA_Suppliers (
     supplierID, companyName, country
@@ -78,14 +87,7 @@ SELECT
     territoryID, territoryDescription, regionID
 FROM TMP_Territories;
 
--- Cargar dimensión Regiones
-INSERT INTO DWA_Regions (
-    regionID, regionDescription
-)
-SELECT
-    regionID, regionDescription
-FROM TMP_Regions;
-
+-- Tablas de Hechos:
 -- Cargar tabla de hechos de ventas
 INSERT INTO DWA_SalesFact (
     orderID, productKey, customerKey, employeeKey,
