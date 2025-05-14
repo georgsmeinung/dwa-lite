@@ -20,7 +20,6 @@ CREATE TABLE DWA_Customers (
     contactTitle TEXT,
     address TEXT,
     city TEXT,
-    region TEXT,
     postalCode TEXT,
     country TEXT,
     phone TEXT,
@@ -46,8 +45,14 @@ CREATE TABLE DWA_Employees (
     employeeID INTEGER,
     fullName TEXT,
     title TEXT,
+    birthDate TEXT,
+    hireDate TEXT,
     city TEXT,
     country TEXT,
+    territory TEXT,
+    region TEXT,
+    notes TEXT,
+    photoPath TEXT,
     uuid TEXT
 );
 
@@ -58,9 +63,13 @@ CREATE TABLE DWA_Products (
     productKey INTEGER PRIMARY KEY,
     productID INTEGER,
     productName TEXT,
+    supplier INTEGER,
     categoryName TEXT,
     quantityPerUnit TEXT,
     unitPrice REAL,
+    unitsInStock INTEGER,
+    unitsOnOrder INTEGER,
+    reorderLevel INTEGER,
     discontinued INTEGER,
     uuid TEXT
 );
@@ -72,14 +81,22 @@ CREATE TABLE DWA_Regions (
     regionDescription TEXT
 );
 
--- Shippers?
+-- Dimesión Transportistas
+CREATE TABLE DWA_Shippers (
+    shipperKey INTEGER PRIMARY KEY,
+    shipperID INTEGER,
+    companyName TEXT,
+    phone TEXT
+);
 
 -- Dimensión Proveedores
 CREATE TABLE DWA_Suppliers (
     supplierKey INTEGER PRIMARY KEY,
     supplierID INTEGER,
     companyName TEXT,
-    country TEXT
+    postalCode TEXT,
+    country TEXT,
+    phone TEXT
 );
 
 -- Dimensión Territorios
@@ -87,7 +104,8 @@ CREATE TABLE DWA_Territories (
     territoryKey INTEGER PRIMARY KEY,
     territoryID TEXT,
     territoryDescription TEXT,
-    regionID INTEGER
+    regionID INTEGER,
+    FOREIGN KEY (regionID) REFERENCES DWA_Regions(regionID)
 );
 
 -- Dimensión Tiempo (extendida)

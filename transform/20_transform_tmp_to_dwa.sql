@@ -27,41 +27,59 @@
 -- =============================================================================
 
 -- Tablas de Dimensiones:
--- Cargar dimensión Customers
+-- Cargar dimensión Clientes
 INSERT INTO DWA_Customers (
     customerID, companyName, contactName, contactTitle,
-    address, city, region, postalCode, country, uuid
+    address, city, postalCode, country, phone, fax, uuid
 )
 SELECT
     customerID, companyName, contactName, contactTitle,
-    address, city, region, postalCode, country, uuid
+    address, city, postalCode, country, phone, fax, uuid
 FROM TMP_Customers;
 
--- Cargar dimensión Employees
+-- Cargar dimensión Empleados
 INSERT INTO DWA_Employees (
-    employeeID, fullName, title, city, country, uuid
+    employeeID, fullName, title, birthDate, hireDate,
+    city, country, territory, region, notes, photoPath, uuid
 )
 SELECT
-    employeeID,
-    firstName || ' ' || lastName AS fullName,
-    title, city, country, uuid
-FROM TMP_Employees;
+    e.employeeID,
+    e.firstName || ' ' || e.lastName AS fullName,
+    e.title,
+    e.birthDate,
+    e.hireDate,
+    e.city,
+    e.country,
+    t.territoryDescription AS territory,
+    r.regionDescription AS region,
+    e.notes,
+    e.photoPath,
+    e.uuid
+FROM TMP_Employees e
+LEFT JOIN TMP_EmployeeTerritories et ON e.employeeID = et.employeeID
+LEFT JOIN TMP_Territories t ON et.territoryID = t.territoryID
+LEFT JOIN TMP_Regions r ON t.regionID = r.regionID;
+-- CHATGPT:
+-- Usé LEFT JOIN porque puede haber empleados que no tengan territorio asignado, y no queremos excluirlos.
+-- Si cada empleado puede tener más de un territorio, este SELECT va a generar varias filas por empleado. Si eso no es deseado, deberíamos agrupar o limitar.
 
--- Cargar dimensión Products con categoría unificada
+-- Cargar dimensión Productos con categoría unificada
 INSERT INTO DWA_Products (
-    productID, productName, categoryName,
+    productID, productName, categoryName, supplier,
     quantityPerUnit, unitPrice, discontinued, uuid
 )
 SELECT
     p.productID,
     p.productName,
     c.categoryName,
+    s.companyName AS supplier,
     p.quantityPerUnit,
     p.unitPrice,
     p.discontinued,
     p.uuid
 FROM TMP_Products p
-LEFT JOIN TMP_Categories c ON p.categoryID = c.categoryID;
+LEFT JOIN TMP_Categories c ON p.categoryID = c.categoryID
+LEFT JOIN TMP_Suppliers s ON p.supplierID = s.supplierID;
 
 -- Cargar dimensión Regiones
 INSERT INTO DWA_Regions (
@@ -71,7 +89,7 @@ SELECT
     regionID, regionDescription
 FROM TMP_Regions;
 
--- Cargar dimensión Suppliers
+-- Cargar dimensión Proveedores
 INSERT INTO DWA_Suppliers (
     supplierID, companyName, country
 )
