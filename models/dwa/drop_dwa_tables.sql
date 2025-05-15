@@ -6,20 +6,14 @@ DROP TABLE IF EXISTS DWA_Customers;
 -- Dimensión Productos
 DROP TABLE IF EXISTS DWA_Products;
 
--- Dimensión Proveedores
-DROP TABLE IF EXISTS DWA_Suppliers;
-
 -- Dimensión Empleados
 DROP TABLE IF EXISTS DWA_Employees;
 
--- Dimensión Territorios
-DROP TABLE IF EXISTS DWA_Territories;
-
--- Dimensión Regiones
-DROP TABLE IF EXISTS DWA_Regions;
-
 -- Dimensión Tiempo
 DROP TABLE IF EXISTS DWA_Time;
+
+-- Dimensión WorldData
+DROP TABLE IF EXISTS DWA_WorldData2023;
 
 -- Tabla de hechos Ventas 
 DROP TABLE IF EXISTS DWA_SalesFact;

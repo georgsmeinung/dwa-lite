@@ -62,6 +62,10 @@ for file_name, table_name in files_tables:
         df = pd.read_csv(path)
         df.columns = [c.strip().replace(' ', '_').replace('(', '').replace(')', '').replace('%','PCT') for c in df.columns]
 
+        if file_name == 'world-data-2023.csv':
+            if 'Density\n(P/Km2)' in df.columns:
+                df.rename(columns={'Density\n(P/Km2)': 'Density_PKm2'}, inplace=True)
+        
         if table_name in uuid_required_tables:
             df['uuid'] = [str(uuid.uuid4()) for _ in range(len(df))]
 

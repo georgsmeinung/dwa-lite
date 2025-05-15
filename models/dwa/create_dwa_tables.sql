@@ -2,15 +2,6 @@
 
 PRAGMA foreign_keys = ON; -- Habilitar las foreign keys
 
--- Dimensión Categorías
-CREATE TABLE DWA_Categories (
-    categoryKey INTEGER PRIMARY KEY,
-    categoryID TEXT,
-    categoryName TEXT,
-    description TEXT,
-    picture TEXT
-);
-
 -- Dimensión Clientes
 CREATE TABLE DWA_Customers (
     customerKey INTEGER PRIMARY KEY,
@@ -26,17 +17,6 @@ CREATE TABLE DWA_Customers (
     fax TEXT,
     uuid TEXT,
     FOREIGN KEY (country) REFERENCES DWA_WorldData2023(Country)
-);
-
--- Dimensión Territorio de los empleados
-CREATE TABLE DWA_EmployeeTerritories (
-    employeeKey INTEGER,
-    territoryKey INTEGER,
-    employeeID INTEGER,
-    territoryID INTEGER,
-    PRIMARY KEY (employeeKey, territoryKey),
-    FOREIGN KEY (territoryID) REFERENCES TMP_Territories(territoryID),
-    FOREIGN KEY (employeeID) REFERENCES TMP_Employees(employeeID)
 );
 
 -- Dimensión Empleados
@@ -74,40 +54,6 @@ CREATE TABLE DWA_Products (
     uuid TEXT
 );
 
--- Dimensión Regiones
-CREATE TABLE DWA_Regions (
-    regionKey INTEGER PRIMARY KEY,
-    regionID INTEGER,
-    regionDescription TEXT
-);
-
--- Dimesión Transportistas
-CREATE TABLE DWA_Shippers (
-    shipperKey INTEGER PRIMARY KEY,
-    shipperID INTEGER,
-    companyName TEXT,
-    phone TEXT
-);
-
--- Dimensión Proveedores
-CREATE TABLE DWA_Suppliers (
-    supplierKey INTEGER PRIMARY KEY,
-    supplierID INTEGER,
-    companyName TEXT,
-    postalCode TEXT,
-    country TEXT,
-    phone TEXT
-);
-
--- Dimensión Territorios
-CREATE TABLE DWA_Territories (
-    territoryKey INTEGER PRIMARY KEY,
-    territoryID TEXT,
-    territoryDescription TEXT,
-    regionID INTEGER,
-    FOREIGN KEY (regionID) REFERENCES DWA_Regions(regionID)
-);
-
 -- Dimensión Tiempo (extendida)
 CREATE TABLE DWA_Time (
     timeKey INTEGER PRIMARY KEY,
@@ -124,7 +70,7 @@ CREATE TABLE DWA_Time (
 
 -- Dimensión WorldData - Quizas no llevarla a DWA, sino solo usar algún dato que nos sirva en el INSERT y listo.
 CREATE TABLE DWA_WorldData2023 (
-    Country TEXT,
+    Country TEXT PRIMARY KEY,
     Density_PKm2 TEXT, -- Tiene valores con coma
     Abbreviation TEXT,
     Agricultural_Land_PCT TEXT,
@@ -175,7 +121,11 @@ CREATE TABLE DWA_SalesFact (
     discount REAL,
     freight REAL,
     totalAmount REAL,
-    uuid TEXT
+    uuid TEXT,
+    FOREIGN KEY (productKey) REFERENCES DWA_Products(productKey),
+    FOREIGN KEY (employeeKey) REFERENCES DWA_Employees(employeeKey),
+    FOREIGN KEY (customerKey) REFERENCES DWA_Customers(customerKey),
+    FOREIGN KEY (orderDateKey) REFERENCES DWA_Time(timeKey)
 );
 
 -- Tabla de hechos Entregas (momento del despacho)
@@ -190,5 +140,7 @@ CREATE TABLE DWA_DeliveriesFact (
     deliveryDelayDays INTEGER,
     freight REAL,
     isDelivered BOOLEAN,
-    uuid TEXT
+    uuid TEXT,
+    FOREIGN KEY (customerKey) REFERENCES DWA_Customers(customerKey),
+    FOREIGN KEY (employeeKey) REFERENCES DWA_Employees(employeeKey)
 );

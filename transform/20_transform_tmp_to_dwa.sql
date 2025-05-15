@@ -27,6 +27,30 @@
 -- =============================================================================
 
 -- Tablas de Dimensiones:
+-- En primer lugar dimensión WorldData2023 para poder generar la relación con la dimensión de clientes
+INSERT INTO DWA_WorldData2023 (
+    Country, Density_PKm2, Abbreviation, Agricultural_Land_PCT, Land_Area_Km2,
+    Armed_Forces_Size, Birth_Rate, Calling_Code, Capital_Major_City, Co2_Emissions,
+    CPI, CPI_Change_PCT, Currency_Code, Fertility_Rate, Forested_Area_PCT,
+    Gasoline_Price, GDP, Primary_Education_Enrollment_PCT, Tertiary_Education_Enrollment_PCT,
+    Infant_Mortality, Largest_City, Life_Expectancy, Maternal_Mortality_Ratio,
+    Minimum_Wage, Official_Language, Out_of_Pocket_Health_Expenditure,
+    Physicians_per_Thousand, Population, Labor_Force_Participation_PCT,
+    Tax_Revenue_PCT, Total_Tax_Rate, Unemployment_Rate, Urban_Population,
+    Latitude, Longitude
+)
+SELECT
+    Country, Density_PKm2, Abbreviation, Agricultural_Land_PCT, Land_Area_Km2,
+    Armed_Forces_Size, Birth_Rate, Calling_Code, Capital_Major_City, Co2_Emissions,
+    CPI, CPI_Change_PCT, Currency_Code, Fertility_Rate, Forested_Area_PCT,
+    Gasoline_Price, GDP, Primary_Education_Enrollment_PCT, Tertiary_Education_Enrollment_PCT,
+    Infant_Mortality, Largest_City, Life_Expectancy, Maternal_Mortality_Ratio,
+    Minimum_Wage, Official_Language, Out_of_Pocket_Health_Expenditure,
+    Physicians_per_Thousand, Population, Labor_Force_Participation_PCT,
+    Tax_Revenue_PCT, Total_Tax_Rate, Unemployment_Rate, Urban_Population,
+    Latitude, Longitude
+FROM TMP_WorldData2023;
+
 -- Cargar dimensión Clientes
 INSERT INTO DWA_Customers (
     customerID, companyName, contactName, contactTitle,
@@ -81,13 +105,7 @@ FROM TMP_Products p
 LEFT JOIN TMP_Categories c ON p.categoryID = c.categoryID
 LEFT JOIN TMP_Suppliers s ON p.supplierID = s.supplierID;
 
--- Cargar dimensión Regiones
-INSERT INTO DWA_Regions (
-    regionID, regionDescription
-)
-SELECT
-    regionID, regionDescription
-FROM TMP_Regions;
+
 
 -- Cargar dimensión Proveedores
 INSERT INTO DWA_Suppliers (
@@ -97,13 +115,7 @@ SELECT
     supplierID, companyName, country
 FROM TMP_Suppliers;
 
--- Cargar dimensión Territorios
-INSERT INTO DWA_Territories (
-    territoryID, territoryDescription, regionID
-)
-SELECT
-    territoryID, territoryDescription, regionID
-FROM TMP_Territories;
+
 
 -- Tablas de Hechos:
 -- Cargar tabla de hechos de ventas

@@ -81,7 +81,8 @@ CREATE TABLE TMP_Orders (
     shipPostalCode TEXT,
     shipCountry TEXT,
     FOREIGN KEY (customerID) REFERENCES TMP_Customers(customerID),
-    FOREIGN KEY (employeeID) REFERENCES TMP_Employees(employeeID)
+    FOREIGN KEY (employeeID) REFERENCES TMP_Employees(employeeID),
+    FOREIGN KEY (shipVia) REFERENCES TMP_Shippers(shipperID)
 );
 
 CREATE TABLE TMP_Products (
