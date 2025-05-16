@@ -17,6 +17,7 @@ WHERE country = 'USA';
 INSERT INTO TMP_WorldData2023 (Country)
 VALUES ('Ireland');
 
+-- Por error en el nombre de un país, se eliminan aquellos con símbolos que pueden generar problemas a futuro
 DELETE FROM TMP_WorldData2023
 WHERE Country GLOB '*[^ -~]*';
 
