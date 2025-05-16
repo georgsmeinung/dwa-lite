@@ -160,8 +160,8 @@ CREATE TABLE TMP_WorldData2023 (
     Maternal_Mortality_Ratio INTEGER,
     Minimum_Wage TEXT, -- No debería ser REAL?
     Official_Language TEXT,
-    Out_of_Pocket_Health_Expenditure TEXT, -- No debería ser REAL?
-    Physicians_per_Thousand REAL,
+    Out_Of_Pocket_Health_Expenditure TEXT, -- No debería ser REAL?
+    Physicians_Per_Thousand REAL,
     Population TEXT, -- No debería ser INTEGER?
     Labor_Force_Participation_PCT TEXT,
     Tax_Revenue_PCT TEXT,

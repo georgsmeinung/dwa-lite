@@ -106,7 +106,6 @@ LEFT JOIN TMP_Categories c ON p.categoryID = c.categoryID
 LEFT JOIN TMP_Suppliers s ON p.supplierID = s.supplierID;
 
 
-
 -- Cargar dimensión Proveedores
 INSERT INTO DWA_Suppliers (
     supplierID, companyName, country

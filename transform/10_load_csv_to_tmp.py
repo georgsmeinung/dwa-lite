@@ -65,9 +65,15 @@ for file_name, table_name in files_tables:
         
         if file_name == 'world-data-2023.csv':
             for col in df.columns:
-                if re.sub(r'\s+', '', col).startswith('Density(P/Km2)'):  # Ignora cualquier espacio o salto
+                if re.sub(r'\s+', '', col).startswith('Density'):  # Ignora cualquier espacio o salto
                     df.rename(columns={col: 'Density_PKm2'}, inplace=True)
-        
+                # Normalizar los nombres de columnas: poner en mayúscula la primera de cada palabra
+                df.columns = [col.title() for col in df.columns]
+                # Normalizar los nombres de columnas: reemplazar (%) por PCT
+                df.columns = [col.replace('(%)', 'PCT') for col in df.columns]
+                # Normalizar los nombres de columnas: elimingar espacios, guiones y barras
+                df.columns = [re.sub(r'[ \-/]+', '_', col) for col in df.columns]
+                
         if table_name in uuid_required_tables:
             df['uuid'] = [str(uuid.uuid4()) for _ in range(len(df))]
 
