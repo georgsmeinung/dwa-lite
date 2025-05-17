@@ -110,7 +110,7 @@ LEFT JOIN STG_Suppliers s ON p.supplierID = s.supplierID;
 -- Cargar tabla de hechos de ventas
 INSERT INTO DWA_SalesFact (
     orderID, productKey, customerKey, employeeKey,
-    territoryKey, orderDateKey, quantity, unitPrice,
+    territory, orderDateKey, quantity, unitPrice,
     discount, freight, totalAmount, uuid
 )
 SELECT
@@ -118,7 +118,7 @@ SELECT
     p.productKey,
     c.customerKey,
     e.employeeKey,
-    NULL, -- territorio no mapeado directamente
+    e.territory,
     NULL, -- fecha a completar en capa TIME
     od.quantity,
     od.unitPrice,
@@ -131,6 +131,7 @@ JOIN STG_Orders o ON od.orderID = o.orderID
 JOIN DWA_Products p ON od.productID = p.productID
 JOIN DWA_Customers c ON o.customerID = c.customerID
 JOIN DWA_Employees e ON o.employeeID = e.employeeID;
+
 
 -- Cargar tabla de hechos de entregas
 INSERT INTO DWA_DeliveriesFact (

@@ -116,7 +116,7 @@ CREATE TABLE DWA_SalesFact (
     productKey INTEGER,
     customerKey INTEGER,
     employeeKey INTEGER,
-    territoryKey INTEGER,
+    territory TEXT,
     orderDateKey INTEGER,
     quantity INTEGER,
     unitPrice REAL,
