@@ -1,0 +1,25 @@
+-- Script para eliminación de tablas STG_ en SQLite
+
+DROP TABLE IF EXISTS STG_Categories;
+
+DROP TABLE IF EXISTS STG_Customers;
+
+DROP TABLE IF EXISTS STG_EmployeeTerritories;
+
+DROP TABLE IF EXISTS STG_Employees;
+
+DROP TABLE IF EXISTS STG_OrderDetails;
+
+DROP TABLE IF EXISTS STG_Orders;
+
+DROP TABLE IF EXISTS STG_Products;
+
+DROP TABLE IF EXISTS STG_Regions;
+
+DROP TABLE IF EXISTS STG_Shippers;
+
+DROP TABLE IF EXISTS STG_Suppliers;
+
+DROP TABLE IF EXISTS STG_Territories;
+
+DROP TABLE IF EXISTS STG_WorldData2023;
