@@ -48,7 +48,7 @@ scd_tables = [
         'business_key': 'customerID',
         'columns': [
             'companyName', 'contactName', 'contactTitle',
-            'address', 'city', 'region', 'postalCode', 'country', 'uuid'
+            'address', 'city', 'postalCode', 'country', 'uuid'
         ]
     },
     {
