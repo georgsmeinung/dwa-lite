@@ -49,7 +49,7 @@ SELECT
     Physicians_per_Thousand, Population, Labor_Force_Participation_PCT,
     Tax_Revenue_PCT, Total_Tax_Rate, Unemployment_Rate, Urban_Population,
     Latitude, Longitude
-FROM TMP_WorldData2023;
+FROM STG_WorldData2023;
 
 -- Cargar dimensión Clientes
 INSERT INTO DWA_Customers (
@@ -59,7 +59,7 @@ INSERT INTO DWA_Customers (
 SELECT
     customerID, companyName, contactName, contactTitle,
     address, city, postalCode, country, phone, fax, uuid
-FROM TMP_Customers;
+FROM STG_Customers;
 
 -- Cargar dimensión Empleados
 INSERT INTO DWA_Employees (
@@ -79,10 +79,10 @@ SELECT
     e.notes,
     e.photoPath,
     e.uuid
-FROM TMP_Employees e
-LEFT JOIN TMP_EmployeeTerritories et ON e.employeeID = et.employeeID
-LEFT JOIN TMP_Territories t ON et.territoryID = t.territoryID
-LEFT JOIN TMP_Regions r ON t.regionID = r.regionID;
+FROM STG_Employees e
+LEFT JOIN STG_EmployeeTerritories et ON e.employeeID = et.employeeID
+LEFT JOIN STG_Territories t ON et.territoryID = t.territoryID
+LEFT JOIN STG_Regions r ON t.regionID = r.regionID;
 -- CHATGPT:
 -- Usé LEFT JOIN porque puede haber empleados que no tengan territorio asignado, y no queremos excluirlos.
 -- Si cada empleado puede tener más de un territorio, este SELECT va a generar varias filas por empleado. Si eso no es deseado, deberíamos agrupar o limitar.
@@ -103,8 +103,8 @@ SELECT
     p.discontinued,
     p.uuid
 FROM TMP_Products p
-LEFT JOIN TMP_Categories c ON p.categoryID = c.categoryID
-LEFT JOIN TMP_Suppliers s ON p.supplierID = s.supplierID;
+LEFT JOIN STG_Categories c ON p.categoryID = c.categoryID
+LEFT JOIN STG_Suppliers s ON p.supplierID = s.supplierID;
 
 -- Tablas de Hechos:
 -- Cargar tabla de hechos de ventas
@@ -126,8 +126,8 @@ SELECT
     o.freight,
     (od.unitPrice * od.quantity * (1 - od.discount)) AS totalAmount,
     p.uuid
-FROM TMP_OrderDetails od
-JOIN TMP_Orders o ON od.orderID = o.orderID
+FROM STG_OrderDetails od
+JOIN STG_Orders o ON od.orderID = o.orderID
 JOIN DWA_Products p ON od.productID = p.productID
 JOIN DWA_Customers c ON o.customerID = c.customerID
 JOIN DWA_Employees e ON o.employeeID = e.employeeID;
@@ -153,6 +153,6 @@ SELECT
     o.freight,
     CASE WHEN o.shippedDate IS NOT NULL THEN 1 ELSE 0 END,
     c.uuid
-FROM TMP_Orders o
+FROM STG_Orders o
 JOIN DWA_Customers c ON o.customerID = c.customerID
 JOIN DWA_Employees e ON o.employeeID = e.employeeID;
