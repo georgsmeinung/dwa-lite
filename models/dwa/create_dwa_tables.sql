@@ -44,6 +44,7 @@ CREATE TABLE DWA_Products (
     productID INTEGER,
     productName TEXT,
     supplier INTEGER,
+    countryOrigin TEXT,
     categoryName TEXT,
     quantityPerUnit TEXT,
     unitPrice REAL,
@@ -51,7 +52,8 @@ CREATE TABLE DWA_Products (
     unitsOnOrder INTEGER,
     reorderLevel INTEGER,
     discontinued INTEGER,
-    uuid TEXT
+    uuid TEXT,
+    FOREIGN KEY (countryOrigin) REFERENCES DWA_WorldData2023(Country)
 );
 
 -- Dimensión Tiempo (extendida)

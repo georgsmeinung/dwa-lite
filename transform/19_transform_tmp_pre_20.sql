@@ -5,12 +5,20 @@ WHERE country NOT IN (
     SELECT DISTINCT Country FROM TMP_WorldData2023
 );
 
--- Actualizaciones para que coincidan las claves de las tablas de Clientes y WorldData
+-- Actualizaciones para que coincidan las claves de las tablas de Clientes, Proveedores y WorldData
 UPDATE TMP_Customers
 SET country = 'United Kingdom'
 WHERE country = 'UK';
 
 UPDATE TMP_Customers
+SET country = 'United States'
+WHERE country = 'USA';
+
+UPDATE TMP_Suppliers
+SET country = 'United Kingdom'
+WHERE country = 'UK';
+
+UPDATE TMP_Suppliers
 SET country = 'United States'
 WHERE country = 'USA';
 

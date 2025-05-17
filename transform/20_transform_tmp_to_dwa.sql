@@ -89,7 +89,7 @@ LEFT JOIN TMP_Regions r ON t.regionID = r.regionID;
 
 -- Cargar dimensión Productos con categoría unificada
 INSERT INTO DWA_Products (
-    productID, productName, categoryName, supplier,
+    productID, productName, categoryName, supplier, countryOrigin,
     quantityPerUnit, unitPrice, discontinued, uuid
 )
 SELECT
@@ -97,6 +97,7 @@ SELECT
     p.productName,
     c.categoryName,
     s.companyName AS supplier,
+    s.country AS countryOrigin,
     p.quantityPerUnit,
     p.unitPrice,
     p.discontinued,
@@ -104,17 +105,6 @@ SELECT
 FROM TMP_Products p
 LEFT JOIN TMP_Categories c ON p.categoryID = c.categoryID
 LEFT JOIN TMP_Suppliers s ON p.supplierID = s.supplierID;
-
-
--- Cargar dimensión Proveedores
-INSERT INTO DWA_Suppliers (
-    supplierID, companyName, country
-)
-SELECT
-    supplierID, companyName, country
-FROM TMP_Suppliers;
-
-
 
 -- Tablas de Hechos:
 -- Cargar tabla de hechos de ventas
