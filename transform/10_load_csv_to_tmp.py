@@ -54,6 +54,14 @@ uuid_required_tables = ['TMP_Customers', 'TMP_Employees', 'TMP_Products']
 conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
 
+# Clean column names
+def clean_column(col):
+    col = re.sub(r'[\s\-/\\]+', '_', col)         # Replace spaces, dashes, slashes with underscores
+    col = re.sub(r'\(_?%?\)', '_PCT', col)        # Replace variations of "(%)" or "( %)" with "_PCT"
+    col = col.replace('\n', '_')                  # Replace line breaks with underscore
+    col = re.sub(r'__+', '_', col)                # Collapse multiple underscores
+    return col.strip('_')
+
 for file_name, table_name in files_tables:
     path = os.path.join(CSV_FOLDER, file_name)
     print(f"Cargando {path} en {table_name}...")
@@ -63,16 +71,7 @@ for file_name, table_name in files_tables:
         df = pd.read_csv(path)
         df.columns = [c.strip().replace(' ', '_').replace('(', '').replace(')', '').replace('%','PCT') for c in df.columns]
         
-        if file_name == 'world-data-2023.csv':
-            for col in df.columns:
-                if re.sub(r'\s+', '', col).startswith('Density'):  # Ignora cualquier espacio o salto
-                    df.rename(columns={col: 'Density_PKm2'}, inplace=True)
-                # Normalizar los nombres de columnas: poner en mayúscula la primera de cada palabra
-                df.columns = [col.title() for col in df.columns]
-                # Normalizar los nombres de columnas: reemplazar (%) por PCT
-                df.columns = [col.replace('(%)', 'PCT') for col in df.columns]
-                # Normalizar los nombres de columnas: elimingar espacios, guiones y barras
-                df.columns = [re.sub(r'[ \-/]+', '_', col) for col in df.columns]
+        if file_name == 'world-data-2023.csv': df.columns = [clean_column(col) for col in df.columns]
                 
         if table_name in uuid_required_tables:
             df['uuid'] = [str(uuid.uuid4()) for _ in range(len(df))]
