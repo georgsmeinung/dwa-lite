@@ -171,4 +171,3 @@ CREATE TABLE STG_WorldData2023 (
     Latitude REAL,
     Longitude REAL
 );
->>>>>>> 9822165a2b37050dcf412ae578c608d4c2b9883f

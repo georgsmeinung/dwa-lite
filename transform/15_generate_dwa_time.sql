@@ -6,7 +6,7 @@
 --
 -- Funcionalidad:
 --   - Crea la tabla DWA_Time si no existe (se asume creada previamente o fuera de este script).
---   - Detecta la fecha máxima en TMP_Orders, considerando orderDate, 
+--   - Detecta la fecha máxima en STG_Orders, considerando orderDate, 
 --     requiredDate y shippedDate.
 --   - Compara contra la última fecha cargada en DWA_Time.
 --   - Calcula dinámicamente el rango a cubrir, extendiéndolo en al menos 18 meses
@@ -40,7 +40,7 @@ WITH bounds AS (
     SELECT
         MIN(date(orderDate)) AS min_date,
         MAX(date(COALESCE(shippedDate, requiredDate, orderDate))) AS max_date
-    FROM TMP_Orders
+    FROM STG_Orders
 ),
 latest AS (
     SELECT MAX(date) AS current_max FROM DWA_Time

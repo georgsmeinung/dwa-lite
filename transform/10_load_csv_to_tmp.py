@@ -56,6 +56,7 @@ cursor = conn.cursor()
 
 # Clean column names
 def clean_column(col):
+    col = re.sub(r'[\s\-/\\:]+', '_', col)        # Replace colon with underscore
     col = re.sub(r'[\s\-/\\]+', '_', col)         # Replace spaces, dashes, slashes with underscores
     col = re.sub(r'\(_?%?\)', '_PCT', col)        # Replace variations of "(%)" or "( %)" with "_PCT"
     col = col.replace('\n', '_')                  # Replace line breaks with underscore
