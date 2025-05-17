@@ -58,19 +58,6 @@ SELECT
     RANK() OVER (ORDER BY totalRevenue DESC) AS rank
 FROM CustomerSales;
 
--- 3. Ventas por región y trimestre
-INSERT INTO DP_RegionalSalesByQuarter (regionDescription, year, quarter, totalUnitsSold, totalRevenue)
-SELECT
-    r.regionDescription,
-    t.year,
-    t.quarter,
-    SUM(sf.quantity) AS totalUnitsSold,
-    SUM(sf.totalAmount) AS totalRevenue
-FROM DWA_SalesFact sf
-JOIN DWA_Territories tt ON sf.territoryKey = tt.territoryKey
-JOIN DWA_Regions r ON tt.regionID = r.regionID
-JOIN DWA_Time t ON sf.orderDateKey = t.timeKey
-GROUP BY r.regionDescription, t.year, t.quarter;
 
 -- 4. Desempeño de empleados
 INSERT INTO DP_EmployeePerformance (uuid, employeeID, fullName, year, totalOrders, totalRevenue)
@@ -101,20 +88,17 @@ WHERE sf.discount > 0
 GROUP BY p.uuid, p.productID, p.productName;
 
 -- 6. Entregas demoradas
-INSERT INTO DP_ShippingDelays (uuid, orderID, customerID, regionDescription, orderDate, requiredDate, shippedDate, deliveryDelayDays)
+INSERT INTO DP_ShippingDelays (uuid, orderID, customerID, orderDate, requiredDate, shippedDate, deliveryDelayDays)
 SELECT
     df.uuid,
     df.orderID,
     c.customerID,
-    r.regionDescription,
     t_shipped.date AS shippedDate,
     t_required.date AS requiredDate,
     t_order.date AS orderDate,
     df.deliveryDelayDays
 FROM DWA_DeliveriesFact df
 JOIN DWA_Customers c ON df.customerKey = c.customerKey
-LEFT JOIN DWA_Territories tt ON df.shipperID = tt.territoryKey
-LEFT JOIN DWA_Regions r ON tt.regionID = r.regionID
 LEFT JOIN DWA_Time t_shipped ON df.shippedDateKey = t_shipped.timeKey
 LEFT JOIN DWA_Time t_required ON df.requiredDateKey = t_required.timeKey
 LEFT JOIN DWA_Time t_order ON df.shippedDateKey = t_order.timeKey

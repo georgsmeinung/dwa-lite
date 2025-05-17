@@ -23,16 +23,6 @@ CREATE TABLE DP_TopCustomersByRevenue (
     rank INTEGER
 );
 
--- Producto 3: Ventas por región y trimestre
-CREATE TABLE DP_RegionalSalesByQuarter (
-    dpID INTEGER PRIMARY KEY AUTOINCREMENT,
-    regionDescription TEXT,
-    year INTEGER,
-    quarter INTEGER,
-    totalUnitsSold INTEGER,
-    totalRevenue REAL
-);
-
 -- Producto 4: Desempeño de empleados por año
 CREATE TABLE DP_EmployeePerformance (
     dpID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -61,7 +51,6 @@ CREATE TABLE DP_ShippingDelays (
     uuid TEXT, -- UUID del pedido
     orderID INTEGER,
     customerID TEXT,
-    regionDescription TEXT,
     orderDate TEXT,
     requiredDate TEXT,
     shippedDate TEXT,
