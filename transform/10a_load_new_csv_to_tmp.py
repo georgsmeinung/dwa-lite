@@ -77,7 +77,7 @@ for file_name, table_name in files_tables:
         if table_name in uuid_required_tables:
             df['uuid'] = [str(uuid.uuid4()) for _ in range(len(df))]
 
-        df.to_sql(table_name, conn, if_exists='replace', index=False)
+        df.to_sql(table_name, conn, if_exists='append', index=False)
 
         # Registro en DQM_LoadResults
         cursor.execute("""

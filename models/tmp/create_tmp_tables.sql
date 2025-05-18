@@ -136,10 +136,10 @@ CREATE TABLE TMP_Territories (
 
 CREATE TABLE TMP_WorldData2023 (
     Country TEXT,
-    Density_PKm2 TEXT, -- Tiene valores con coma
+    Density_P_Km2 TEXT, -- Tiene valores con coma
     Abbreviation TEXT,
     Agricultural_Land_PCT TEXT,
-    Land_Area_Km2 TEXT,
+    Land_AreaKm2 TEXT,
     Armed_Forces_Size TEXT,
     Birth_Rate REAL,
     Calling_Code INTEGER,
@@ -152,8 +152,8 @@ CREATE TABLE TMP_WorldData2023 (
     Forested_Area_PCT TEXT,
     Gasoline_Price TEXT, -- No debería ser REAL?
     GDP TEXT, -- No debería ser REAL?
-    Primary_Education_Enrollment_PCT TEXT,
-    Tertiary_Education_Enrollment_PCT TEXT,
+    Gross_Primary_Education_Enrollment_PCT TEXT,
+    Gross_Tertiary_Education_Enrollment_PCT TEXT,
     Infant_Mortality REAL,
     Largest_City TEXT,
     Life_Expectancy REAL,
@@ -163,7 +163,7 @@ CREATE TABLE TMP_WorldData2023 (
     Out_Of_Pocket_Health_Expenditure TEXT, -- No debería ser REAL?
     Physicians_Per_Thousand REAL,
     Population TEXT, -- No debería ser INTEGER?
-    Labor_Force_Participation_PCT TEXT,
+    Population_Labor_Force_Participation_PCT TEXT,
     Tax_Revenue_PCT TEXT,
     Total_Tax_Rate TEXT,
     Unemployment_Rate TEXT,
