@@ -9,7 +9,7 @@
 --   - Elimina duplicados, normaliza formatos y filtra columnas irrelevantes.
 --   - Aplica joins necesarios entre TMP_ y tablas auxiliares (e.g., categorías).
 --   - Propaga los UUID de trazabilidad desde TMP_ hacia DWA_.
---   - Inserta datos transformados en las tablas de dimensión (Customers, Products, etc.)
+--   - INSERT OR REPLACEa datos transformados en las tablas de dimensión (Customers, Products, etc.)
 --     y en las tablas de hechos (SalesFact, DeliveriesFact).
 --   - Calcula métricas derivadas como `totalAmount` en ventas.
 --
@@ -28,7 +28,7 @@
 
 -- Tablas de Dimensiones:
 -- En primer lugar dimensión WorldData2023 para poder generar la relación con la dimensión de clientes
-INSERT INTO DWA_WorldData2023 (
+INSERT OR REPLACE INTO DWA_WorldData2023 (
     Country, Density_PKm2, Abbreviation, Agricultural_Land_PCT, Land_Area_Km2,
     Armed_Forces_Size, Birth_Rate, Calling_Code, Capital_Major_City, Co2_Emissions,
     CPI, CPI_Change_PCT, Currency_Code, Fertility_Rate, Forested_Area_PCT,
@@ -52,7 +52,7 @@ SELECT
 FROM STG_WorldData2023;
 
 -- Cargar dimensión Clientes
-INSERT INTO DWA_Customers (
+INSERT OR REPLACE INTO DWA_Customers (
     customerID, companyName, contactName, contactTitle,
     address, city, postalCode, country, phone, fax, uuid
 )
@@ -62,7 +62,7 @@ SELECT
 FROM STG_Customers;
 
 -- Cargar dimensión Empleados
-INSERT INTO DWA_Employees (
+INSERT OR REPLACE INTO DWA_Employees (
     employeeID, fullName, title, birthDate, hireDate,
     city, country, territory, region, notes, photoPath, uuid
 )
@@ -88,7 +88,7 @@ LEFT JOIN STG_Regions r ON t.regionID = r.regionID;
 -- Si cada empleado puede tener más de un territorio, este SELECT va a generar varias filas por empleado. Si eso no es deseado, deberíamos agrupar o limitar.
 
 -- Cargar dimensión Productos con categoría unificada
-INSERT INTO DWA_Products (
+INSERT OR REPLACE INTO DWA_Products (
     productID, productName, categoryName, supplier, countryOrigin,
     quantityPerUnit, unitPrice, discontinued, uuid
 )
@@ -108,7 +108,7 @@ LEFT JOIN STG_Suppliers s ON p.supplierID = s.supplierID;
 
 -- Tablas de Hechos:
 -- Cargar tabla de hechos de ventas
-INSERT INTO DWA_SalesFact (
+INSERT OR REPLACE INTO DWA_SalesFact (
     orderID, productKey, customerKey, employeeKey,
     territory, orderDateKey, quantity, unitPrice,
     discount, freight, totalAmount, uuid
@@ -134,7 +134,7 @@ JOIN DWA_Employees e ON o.employeeID = e.employeeID;
 
 
 -- Cargar tabla de hechos de entregas
-INSERT INTO DWA_DeliveriesFact (
+INSERT OR REPLACE INTO DWA_DeliveriesFact (
     orderID, customerKey, employeeKey, shipperID,
     shippedDateKey, requiredDateKey, deliveryDelayDays,
     freight, isDelivered, uuid

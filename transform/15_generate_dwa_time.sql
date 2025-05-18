@@ -34,6 +34,8 @@
 --     eventos aún no ocurridos o fechas desconocidas, si se desea.
 -- =============================================================================
 
+PRAGMA recursive_triggers = ON;
+PRAGMA cte_recursion_limit = 10000;
 
 -- Obtener fechas mínimas y máximas de interés
 WITH bounds AS (
