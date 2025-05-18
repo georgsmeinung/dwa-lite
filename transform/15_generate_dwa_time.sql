@@ -34,6 +34,11 @@
 --     eventos aún no ocurridos o fechas desconocidas, si se desea.
 -- =============================================================================
 
+-- =============================================================================
+-- Script: generate_dwa_time.sql (versión corregida)
+-- Genera o extiende la tabla DWA_Time con fechas desde datos en STG_Orders
+-- =============================================================================
+
 PRAGMA recursive_triggers = ON;
 PRAGMA cte_recursion_limit = 10000;
 
@@ -45,12 +50,12 @@ WITH bounds AS (
     FROM STG_Orders
 ),
 latest AS (
-    SELECT MAX(date) AS current_max FROM DWA_Time
+    SELECT COALESCE(MAX(date), '1900-01-01') AS current_max FROM DWA_Time
 ),
 range AS (
     SELECT
         DATE(MIN(min_date)) AS start_date,
-        DATE(MAX(max_date, current_max)) AS end_date
+        DATE(MAX(DATE(max_date, '+18 months'), current_max)) AS end_date
     FROM bounds, latest
 ),
 dates(date) AS (

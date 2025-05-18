@@ -102,7 +102,7 @@ SELECT
     p.unitPrice,
     p.discontinued,
     p.uuid
-FROM TMP_Products p
+FROM STG_Products p
 LEFT JOIN STG_Categories c ON p.categoryID = c.categoryID
 LEFT JOIN STG_Suppliers s ON p.supplierID = s.supplierID;
 
