@@ -48,7 +48,8 @@ scd_tables = [
         'business_key': 'customerID',
         'columns': [
             'companyName', 'contactName', 'contactTitle',
-            'address', 'city', 'postalCode', 'country', 'uuid'
+            'address', 'city', 'postalCode', 'country', 
+            'phone', 'fax', 'uuid'
         ]
     },
     {
@@ -56,7 +57,8 @@ scd_tables = [
         'dwm': 'DWM_Employees',
         'business_key': 'employeeID',
         'columns': [
-            'fullName', 'title', 'city', 'country', 'uuid'
+            'fullName', 'birthDate', 'hireDate', 'city', 'country', 
+            'territory', 'region', 'notes', 'photoPath', 'uuid'
         ]
     },
     {
@@ -64,8 +66,42 @@ scd_tables = [
         'dwm': 'DWM_Products',
         'business_key': 'productID',
         'columns': [
-            'productName', 'categoryName', 'quantityPerUnit',
-            'unitPrice', 'discontinued', 'uuid'
+            'productName', 'supplier', 'countryOrigin', 'categoryName', 
+            'quantityPerUnit', 'unitPrice', 'unitsInStock', 'unitsOnOrder', 
+            'reorderLevel', 'discontinued', 'uuid'
+        ]
+    },
+    {
+        'dwa': 'DWA_WorldData2023',
+        'dwm': 'DWM_WorldData2023',
+        'business_key': 'Country',
+        'columns': [
+            'Density_PKm2', 'Abbreviation', 'Agricultural_Land_PCT', 'Land_Area_Km2', 
+            'Armed_Forces_Size', 'Birth_Rate', 'Calling_Code', 'Capital_Major_City', 'Co2_Emissions',
+            'CPI', 'CPI_Change_PCT', 'Currency_Code', 'Fertility_Rate', 'Forested_Area_PCT',
+            'Gasoline_Price', 'GDP', 'Primary_Education_Enrollment_PCT', 'Tertiary_Education_Enrollment_PCT', 
+            'Infant_Mortality', 'Largest_City', 'Life_Expectancy', 'Maternal_Mortality_Ratio', 'Minimum_Wage', 
+            'Official_Language', 'Out_of_Pocket_Health_Expenditure', 'Physicians_per_Thousand', 'Population', 
+            'Labor_Force_Participation_PCT', 'Tax_Revenue_PCT', 'Total_Tax_Rate', 'Unemployment_Rate', 
+            'Urban_Population', 'Latitude', 'Longitude'
+        ]
+    },
+    {
+        'dwa': 'DWA_SalesFact',
+        'dwm': 'DWM_SalesFact',
+        'business_key': 'salesKey',
+        'columns': [
+            'orderID', 'productKey', 'customerKey', 'employeeKey', 'territory', 'orderDateKey', 
+            'quantity', 'unitPrice', 'discount', 'freight', 'totalAmount', 'uuid'
+        ]
+    },
+    {
+        'dwa': 'DWA_DeliveriesFact',
+        'dwm': 'DWM_DeliveriesFact',
+        'business_key': 'deliveryKey',
+        'columns': [
+            'orderID', 'customerKey', 'employeeKey', 'shipperID', 'shippedDateKey', 
+            'requiredDateKey', 'deliveryDelayDays', 'freight', 'isDelivered', 'uuid'
         ]
     }
 ]
@@ -105,12 +141,14 @@ for table in scd_tables:
             """, (now, business_id))
 
             # Insertar nueva versión
+            placeholders = ', '.join(['?'] * (1 + len(values) + 3))
             cursor.execute(f"""
                 INSERT INTO {table['dwm']} (
                     {table['business_key']}, {', '.join(table['columns'])},
                     validFrom, validTo, isCurrent
-                ) VALUES ({', '.join(['?'] * (len(values)+3))})
+                ) VALUES ({placeholders})
             """, (business_id, *values, now, '9999-12-31', 1))
+
 
 conn.commit()
 conn.close()

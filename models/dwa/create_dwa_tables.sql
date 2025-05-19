@@ -36,8 +36,6 @@ CREATE TABLE DWA_Employees (
     uuid TEXT
 );
 
--- Order details y orders?
-
 -- Dimensión Productos
 CREATE TABLE DWA_Products (
     productKey INTEGER PRIMARY KEY,

@@ -6,17 +6,14 @@ DROP TABLE IF EXISTS DWM_Customers;
 -- Empleados con historial y trazabilidad
 DROP TABLE IF EXISTS DWM_Employees;
 
--- Proveedores con historial y trazabilidad
-DROP TABLE IF EXISTS DWM_Suppliers;
-
 -- Productos con historial y trazabilidad
 DROP TABLE IF EXISTS DWM_Products;
 
 -- Categorías con historial y trazabilidad
-DROP TABLE IF EXISTS DWM_Categories;
+DROP TABLE IF EXISTS DWM_WorldData2023;
 
 -- Territorios con historial y trazabilidad
-DROP TABLE IF EXISTS DWM_Territories;
+DROP TABLE IF EXISTS DWM_SalesFact;
 
 -- Regiones con historial y trazabilidad
-DROP TABLE IF EXISTS DWM_Regions;
+DROP TABLE IF EXISTS DWM_DeliveriesFact;
