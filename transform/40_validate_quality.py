@@ -1,7 +1,7 @@
 """
 Script: validate_quality.py
 Descripción:
-  Ejecuta validaciones automáticas de calidad sobre las tablas del DWA
+  Ejecuta validaciones automáticas de calidad sobre las tablas del DWA y DWM 
   y registra los resultados en DQM_TableStatistics y DQM_FieldIssues.
 
 Mejoras:
@@ -27,10 +27,18 @@ DB_PATH = os.getenv('DB_PATH', 'db/dwa-lite.db')  # Default de seguridad
 
 TABLES_TO_VALIDATE = [
     "DWA_Customers",
+    "DWA_Employees"
     "DWA_Products",
+    "DWA_Time",
+    "DWA_WorldData2023",
+    "DWA_SalesFact",
+    "DWA_DeliveriesFact",
     "DWM_Customers",
     "DWM_Employees",
-    "DWM_Products"
+    "DWM_Products",
+    "DWM_WorldData2023",
+    "DWM_SalesFact",
+    "DWM_DeliveriesFact"
 ]
 
 def validate_table_quality(conn, table):
