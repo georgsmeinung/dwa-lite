@@ -23,7 +23,7 @@ import uuid
 from datetime import datetime
 
 DATA_DIR = "data/ingesta2"
-DB_PATH = "db/dwa.sqlite"
+DB_PATH = "db/dwa-lite.db"
 
 # Mapeo explícito de nombres de archivo → tabla destino
 FILENAME_TO_TABLE = {
