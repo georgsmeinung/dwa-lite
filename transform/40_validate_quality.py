@@ -26,10 +26,33 @@ load_dotenv()
 DB_PATH = os.getenv('DB_PATH', 'db/dwa-lite.db')  # Default de seguridad
 
 TABLES_TO_VALIDATE = [
+    "TMP_Categories",
+    "TMP_Customers"
+    "TMP_EmployeeTerritories",
+    "TMP_Employees",
+    "TMP_OrderDetails",
+    "TMP_Orders",
+    "TMP_Products",
+    "TMP_Regions",
+    "TMP_Shippers",
+    "TMP_Suppliers",
+    "TMP_Territories",
+    "TMP_WorldData2023",
+    "STG_Categories"
+    "STG_Customers",
+    "STG_EmployeeTerritories",
+    "STG_Employees",
+    "STG_OrderDetails",
+    "STG_Orders",
+    "STG_Products",
+    "STG_Regions",
+    "STG_Shippers",
+    "STG_Suppliers",
+    "STG_Territories",
+    "STG_WorldData2023",    
     "DWA_Customers",
     "DWA_Employees"
     "DWA_Products",
-    "DWA_Time",
     "DWA_WorldData2023",
     "DWA_SalesFact",
     "DWA_DeliveriesFact",
