@@ -90,7 +90,8 @@ LEFT JOIN STG_Regions r ON t.regionID = r.regionID;
 -- Cargar dimensión Productos con categoría unificada
 INSERT OR REPLACE INTO DWA_Products (
     productID, productName, categoryName, supplier, countryOrigin,
-    quantityPerUnit, unitPrice, discontinued, uuid
+    quantityPerUnit, unitPrice, unitsInStock, unitsOnOrder, 
+    reorderLevel, discontinued, uuid
 )
 SELECT
     p.productID,
@@ -100,6 +101,9 @@ SELECT
     s.country AS countryOrigin,
     p.quantityPerUnit,
     p.unitPrice,
+    p.unitsInStock, 
+    p.unitsOnOrder, 
+    p.reorderLevel,
     p.discontinued,
     p.uuid
 FROM STG_Products p
