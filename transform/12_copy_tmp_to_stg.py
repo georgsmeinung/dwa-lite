@@ -11,7 +11,7 @@ load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))
 
 # Cargar variable 
 DB_PATH = os.getenv("DB_PATH", "")
-SCRIPT_FILE_PATH = os.getenv("_SQL_FILE_PATH", "")
+SCRIPT_FILE_PATH = os.getenv("12_SQL_FILE_PATH", "")
 # Resolver rutas relativas al script
 ruta_db = os.path.join(BASE_DIR, DB_PATH)
 archivo_sql = os.path.join(BASE_DIR, SCRIPT_FILE_PATH)

@@ -24,7 +24,7 @@ modo_estricto = True
 def ejecutar_scripts(scripts, detener_si_falla=True):
     for script in scripts:
         script_path = os.path.join(BASE_DIR, script)
-        print(f"\n▶️ Ejecutando: {script_path}")
+        print(f"\n▶️ Ejecutando: {script}")
         try:
             resultado = subprocess.run(
                 [sys.executable, script_path],
@@ -33,7 +33,7 @@ def ejecutar_scripts(scripts, detener_si_falla=True):
                 stderr=subprocess.PIPE,
                 text=True
             )
-            print(f"✅ Éxito: {script}")
+            print(f"✅ Ejecución correcta de {script}")
             print(resultado.stdout)
         except subprocess.CalledProcessError as e:
             print(f"❌ Error ejecutando {script}")

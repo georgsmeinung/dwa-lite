@@ -19,9 +19,9 @@ def ejecutar_sql(archivo_sql, ruta_db):
         cursor = conn.cursor()
         cursor.executescript(sql_script)
         conn.commit()
-        print(f"✅ Script '{archivo_sql}' ejecutado correctamente sobre '{ruta_db}'.")
+        print(f"ℹ️ Script ejecutado correctamente.")
     except sqlite3.Error as e:
-        print(f"Error de SQLite: {e}")
+        print(f"❌ Error de SQLite: {e}")
     finally:
         if conn:
             conn.close()

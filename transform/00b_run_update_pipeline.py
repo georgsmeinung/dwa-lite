@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Lista de scripts a ejecutar (relativos al BASE_DIR)
 scripts = [
-    "10b_load_new_csv_to_tmp.py",
+    "10b_load_update_csv_to_tmp.py",
     "12_copy_tmp_to_stg.py",
     "13_clean_stg.py",
     "15_generate_dwa_time.py",
@@ -24,7 +24,7 @@ modo_estricto = True
 def ejecutar_scripts(scripts, detener_si_falla=True):
     for script in scripts:
         script_path = os.path.join(BASE_DIR, script)
-        print(f"\nEjecutando: {script_path}")
+        print(f"\n▶️ Ejecutando: {script}")
         try:
             resultado = subprocess.run(
                 [sys.executable, script_path],
@@ -33,7 +33,7 @@ def ejecutar_scripts(scripts, detener_si_falla=True):
                 stderr=subprocess.PIPE,
                 text=True
             )
-            print(f"✅ Éxito: {script}")
+            print(f"✅ Ejecución correcta de {script}")
             print(resultado.stdout)
         except subprocess.CalledProcessError as e:
             print(f"❌ Error ejecutando {script}")
@@ -44,3 +44,4 @@ def ejecutar_scripts(scripts, detener_si_falla=True):
 
 if __name__ == "__main__":
     ejecutar_scripts(scripts, detener_si_falla=modo_estricto)
+

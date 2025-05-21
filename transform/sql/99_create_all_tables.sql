@@ -655,3 +655,8 @@ CREATE TABLE DP_ShippingDelays (
     shippedDate TEXT,
     deliveryDelayDays INTEGER
 );
+
+CREATE INDEX IF NOT EXISTS idx_stg_orders_orderid ON STG_Orders(orderID);
+CREATE INDEX IF NOT EXISTS idx_dwa_salesfact_orderid ON DWA_SalesFact(orderID);
+CREATE INDEX IF NOT EXISTS idx_dwa_deliveriesfact_orderid ON DWA_DeliveriesFact(orderID);
+CREATE INDEX IF NOT EXISTS idx_dwa_time_date ON DWA_Time(date);

@@ -30,14 +30,13 @@
 --   temporal en los modelos de análisis.
 -- =============================================================================
 
-
--- Obtener la clave de la fecha desconocida
--- Asignar orderDateKey en DWA_SalesFact
- -- orderDateKey en DWA_SalesFact
+-- orderDateKey en DWA_SalesFact
 UPDATE DWA_SalesFact
 SET orderDateKey = COALESCE(
-    (SELECT timeKey FROM DWA_Time
-     WHERE date = DATE((SELECT orderDate FROM STG_Orders WHERE orderID = DWA_SalesFact.orderID))),
+    (SELECT T.timeKey
+     FROM DWA_Time T
+     JOIN STG_Orders O ON O.orderID = DWA_SalesFact.orderID
+     WHERE T.date = DATE(O.orderDate)),
     (SELECT timeKey FROM DWA_Time WHERE date = '1900-01-01')
 )
 WHERE orderDateKey IS NULL;
@@ -45,8 +44,10 @@ WHERE orderDateKey IS NULL;
 -- shippedDateKey en DWA_DeliveriesFact
 UPDATE DWA_DeliveriesFact
 SET shippedDateKey = COALESCE(
-    (SELECT timeKey FROM DWA_Time
-     WHERE date = DATE((SELECT shippedDate FROM STG_Orders WHERE orderID = DWA_DeliveriesFact.orderID))),
+    (SELECT T.timeKey
+     FROM DWA_Time T
+     JOIN STG_Orders O ON O.orderID = DWA_DeliveriesFact.orderID
+     WHERE T.date = DATE(O.shippedDate)),
     (SELECT timeKey FROM DWA_Time WHERE date = '1900-01-01')
 )
 WHERE shippedDateKey IS NULL;
@@ -54,9 +55,10 @@ WHERE shippedDateKey IS NULL;
 -- requiredDateKey en DWA_DeliveriesFact
 UPDATE DWA_DeliveriesFact
 SET requiredDateKey = COALESCE(
-    (SELECT timeKey FROM DWA_Time
-     WHERE date = DATE((SELECT requiredDate FROM STG_Orders WHERE orderID = DWA_DeliveriesFact.orderID))),
+    (SELECT T.timeKey
+     FROM DWA_Time T
+     JOIN STG_Orders O ON O.orderID = DWA_DeliveriesFact.orderID
+     WHERE T.date = DATE(O.requiredDate)),
     (SELECT timeKey FROM DWA_Time WHERE date = '1900-01-01')
 )
 WHERE requiredDateKey IS NULL;
-
