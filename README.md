@@ -1,7 +1,7 @@
 ![Universidad Austral](logo-md-austral-1.png)
 ### Universidad Austral - Facultad de Ingeniería
 ### MCD 2024/2025 - Introducción a Dataware Housing
-## TPG01 - Flujo DWA
+## TPG01 - Flujo DWA1
 
 - [CANCELAS, Martín](https://www.linkedin.com/in/mart%C3%ADn-cancelas-2313a1154/)
 - [NICOLAU, Jorge](https://jorgenicolau.ar/)
