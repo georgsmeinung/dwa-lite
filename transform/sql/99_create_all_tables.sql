@@ -606,6 +606,7 @@ CREATE TABLE DP_SalesByProductMonth (
     productName TEXT,
     category TEXT,
     countryOrigin TEXT,
+    countryDestiny TEXT,
     year INTEGER,
     month INTEGER,
     totalUnitsSold INTEGER,

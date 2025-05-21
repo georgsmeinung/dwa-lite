@@ -21,12 +21,13 @@
 -- ================================================================================
 
 -- 1. Ventas por producto y mes
-INSERT INTO DP_SalesByProductMonth (uuid, productName, category, countryOrigin, year, month, totalUnitsSold, totalRevenue)
+INSERT INTO DP_SalesByProductMonth (uuid, productName, category, countryOrigin, countryDestiny, year, month, totalUnitsSold, totalRevenue)
 SELECT
     p.uuid,
     p.productName,
     p.categoryName,
     p.countryOrigin,
+    c.country,
     t.year,
     t.month,
     SUM(sf.quantity) AS totalUnitsSold,
@@ -34,6 +35,7 @@ SELECT
 FROM DWA_SalesFact sf
 JOIN DWA_Products p ON sf.productKey = p.productKey
 JOIN DWA_Time t ON sf.orderDateKey = t.timeKey
+JOIN DWA_Customers c ON sf.customerKey = c.customerKey
 GROUP BY p.uuid, p.productName, t.year, t.month;
 
 -- 2. Ranking de clientes por facturación
