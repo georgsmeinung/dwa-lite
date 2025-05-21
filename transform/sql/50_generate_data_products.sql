@@ -21,10 +21,12 @@
 -- ================================================================================
 
 -- 1. Ventas por producto y mes
-INSERT INTO DP_SalesByProductMonth (uuid, productName, year, month, totalUnitsSold, totalRevenue)
+INSERT INTO DP_SalesByProductMonth (uuid, productName, category, countryOrigin, year, month, totalUnitsSold, totalRevenue)
 SELECT
     p.uuid,
     p.productName,
+    p.categoryName,
+    p.countryOrigin,
     t.year,
     t.month,
     SUM(sf.quantity) AS totalUnitsSold,

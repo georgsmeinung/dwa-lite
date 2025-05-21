@@ -604,6 +604,8 @@ CREATE TABLE DP_SalesByProductMonth (
     dpID INTEGER PRIMARY KEY AUTOINCREMENT,
     uuid TEXT, -- UUID del producto
     productName TEXT,
+    category TEXT,
+    countryOrigin TEXT,
     year INTEGER,
     month INTEGER,
     totalUnitsSold INTEGER,
