@@ -74,12 +74,15 @@ JOIN DWA_Time t ON sf.orderDateKey = t.timeKey
 GROUP BY e.uuid, e.employeeID, e.fullName, t.year;
 
 -- 5. Análisis de devoluciones (basado en descuentos)
-INSERT INTO DP_ProductReturns (uuid, productID, productName, returnReason, returnCount, totalLostRevenue)
+INSERT INTO DP_ProductReturns (uuid, productID, productName, returnReason, supplier, countryOrigin, categoryName, returnCount, totalLostRevenue)
 SELECT
     p.uuid,
     p.productID,
     p.productName,
     'Discount applied (possible return)' AS returnReason,
+    p.supplier,
+    p.countryOrigin,
+    p.categoryName,
     COUNT(sf.orderID) AS returnCount,
     SUM(sf.totalAmount * sf.discount) AS totalLostRevenue
 FROM DWA_SalesFact sf

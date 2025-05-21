@@ -640,6 +640,9 @@ CREATE TABLE DP_ProductReturns (
     productID INTEGER,
     productName TEXT,
     returnReason TEXT,
+    supplier TEXT,
+    countryOrigin TEXT,
+    categoryName TEXT,
     returnCount INTEGER,
     totalLostRevenue REAL
 );
