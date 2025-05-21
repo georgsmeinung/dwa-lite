@@ -42,13 +42,12 @@ dwa-lite/
 │   ├── dwa                          # Creacion Tablas Data Warehouse (DWA_)
 │   ├── dwm                          # Creacion Tablas Memoria SCD2 (DWM_)
 │   ├── dwm                          # Creacion Tablas Metadata (MET_)
-│   └── tmp                          # Creacion Tablas Temporales (TMP_)
+│   ├── tmp                          # Creacion Tablas Temporales (TMP_)
+│   └── stg                          # Creacion Tablas de Staging (STG_)
 ├── transform/                       # Scripts SQL y Python del pipeline
-│   ├── *.py                         # Scripts de procesamiento (ingesta, calidad, etc.)
-│   └── *.sql                        # Scripts de transformación y carga
-├── create_all_models.cmd            # Creación Inicial de Modelos en Windows
-├── run_pipeline.cmd                 # Ejecución pipeline completo en Windows
-├── run_incremental_pipeline.cmd     # Ejecución pipeline incremental en Windows
+│   ├── sql                          
+│   │   └── *.sql                    # Scripts de transformación y carga
+│   └── *.py                         # Scripts de procesamiento (ingesta, calidad, etc.)
 └── README.md                        # Este archivo
 ```
 
@@ -77,12 +76,14 @@ create_all_models.cmd
 
 Carga inicial de `data/ingesta1`
 ```cmd
-run_pipeline.cmd
+cd transform
+python 00a_run_start_pipeline.py
 ```
 
 Carga [incremetnal](INCREMENTAL.md) de `data/ingesta2`
 ```cmd
-run_incremental_pipeline.cmd
+cd transform
+python 00b_run_update_pipeline.py
 ```
 
 ---
