@@ -643,6 +643,7 @@ CREATE TABLE DP_ProductReturns (
     supplier TEXT,
     countryOrigin TEXT,
     categoryName TEXT,
+    year INTEGER, 
     returnCount INTEGER,
     totalLostRevenue REAL
 );
