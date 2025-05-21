@@ -29,7 +29,7 @@ DB_PATH = "db/dwa-lite.db"
 FILENAME_TO_TABLE = {
     "customers - novedades.csv": "TMP_Customers",
     "orders - novedades.csv": "TMP_Orders",
-    "order_details - novedades.csv": "TMP_Order_Details"
+    "order_details - novedades.csv": "TMP_OrderDetails"
 }
 
 TABLES_WITH_UUID = ["TMP_Customers"]  # Agregar uuid solo si es necesario
@@ -50,6 +50,12 @@ def append_to_tmp_table(filename, tablename):
 
     print(f"[✓] {filename} -> {tablename} ({len(df)} filas insertadas)")
 
+# Apagado de Keys
+cursor.execute("""
+            PRAGMA foreign_keys = OFF;
+        """)
+current = cursor.fetchone()
+        
 # Procesamiento de archivos
 for file in os.listdir(DATA_DIR):
     if file in FILENAME_TO_TABLE:
@@ -59,5 +65,10 @@ for file in os.listdir(DATA_DIR):
             print(f"[✘] Error al cargar {file}: {e}")
     else:
         print(f"[!] Archivo ignorado (sin mapeo definido): {file}")
+
+cursor.execute("""
+            PRAGMA foreign_keys = ON;
+        """)
+current = cursor.fetchone()
 
 conn.close()

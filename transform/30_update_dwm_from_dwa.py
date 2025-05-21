@@ -57,8 +57,8 @@ scd_tables = [
         'dwm': 'DWM_Employees',
         'business_key': 'employeeID',
         'columns': [
-            'fullName', 'birthDate', 'hireDate', 'city', 'country', 
-            'territory', 'region', 'notes', 'photoPath', 'uuid'
+            'fullName', 'title', 'birthDate', 'hireDate', 'city', 
+            'country', 'territory', 'region', 'notes', 'photoPath', 'uuid'
         ]
     },
     {
