@@ -1,0 +1,13 @@
+tableName,description
+TMP_Categories,"A table containing the categories of products"
+TMP_Products,"A table containing product information"
+TMP_Orders,"A table containing order information"
+TMP_OrderDetails,"A table containing details of each order"
+TMP_Customers,"A table containing customer information"
+TMP_Employees,"A table containing employee information"
+TMP_Territories,"A table containing territory information"
+TMP_EmployeeTerritories,"A table containing the relationship between employees and territories"
+TMP_Regions,"A table containing region information"
+TMP_Shippers,"A table containing shipper information"
+TMP_Suppliers,"A table containing supplier information"
+TMP_WorldData2023,"A table containing world data as for the year 2023"
