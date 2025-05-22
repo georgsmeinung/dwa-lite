@@ -30,11 +30,20 @@ Uso:
   Este script puede integrarse a un pipeline automático o ejecutarse manualmente.
 """
 
-
 import sqlite3
+import os
 from datetime import datetime
+from dotenv import load_dotenv
 
-DB_PATH = 'db/dwa-lite.db'
+# Ruta del directorio donde está este script (no el CWD desde donde lo llamás)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Cargar .env relativo a este script también
+load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))
+
+# Cargar variable 
+DB_PATH = os.getenv("DB_PATH", "")
+
 now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 conn = sqlite3.connect(DB_PATH)
