@@ -25,6 +25,12 @@ WHERE country = 'USA';
 INSERT INTO STG_WorldData2023 (Country, GDP, Gasoline_Price, Population)
 VALUES ('Ireland', '$551,395,000,000', '$1.8425', '5,233,461');
 
+-- Debido a que el precio del combustible en Venezuela no parece correcto, se modifica de acuerdo a lo obtenido.
+-- Fuente: https://www.bloomberglinea.com/2024/01/05/precio-de-la-gasolina-en-latinoamerica-los-paises-con-el-litro-mas-caro-en-2024/
+UPDATE STG_WorldData2023
+SET Gasoline_Price = '$0.50'
+WHERE Country = 'Venezuela';
+
 -- Por error en el nombre de un país, se eliminan aquellos con símbolos que pueden generar problemas a futuro
 DELETE FROM STG_WorldData2023
 WHERE Country GLOB '*[^ -~]*';
