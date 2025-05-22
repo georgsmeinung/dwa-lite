@@ -21,14 +21,34 @@
 --   Integrar al final de una ejecución headless o manualmente.
 -- ================================================================================
 
--- Registra tablas claves
+-- Borra la metadata exisente
+DELETE FROM MET_Tables WHERE layer = 'TMP';
+
+-- Registra metadta para tablas claves
 INSERT INTO MET_Tables (tableName, layer, description, createdAt, createdBy, lastModified)
-VALUES 
-  ('TMP_Customers', 'TMP', 'Clientes originales desde CSV', datetime('now'), 'headless', datetime('now')),
-  ('DWA_Customers', 'DWA', 'Clientes normalizados', datetime('now'), 'headless', datetime('now')),
-  ('DWM_Customers', 'DWM', 'Clientes con versiones históricas', datetime('now'), 'headless', datetime('now')),
-  ('DP_TopCustomersByRevenue', 'DP', 'Ranking de clientes por facturación', datetime('now'), 'headless', datetime('now')),
-  ('DQM_TableStatistics', 'DQM', 'Indicadores generales de calidad de tabla', datetime('now'), 'headless', datetime('now'));
+VALUES ('TMP_Categories', 'TMP', 'Datos originales de Categories', datetime('now'), 'headless', datetime('now'));
+INSERT INTO MET_Tables (tableName, layer, description, createdAt, createdBy, lastModified)
+VALUES ('TMP_Customers', 'TMP', 'Datos originales de Customers', datetime('now'), 'headless', datetime('now'));
+INSERT INTO MET_Tables (tableName, layer, description, createdAt, createdBy, lastModified)
+VALUES ('TMP_EmployeeTerritories', 'TMP', 'Datos originales de Employeeterritories', datetime('now'), 'headless', datetime('now'));
+INSERT INTO MET_Tables (tableName, layer, description, createdAt, createdBy, lastModified)
+VALUES ('TMP_Employees', 'TMP', 'Datos originales de Employees', datetime('now'), 'headless', datetime('now'));
+INSERT INTO MET_Tables (tableName, layer, description, createdAt, createdBy, lastModified)
+VALUES ('TMP_OrderDetails', 'TMP', 'Datos originales de Orderdetails', datetime('now'), 'headless', datetime('now'));
+INSERT INTO MET_Tables (tableName, layer, description, createdAt, createdBy, lastModified)
+VALUES ('TMP_Orders', 'TMP', 'Datos originales de Orders', datetime('now'), 'headless', datetime('now'));
+INSERT INTO MET_Tables (tableName, layer, description, createdAt, createdBy, lastModified)
+VALUES ('TMP_Products', 'TMP', 'Datos originales de Products', datetime('now'), 'headless', datetime('now'));
+INSERT INTO MET_Tables (tableName, layer, description, createdAt, createdBy, lastModified)
+VALUES ('TMP_Regions', 'TMP', 'Datos originales de Regions', datetime('now'), 'headless', datetime('now'));
+INSERT INTO MET_Tables (tableName, layer, description, createdAt, createdBy, lastModified)
+VALUES ('TMP_Shippers', 'TMP', 'Datos originales de Shippers', datetime('now'), 'headless', datetime('now'));
+INSERT INTO MET_Tables (tableName, layer, description, createdAt, createdBy, lastModified)
+VALUES ('TMP_Suppliers', 'TMP', 'Datos originales de Suppliers', datetime('now'), 'headless', datetime('now'));
+INSERT INTO MET_Tables (tableName, layer, description, createdAt, createdBy, lastModified)
+VALUES ('TMP_Territories', 'TMP', 'Datos originales de Territories', datetime('now'), 'headless', datetime('now'));
+INSERT INTO MET_Tables (tableName, layer, description, createdAt, createdBy, lastModified)
+VALUES ('TMP_WorldData2023', 'TMP', 'Datos originales de Worlddata2023', datetime('now'), 'headless', datetime('now'));
 
 -- Registrar columnas con su rol
 INSERT INTO MET_Columns (tableName, columnName, dataType, isPrimaryKey, isForeignKey, isUUID, description)

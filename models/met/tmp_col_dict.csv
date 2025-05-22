@@ -1,0 +1,123 @@
+tableName,columnName,description
+TMP_Categories,categoryID,Identificador único asociado a la categoría de producto
+TMP_Categories,categoryName,Nombre asociado a la categoría de producto
+TMP_Categories,description,Description asociado a la categoría de producto
+TMP_Categories,picture,Picture asociado a la categoría de producto
+TMP_Customers,customerID,Identificador único asociado al cliente
+TMP_Customers,companyName,Nombre asociado al cliente
+TMP_Customers,contactName,Nombre asociado al cliente
+TMP_Customers,contactTitle,Título o cargo asociado al cliente
+TMP_Customers,address,Address asociado al cliente
+TMP_Customers,city,City asociado al cliente
+TMP_Customers,region,Region asociado al cliente
+TMP_Customers,postalCode,Postalcode asociado al cliente
+TMP_Customers,country,Country asociado al cliente
+TMP_Customers,phone,Phone asociado al cliente
+TMP_Customers,fax,Fax asociado al cliente
+TMP_Customers,uuid,Uuid asociado al cliente
+TMP_EmployeeTerritories,employeeID,Identificador único asociado al territorio
+TMP_EmployeeTerritories,territoryID,Identificador único asociado al territorio
+TMP_Employees,employeeID,Identificador único asociado al empleado
+TMP_Employees,lastName,Nombre asociado al empleado
+TMP_Employees,firstName,Nombre asociado al empleado
+TMP_Employees,title,Title asociado al empleado
+TMP_Employees,titleOfCourtesy,Titleofcourtesy asociado al empleado
+TMP_Employees,birthDate,Fecha asociado al empleado
+TMP_Employees,hireDate,Fecha asociado al empleado
+TMP_Employees,address,Address asociado al empleado
+TMP_Employees,city,City asociado al empleado
+TMP_Employees,region,Region asociado al empleado
+TMP_Employees,postalCode,Postalcode asociado al empleado
+TMP_Employees,country,Country asociado al empleado
+TMP_Employees,homePhone,Teléfono asociado al empleado
+TMP_Employees,extension,Extension asociado al empleado
+TMP_Employees,photo,Photo asociado al empleado
+TMP_Employees,notes,Notes asociado al empleado
+TMP_Employees,reportsTo,Reportsto asociado al empleado
+TMP_Employees,photoPath,Photopath asociado al empleado
+TMP_Employees,uuid,Uuid asociado al empleado
+TMP_OrderDetails,orderID,Identificador único asociado al detalle del pedido
+TMP_OrderDetails,productID,Identificador único asociado al detalle del pedido
+TMP_OrderDetails,unitPrice,Precio asociado al detalle del pedido
+TMP_OrderDetails,quantity,Quantity asociado al detalle del pedido
+TMP_OrderDetails,discount,Discount asociado al detalle del pedido
+TMP_Orders,orderID,Identificador único asociado al pedido
+TMP_Orders,customerID,Identificador único asociado al pedido
+TMP_Orders,employeeID,Identificador único asociado al pedido
+TMP_Orders,orderDate,Fecha asociado al pedido
+TMP_Orders,requiredDate,Fecha asociado al pedido
+TMP_Orders,shippedDate,Fecha asociado al pedido
+TMP_Orders,shipVia,Shipvia asociado al pedido
+TMP_Orders,freight,Freight asociado al pedido
+TMP_Orders,shipName,Nombre asociado al pedido
+TMP_Orders,shipAddress,Dirección asociado al pedido
+TMP_Orders,shipCity,Ciudad asociado al pedido
+TMP_Orders,shipRegion,Región asociado al pedido
+TMP_Orders,shipPostalCode,Código postal asociado al pedido
+TMP_Orders,shipCountry,País asociado al pedido
+TMP_Products,productID,Identificador único asociado al producto
+TMP_Products,productName,Nombre asociado al producto
+TMP_Products,supplierID,Identificador único asociado al producto
+TMP_Products,categoryID,Identificador único asociado al producto
+TMP_Products,quantityPerUnit,Quantityperunit asociado al producto
+TMP_Products,unitPrice,Precio asociado al producto
+TMP_Products,unitsInStock,Unitsinstock asociado al producto
+TMP_Products,unitsOnOrder,Unitsonorder asociado al producto
+TMP_Products,reorderLevel,Reorderlevel asociado al producto
+TMP_Products,discontinued,Discontinued asociado al producto
+TMP_Products,uuid,Uuid asociado al producto
+TMP_Regions,regionID,Identificador único asociado a la región
+TMP_Regions,regionDescription,Descripción asociado a la región
+TMP_Shippers,shipperID,Identificador único asociado a la empresa de envío
+TMP_Shippers,companyName,Nombre asociado a la empresa de envío
+TMP_Shippers,phone,Phone asociado a la empresa de envío
+TMP_Suppliers,supplierID,Identificador único asociado al proveedor
+TMP_Suppliers,companyName,Nombre asociado al proveedor
+TMP_Suppliers,contactName,Nombre asociado al proveedor
+TMP_Suppliers,contactTitle,Título o cargo asociado al proveedor
+TMP_Suppliers,address,Address asociado al proveedor
+TMP_Suppliers,city,City asociado al proveedor
+TMP_Suppliers,region,Region asociado al proveedor
+TMP_Suppliers,postalCode,Postalcode asociado al proveedor
+TMP_Suppliers,country,Country asociado al proveedor
+TMP_Suppliers,phone,Phone asociado al proveedor
+TMP_Suppliers,fax,Fax asociado al proveedor
+TMP_Suppliers,homePage,Homepage asociado al proveedor
+TMP_Territories,territoryID,Identificador único asociado al territorio
+TMP_Territories,territoryDescription,Descripción asociado al territorio
+TMP_Territories,regionID,Identificador único asociado al territorio
+TMP_WorldData2023,Country,País asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Density_P_Km2,Density_p_km2 asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Abbreviation,Abbreviation asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Agricultural_Land_PCT,Agricultural_land_pct asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Land_AreaKm2,Land_areakm2 asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Armed_Forces_Size,Armed_forces_size asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Birth_Rate,Birth_rate asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Calling_Code,Calling_code asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Capital_Major_City,Ciudad asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Co2_Emissions,Co2_emissions asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,CPI,Cpi asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,CPI_Change_PCT,Cpi_change_pct asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Currency_Code,Currency_code asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Fertility_Rate,Fertility_rate asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Forested_Area_PCT,Forested_area_pct asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Gasoline_Price,Precio asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,GDP,Gdp asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Gross_Primary_Education_Enrollment_PCT,Gross_primary_education_enrollment_pct asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Gross_Tertiary_Education_Enrollment_PCT,Gross_tertiary_education_enrollment_pct asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Infant_Mortality,Infant_mortality asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Largest_City,Ciudad asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Life_Expectancy,Life_expectancy asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Maternal_Mortality_Ratio,Maternal_mortality_ratio asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Minimum_Wage,Minimum_wage asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Official_Language,Official_language asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Out_Of_Pocket_Health_Expenditure,Out_of_pocket_health_expenditure asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Physicians_Per_Thousand,Physicians_per_thousand asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Population,Population asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Population_Labor_Force_Participation_PCT,Population_labor_force_participation_pct asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Tax_Revenue_PCT,Tax_revenue_pct asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Total_Tax_Rate,Total_tax_rate asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Unemployment_Rate,Unemployment_rate asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Urban_Population,Urban_population asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Latitude,Latitud geográfica asociado a los indicadores socioeconómicos por país
+TMP_WorldData2023,Longitude,Longitud geográfica asociado a los indicadores socioeconómicos por país
