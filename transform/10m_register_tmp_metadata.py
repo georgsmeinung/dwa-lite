@@ -25,7 +25,7 @@ ruta_col_csv = os.path.join(BASE_DIR, TMP_COL_DICT_PATH_CSV)
 conn = sqlite3.connect(ruta_db)
 cursor = conn.cursor()
 
-# Reintentar la ejecución completa del script
+# === Carga de MET_Tables ===
 # Cargar descripciones desde el CSV
 dictionary_df = pd.read_csv(ruta_csv)
 description_dict = dict(zip(dictionary_df['tableName'], dictionary_df['description']))
@@ -45,6 +45,7 @@ for (table_name,) in tmp_tables:
         VALUES (?, 'TMP', ?, datetime('now'), 'headless', datetime('now'))
     """, (table_name, description))
 
+# === Carga de MET_Columns ===
 # Leer el archivo CSV con descripciones detalladas
 detailed_df = pd.read_csv(ruta_col_csv)
 detailed_descriptions = {
@@ -69,7 +70,6 @@ for (table_name,) in tmp_tables:
             "isUUID": int("uuid" in col_name.lower()),
             "description": description
         })
-
 
 # Borrar los registros existentes en MET_Columns que correspondan a tablas TMP_
 cursor.execute("DELETE FROM MET_Columns WHERE tableName LIKE 'TMP_%'")
