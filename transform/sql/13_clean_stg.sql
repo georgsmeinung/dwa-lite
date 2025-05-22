@@ -22,8 +22,8 @@ UPDATE STG_Suppliers
 SET country = 'United States'
 WHERE country = 'USA';
 
-INSERT INTO STG_WorldData2023 (Country)
-VALUES ('Ireland');
+INSERT INTO STG_WorldData2023 (Country, GDP, Gasoline_Price, Population)
+VALUES ('Ireland', '$551,395,000,000', '$1.8425', '5,233,461');
 
 -- Por error en el nombre de un país, se eliminan aquellos con símbolos que pueden generar problemas a futuro
 DELETE FROM STG_WorldData2023

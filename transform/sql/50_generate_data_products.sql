@@ -39,7 +39,7 @@ JOIN DWA_Customers c ON sf.customerKey = c.customerKey
 GROUP BY p.uuid, p.productName, t.year, t.month;
 
 -- 2. Ranking de clientes por facturación
-INSERT INTO DP_TopCustomersByRevenue (uuid, customerID, companyName, country, countryGasolinePrice, countryGDP, countryPopulation, totalRevenue, totalOrders, rank)
+INSERT INTO DP_TopCustomersByRevenue (uuid, customerID, companyName, country, countryGasolinePrice, countryGDP, countryPopulation, year, totalRevenue, totalOrders, rank)
 WITH CustomerSales AS (
     SELECT
         c.uuid,
@@ -49,10 +49,12 @@ WITH CustomerSales AS (
         w.Gasoline_Price AS countryGasolinePrice,
         w.GDP AS countryGDP,
         w.Population AS countryPopulation,
+        t.year,
         SUM(sf.totalAmount) AS totalRevenue,
         COUNT(sf.orderID) AS totalOrders
     FROM DWA_SalesFact sf
     JOIN DWA_Customers c ON sf.customerKey = c.customerKey
+    JOIN DWA_Time t ON sf.orderDateKey = t.timeKey
     LEFT JOIN DWA_WorldData2023 w ON c.country = w.Country
     GROUP BY c.uuid, c.customerID, c.companyName, c.country
 )
@@ -64,6 +66,7 @@ SELECT
     countryGasolinePrice,
     countryGDP,
     countryPopulation,
+    year,
     totalRevenue,
     totalOrders,
     RANK() OVER (ORDER BY totalRevenue DESC) AS rank
