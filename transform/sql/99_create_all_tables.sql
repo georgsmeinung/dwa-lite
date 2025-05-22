@@ -620,6 +620,9 @@ CREATE TABLE DP_TopCustomersByRevenue (
     customerID TEXT,
     companyName TEXT,
     country TEXT,
+    countryGasolinePrice TEXT, 
+    countryGDP TEXT,
+    countryPopulation TEXT,
     totalRevenue REAL,
     totalOrders INTEGER,
     rank INTEGER
