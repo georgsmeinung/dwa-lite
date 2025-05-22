@@ -16,8 +16,8 @@ SCRIPT_FILE_PATH = os.getenv("99_SQL_FILE_PATH", "")
 ruta_db = os.path.join(BASE_DIR, DB_PATH)
 archivo_sql = os.path.join(BASE_DIR, SCRIPT_FILE_PATH)
 
-print("→ Ejecutando SQL:")
-print("  SQL:", SCRIPT_FILE_PATH)
-print("  DB :", DB_PATH)
+print("-> Ejecutando SQL:")
+print("   SQL:", SCRIPT_FILE_PATH)
+print("   DB :", DB_PATH)
 
 ejecutar_sql(archivo_sql, ruta_db)
