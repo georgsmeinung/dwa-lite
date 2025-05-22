@@ -24,12 +24,19 @@ import pandas as pd
 import os
 import uuid
 import re
+from dotenv import load_dotenv
 from datetime import datetime
 
-# Configuración
-DB_PATH = 'db/dwa-lite.db'
-CSV_FOLDER = 'data/ingesta1'
-USER = 'pipeline-headless'
+# Ruta del directorio donde está este script (no el CWD desde donde lo llamás)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Cargar .env relativo a este script también
+load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))
+
+# Cargar variable 
+DB_PATH = os.getenv("DB_PATH", "")
+CSV_FOLDER = os.getenv("10A_CSV_FOLDER", "")
+USER = os.getenv("10A_USER", "")
 
 # Lista de archivos y tablas destino
 files_tables = [
