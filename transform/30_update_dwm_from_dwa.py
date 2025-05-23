@@ -119,7 +119,7 @@ def row_differs(row1, row2):
     return any(a != b for a, b in zip(row1, row2))
 
 for table in scd_tables:
-    print(f"Procesando SCD2 para {table['dwa']} → {table['dwm']}")
+    print(f"Procesando SCD2 para {table['dwa']} -> {table['dwm']}")
 
     cursor.execute(f"SELECT {table['business_key']}, {', '.join(table['columns'])} FROM {table['dwa']}")
     for record in cursor.fetchall():
