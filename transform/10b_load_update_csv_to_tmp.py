@@ -23,11 +23,14 @@ import os
 import sqlite3
 import pandas as pd
 import uuid
+import get_execution_id as pid
 from datetime import datetime
 from dotenv import load_dotenv
 
 # Ruta del directorio donde está este script (no el CWD desde donde lo llamás)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+execution_id = pid.get_or_create_execution_id()
 
 # Cargar .env relativo a este script también
 load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))
@@ -36,13 +39,6 @@ load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))
 DB_PATH = os.getenv("DB_PATH", "")
 CSV_FOLDER = os.getenv("10B_CSV_FOLDER", "")
 USER = os.getenv("10B_USER", "")
-
-# Generar el execution id
-execution_id = datetime.now().strftime("%Y%m%dT%H%M%S")
-
-# Guardar en un archivo
-with open("current_execution.txt", "w") as f:
-    f.write(execution_id)
 
 # Mapeo explícito de nombres de archivo → tabla destino
 FILENAME_TO_TABLE = {
