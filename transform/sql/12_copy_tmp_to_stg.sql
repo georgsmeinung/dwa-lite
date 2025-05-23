@@ -1,6 +1,20 @@
--- Script para crear tablas STG_ y copiar datos desde TMP_
--- Se eliminan previamente las tablas STG_ si existen
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
 
+-- ================================================================================
+-- Script: copy_tmp_to_stg.sql
+-- Descripción:
+--
+-- Funcionalidad:
+--
+-- Requisitos:
+--
+-- Uso:
+--
+-- ================================================================================
+
+-- Eliminación y creación de tablas STG.
+-- Desactivación de Foreign Keys.
 PRAGMA foreign_keys = OFF;
 
 DROP TABLE IF EXISTS STG_Categories;
@@ -39,4 +53,5 @@ CREATE TABLE STG_Territories AS SELECT * FROM TMP_Territories;
 DROP TABLE IF EXISTS STG_WorldData2023;
 CREATE TABLE STG_WorldData2023 AS SELECT * FROM TMP_WorldData2023;
 
+-- Reactivación de Foreign Keys.
 PRAGMA foreign_keys = ON;

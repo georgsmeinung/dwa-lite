@@ -1,3 +1,6 @@
+# Cancelas, Martín.
+# Nicolau, Jorge.A
+
 # Script: validate_quality.py
 import os
 import sys

@@ -1,103 +1,10 @@
--- Script de eliminación de tablas DP_ en SQLite
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
 
--- Producto 1: Ventas consolidadas por producto y mes
-DROP TABLE IF EXISTS DP_SalesByProductMonth;
+-- Eliminación de todas las tablas: TMP, DWA, DWM, DQM, DP y MET.
+-- Las tablas STG se eliminan durante el pipeline.
 
--- Producto 2: Ranking de clientes por facturación
-DROP TABLE IF EXISTS DP_TopCustomersByRevenue;
-
--- Producto 3: Ventas por región y trimestre
-DROP TABLE IF EXISTS DP_RegionalSalesByQuarter;
-
--- Producto 4: Desempeño de empleados por año
-DROP TABLE IF EXISTS DP_EmployeePerformance;
-
--- Producto 5: Productos con devoluciones o cancelaciones
-DROP TABLE IF EXISTS DP_ProductReturns;
-
--- Script de eliminación de tablas DQM_ en SQLite
-
--- Estadísticas de calidad por tabla y capa
-DROP TABLE IF EXISTS DQM_TableStatistics;
-
--- Detalle de errores o advertencias por campo con granularidad extendida y UUID
-DROP TABLE IF EXISTS DQM_FieldIssues;
-
--- Resultados de carga por archivo CSV
-DROP TABLE IF EXISTS DQM_LoadResults;
-
--- Registro de validaciones cruzadas o de integridad referencial
-DROP TABLE IF EXISTS DQM_IntegrityChecks;
-
--- Auditoría de ejecuciones de procesos
-DROP TABLE IF EXISTS DQM_ProcessAudit;
-
--- Script para eliminación de tablas DWA_ en SQLite
-
--- Tabla de hechos Ventas 
-DROP TABLE IF EXISTS DWA_SalesFact;
-
--- Tabla de hechos Entregas
-DROP TABLE IF EXISTS DWA_DeliveriesFact;
-
--- Dimensión Clientes
-DROP TABLE IF EXISTS DWA_Customers;
-
--- Dimensión Productos
-DROP TABLE IF EXISTS DWA_Products;
-
--- Dimensión Empleados
-DROP TABLE IF EXISTS DWA_Employees;
-
--- Dimensión Tiempo
-DROP TABLE IF EXISTS DWA_Time;
-
--- Dimensión WorldData
-DROP TABLE IF EXISTS DWA_WorldData2023;
-
-
--- Script para eliminación de tablas DWM_ en SQLite
-
--- Clientes con historial y trazabilidad
-DROP TABLE IF EXISTS DWM_Customers;
-
--- Empleados con historial y trazabilidad
-DROP TABLE IF EXISTS DWM_Employees;
-
--- Productos con historial y trazabilidad
-DROP TABLE IF EXISTS DWM_Products;
-
--- Categorías con historial y trazabilidad
-DROP TABLE IF EXISTS DWM_WorldData2023;
-
--- Territorios con historial y trazabilidad
-DROP TABLE IF EXISTS DWM_SalesFact;
-
--- Regiones con historial y trazabilidad
-DROP TABLE IF EXISTS DWM_DeliveriesFact;
-
--- Script para eliminación de tablas MET_ en SQLite
-
--- Registro de tablas en el DWA
-DROP TABLE IF EXISTS MET_Tables;
-
--- Registro de columnas de cada tabla
-DROP TABLE IF EXISTS MET_Columns;
-
--- Linaje de datos entre entidades
-DROP TABLE IF EXISTS MET_Lineage;
-
--- Registro de ejecuciones de procesos de carga o transformación
-DROP TABLE IF EXISTS MET_Executions;
-
--- Versionado de tablas con hash y trazabilidad
-DROP TABLE IF EXISTS MET_TableVersions;
-
--- Descripción de productos de datos
-DROP TABLE IF EXISTS MET_DataProducts;
-
--- Script para eliminación de tablas TMP_ en SQLite
-
+-- Tablas TMP
 DROP TABLE IF EXISTS TMP_EmployeeTerritories;
 
 DROP TABLE IF EXISTS TMP_OrderDetails;
@@ -121,3 +28,69 @@ DROP TABLE IF EXISTS TMP_Regions;
 DROP TABLE IF EXISTS TMP_Customers;
 
 DROP TABLE IF EXISTS TMP_Employees;
+
+
+-- Tablas DWA
+DROP TABLE IF EXISTS DWA_SalesFact;
+
+DROP TABLE IF EXISTS DWA_DeliveriesFact;
+
+DROP TABLE IF EXISTS DWA_Customers;
+
+DROP TABLE IF EXISTS DWA_Products;
+
+DROP TABLE IF EXISTS DWA_Employees;
+
+DROP TABLE IF EXISTS DWA_Time;
+
+DROP TABLE IF EXISTS DWA_WorldData2023;
+
+
+-- Tablas DWM
+DROP TABLE IF EXISTS DWM_Customers;
+
+DROP TABLE IF EXISTS DWM_Employees;
+
+DROP TABLE IF EXISTS DWM_Products;
+
+DROP TABLE IF EXISTS DWM_WorldData2023;
+
+DROP TABLE IF EXISTS DWM_SalesFact;
+
+DROP TABLE IF EXISTS DWM_DeliveriesFact;
+
+
+-- Tablas DQM
+DROP TABLE IF EXISTS DQM_TableStatistics;
+
+DROP TABLE IF EXISTS DQM_FieldIssues;
+
+DROP TABLE IF EXISTS DQM_LoadResults;
+
+DROP TABLE IF EXISTS DQM_IntegrityChecks;
+
+DROP TABLE IF EXISTS DQM_ProcessAudit;
+
+
+-- Tablas DP
+DROP TABLE IF EXISTS DP_SalesByProductMonth;
+
+DROP TABLE IF EXISTS DP_TopCustomersByRevenue;
+
+DROP TABLE IF EXISTS DP_EmployeePerformance;
+
+DROP TABLE IF EXISTS DP_ProductReturns;
+
+
+-- Tablas MET
+DROP TABLE IF EXISTS MET_Tables;
+
+DROP TABLE IF EXISTS MET_Columns;
+
+DROP TABLE IF EXISTS MET_Lineage;
+
+DROP TABLE IF EXISTS MET_Executions;
+
+DROP TABLE IF EXISTS MET_TableVersions;
+
+DROP TABLE IF EXISTS MET_DataProducts;

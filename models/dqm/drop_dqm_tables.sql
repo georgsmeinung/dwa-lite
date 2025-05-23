@@ -1,16 +1,13 @@
--- Script de eliminación de tablas DQM_ en SQLite
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
 
--- Estadísticas de calidad por tabla y capa
+-- Eliminación de tablas DQM_
 DROP TABLE IF EXISTS DQM_TableStatistics;
 
--- Detalle de errores o advertencias por campo con granularidad extendida y UUID
 DROP TABLE IF EXISTS DQM_FieldIssues;
 
--- Resultados de carga por archivo CSV
 DROP TABLE IF EXISTS DQM_LoadResults;
 
--- Registro de validaciones cruzadas o de integridad referencial
 DROP TABLE IF EXISTS DQM_IntegrityChecks;
 
--- Auditoría de ejecuciones de procesos
 DROP TABLE IF EXISTS DQM_ProcessAudit;

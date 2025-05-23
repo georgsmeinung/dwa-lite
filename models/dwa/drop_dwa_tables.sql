@@ -1,22 +1,17 @@
--- Script para eliminación de tablas DWA_ en SQLite
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
 
--- Tabla de hechos Ventas 
+-- Eliminación de tablas DWA_
 DROP TABLE IF EXISTS DWA_SalesFact;
 
--- Tabla de hechos Entregas
 DROP TABLE IF EXISTS DWA_DeliveriesFact;
 
--- Dimensión Clientes
 DROP TABLE IF EXISTS DWA_Customers;
 
--- Dimensión Productos
 DROP TABLE IF EXISTS DWA_Products;
 
--- Dimensión Empleados
 DROP TABLE IF EXISTS DWA_Employees;
 
--- Dimensión Tiempo
 DROP TABLE IF EXISTS DWA_Time;
 
--- Dimensión WorldData
 DROP TABLE IF EXISTS DWA_WorldData2023;

@@ -1,4 +1,7 @@
--- Script de creación de tablas DP_ en SQLite con trazabilidad UUID
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
+
+-- Creación de tablas DP_ con trazabilidad UUID
 
 -- Producto 1: Ventas consolidadas por producto y mes
 CREATE TABLE DP_SalesByProductMonth (
@@ -23,7 +26,7 @@ CREATE TABLE DP_TopCustomersByRevenue (
     rank INTEGER
 );
 
--- Producto 4: Desempeño de empleados por año
+-- Producto 3: Desempeño de empleados por año
 CREATE TABLE DP_EmployeePerformance (
     dpID INTEGER PRIMARY KEY AUTOINCREMENT,
     uuid TEXT, -- UUID del empleado
@@ -34,7 +37,7 @@ CREATE TABLE DP_EmployeePerformance (
     totalRevenue REAL
 );
 
--- Producto 5: Productos con devoluciones o cancelaciones
+-- Producto 4: Productos con devoluciones o cancelaciones
 CREATE TABLE DP_ProductReturns (
     dpID INTEGER PRIMARY KEY AUTOINCREMENT,
     uuid TEXT, -- UUID del producto

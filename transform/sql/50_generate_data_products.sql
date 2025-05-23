@@ -1,3 +1,6 @@
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
+
 -- ================================================================================
 -- Script: generate_data_products.sql
 -- Descripción:
@@ -73,7 +76,7 @@ SELECT
 FROM CustomerSales;
 
 
--- 4. Desempeño de empleados
+-- 3. Desempeño de empleados
 INSERT INTO DP_EmployeePerformance (uuid, employeeID, fullName, year, totalOrders, totalRevenue)
 SELECT
     e.uuid,
@@ -87,7 +90,7 @@ JOIN DWA_Employees e ON sf.employeeKey = e.employeeKey
 JOIN DWA_Time t ON sf.orderDateKey = t.timeKey
 GROUP BY e.uuid, e.employeeID, e.fullName, t.year;
 
--- 5. Análisis de devoluciones (basado en descuentos)
+-- 4. Análisis de devoluciones (basado en descuentos)
 INSERT INTO DP_ProductReturns (uuid, productID, productName, returnReason, supplier, countryOrigin, categoryName, year, returnCount, totalLostRevenue)
 SELECT
     p.uuid,

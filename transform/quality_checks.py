@@ -1,3 +1,6 @@
+# Cancelas, Martín.
+# Nicolau, Jorge.A
+
 # quality_checks.py
 import sqlite3
 from datetime import datetime

@@ -1,3 +1,6 @@
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
+
 -- =============================================================================
 -- Script: generate_dwa_time.sql
 -- Descripción:
@@ -42,7 +45,6 @@
 PRAGMA recursive_triggers = ON;
 PRAGMA cte_recursion_limit = 10000;
 
--- Obtener fechas mínimas y máximas de interés
 WITH bounds AS (
     SELECT
         MIN(DATE(orderDate)) AS min_date,

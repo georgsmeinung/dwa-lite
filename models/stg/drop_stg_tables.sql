@@ -1,4 +1,7 @@
--- Script para eliminación de tablas STG_ en SQLite
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
+
+-- Eliminación de tablas STG_
 
 DROP TABLE IF EXISTS STG_Categories;
 

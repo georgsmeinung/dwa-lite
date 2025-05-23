@@ -1,3 +1,6 @@
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
+
 -- ================================================================================
 -- Script: register_metadata.sql
 -- Descripción:
@@ -21,7 +24,7 @@
 --   Integrar al final de una ejecución headless o manualmente.
 -- ================================================================================
 
--- Registra tablas claves
+-- Registro de tablas claves
 INSERT INTO MET_Tables (tableName, layer, description, createdAt, createdBy, lastModified)
 VALUES 
   ('TMP_Customers', 'TMP', 'Clientes originales desde CSV', datetime('now'), 'headless', datetime('now')),
@@ -30,7 +33,7 @@ VALUES
   ('DP_TopCustomersByRevenue', 'DP', 'Ranking de clientes por facturación', datetime('now'), 'headless', datetime('now')),
   ('DQM_TableStatistics', 'DQM', 'Indicadores generales de calidad de tabla', datetime('now'), 'headless', datetime('now'));
 
--- Registrar columnas con su rol
+-- Registro de columnas con su rol
 INSERT INTO MET_Columns (tableName, columnName, dataType, isPrimaryKey, isForeignKey, isUUID, description)
 VALUES 
   ('DWA_Customers', 'customerID', 'TEXT', 1, 0, 0, 'Identificador natural del cliente'),
@@ -38,12 +41,12 @@ VALUES
   ('DWM_Customers', 'validFrom', 'TEXT', 0, 0, 0, 'Inicio de vigencia del registro'),
   ('DP_TopCustomersByRevenue', 'totalRevenue', 'REAL', 0, 0, 0, 'Monto total de ventas por cliente');
 
--- Registrar una ejecución del pipeline
+-- Registro de una ejecución del pipeline
 INSERT INTO MET_Executions (processName, executedBy, startTime, endTime, status, log)
 VALUES 
   ('Full Pipeline Execution', 'headless', datetime('now', '-10 minutes'), datetime('now'), 'SUCCESS', 'Pipeline ejecutado en modo automático.');
 
--- Registrar linaje de carga
+-- Registro del linaje de carga
 INSERT INTO MET_Lineage (sourceEntity, targetEntity, sourceUUID, targetUUID, transformationDescription, transformationScript, lineageType, createdAt)
 SELECT 
   'TMP_Customers', 

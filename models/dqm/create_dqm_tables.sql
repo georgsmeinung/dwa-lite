@@ -1,4 +1,7 @@
--- Script de creación de tablas DQM_ en SQLite con trazabilidad UUID
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
+
+-- Creación de tablas DQM_con trazabilidad UUID
 
 -- Estadísticas de calidad por tabla y capa
 CREATE TABLE DQM_TableStatistics (

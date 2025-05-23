@@ -1,3 +1,6 @@
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
+
 -- =============================================================================
 -- Script: transform_tmp_to_dwa.sql
 -- Descripción:
@@ -27,7 +30,6 @@
 -- =============================================================================
 
 -- Tablas de Dimensiones:
--- En primer lugar dimensión WorldData2023 para poder generar la relación con la dimensión de clientes
 INSERT OR REPLACE INTO DWA_WorldData2023 (
     Country, Density_PKm2, Abbreviation, Agricultural_Land_PCT, Land_Area_Km2,
     Armed_Forces_Size, Birth_Rate, Calling_Code, Capital_Major_City, Co2_Emissions,
@@ -51,7 +53,6 @@ SELECT
     Latitude, Longitude
 FROM STG_WorldData2023;
 
--- Cargar dimensión Clientes
 INSERT OR REPLACE INTO DWA_Customers (
     customerID, companyName, contactName, contactTitle,
     address, city, postalCode, country, phone, fax, uuid
@@ -61,7 +62,6 @@ SELECT
     address, city, postalCode, country, phone, fax, uuid
 FROM STG_Customers;
 
--- Cargar dimensión Empleados
 INSERT OR REPLACE INTO DWA_Employees (
     employeeID, fullName, title, birthDate, hireDate,
     city, country, territory, region, notes, photoPath, uuid
@@ -83,11 +83,7 @@ FROM STG_Employees e
 LEFT JOIN STG_EmployeeTerritories et ON e.employeeID = et.employeeID
 LEFT JOIN STG_Territories t ON et.territoryID = t.territoryID
 LEFT JOIN STG_Regions r ON t.regionID = r.regionID;
--- CHATGPT:
--- Usé LEFT JOIN porque puede haber empleados que no tengan territorio asignado, y no queremos excluirlos.
--- Si cada empleado puede tener más de un territorio, este SELECT va a generar varias filas por empleado. Si eso no es deseado, deberíamos agrupar o limitar.
 
--- Cargar dimensión Productos con categoría unificada
 INSERT OR REPLACE INTO DWA_Products (
     productID, productName, categoryName, supplier, countryOrigin,
     quantityPerUnit, unitPrice, unitsInStock, unitsOnOrder, 
@@ -110,8 +106,8 @@ FROM STG_Products p
 LEFT JOIN STG_Categories c ON p.categoryID = c.categoryID
 LEFT JOIN STG_Suppliers s ON p.supplierID = s.supplierID;
 
+
 -- Tablas de Hechos:
--- Cargar tabla de hechos de ventas
 INSERT OR REPLACE INTO DWA_SalesFact (
     orderID, productKey, customerKey, employeeKey,
     territory, orderDateKey, quantity, unitPrice,
@@ -136,8 +132,6 @@ JOIN DWA_Products p ON od.productID = p.productID
 JOIN DWA_Customers c ON o.customerID = c.customerID
 JOIN DWA_Employees e ON o.employeeID = e.employeeID;
 
-
--- Cargar tabla de hechos de entregas
 INSERT OR REPLACE INTO DWA_DeliveriesFact (
     orderID, customerKey, employeeKey, shipperID,
     shippedDateKey, requiredDateKey, deliveryDelayDays,

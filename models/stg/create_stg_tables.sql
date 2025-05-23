@@ -1,7 +1,10 @@
--- Script actualizado de creación de tablas STG_ en SQLite para corregir datos de TMP, con soporte de UUID
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
 
-PRAGMA foreign_keys = ON; -- Habilitar las foreign keys
+-- Creación de tablas STG_ para corregir datos de TMP, con soporte de UUID
+PRAGMA foreign_keys = ON; -- Habilitación de Foreign Keys
 
+-- Categorías
 CREATE TABLE STG_Categories (
     categoryID INTEGER PRIMARY KEY,
     categoryName TEXT,
@@ -9,6 +12,7 @@ CREATE TABLE STG_Categories (
     picture TEXT
 );
 
+-- Clientes
 CREATE TABLE STG_Customers (
     customerID TEXT PRIMARY KEY,
     companyName TEXT,
@@ -17,13 +21,14 @@ CREATE TABLE STG_Customers (
     address TEXT,
     city TEXT,
     region TEXT,
-    postalCode TEXT, -- Conviene ponerle VARCHAR?
+    postalCode TEXT,
     country TEXT,
     phone TEXT,
     fax TEXT,
     uuid TEXT
 );
 
+-- Territorio de los Empleados
 CREATE TABLE STG_EmployeeTerritories (
     employeeID INTEGER,
     territoryID INTEGER,
@@ -32,6 +37,7 @@ CREATE TABLE STG_EmployeeTerritories (
     FOREIGN KEY (employeeID) REFERENCES STG_Employees(employeeID)
 );
 
+-- Empleados
 CREATE TABLE STG_Employees (
     employeeID INTEGER PRIMARY KEY,
     lastName TEXT,
@@ -54,6 +60,7 @@ CREATE TABLE STG_Employees (
     uuid TEXT
 );
 
+ -- Detalle de las ordenes de venta
 CREATE TABLE STG_OrderDetails (
     orderID INTEGER,
     productID INTEGER,
@@ -65,6 +72,7 @@ CREATE TABLE STG_OrderDetails (
     FOREIGN KEY (productID) REFERENCES STG_Products(productID)
 );
 
+-- Ordenes de venta
 CREATE TABLE STG_Orders (
     orderID INTEGER PRIMARY KEY,
     customerID TEXT,
@@ -85,6 +93,7 @@ CREATE TABLE STG_Orders (
     FOREIGN KEY (shipVia) REFERENCES STG_Shippers(shipperID)
 );
 
+-- Productos
 CREATE TABLE STG_Products (
     productID INTEGER PRIMARY KEY,
     productName TEXT,
@@ -101,17 +110,20 @@ CREATE TABLE STG_Products (
     FOREIGN KEY (supplierID) REFERENCES STG_Suppliers(supplierID)
 );
 
+-- Regiones
 CREATE TABLE STG_Regions (
     regionID INTEGER PRIMARY KEY,
     regionDescription TEXT
 );
 
+-- Transportistas
 CREATE TABLE STG_Shippers (
     shipperID INTEGER PRIMARY KEY,
     companyName TEXT,
     phone TEXT
 );
 
+-- Proveedores
 CREATE TABLE STG_Suppliers (
     supplierID INTEGER PRIMARY KEY,
     companyName TEXT,
@@ -127,6 +139,7 @@ CREATE TABLE STG_Suppliers (
     homePage TEXT
 );
 
+-- Territorios
 CREATE TABLE STG_Territories (
     territoryID INTEGER PRIMARY KEY,
     territoryDescription TEXT,
@@ -134,9 +147,10 @@ CREATE TABLE STG_Territories (
     FOREIGN KEY (regionID) REFERENCES STG_Regions(regionID)
 );
 
+-- Datos de países al 2023
 CREATE TABLE STG_WorldData2023 (
     Country TEXT,
-    Density_PKm2 TEXT, -- Tiene valores con coma
+    Density_PKm2 TEXT,
     Abbreviation TEXT,
     Agricultural_Land_PCT TEXT,
     Land_Area_Km2 TEXT,
@@ -150,24 +164,24 @@ CREATE TABLE STG_WorldData2023 (
     Currency_Code TEXT,
     Fertility_Rate REAL,
     Forested_Area_PCT TEXT,
-    Gasoline_Price TEXT, -- No debería ser REAL?
-    GDP TEXT, -- No debería ser REAL?
+    Gasoline_Price TEXT,
+    GDP TEXT,
     Primary_Education_Enrollment_PCT TEXT,
     Tertiary_Education_Enrollment_PCT TEXT,
     Infant_Mortality REAL,
     Largest_City TEXT,
     Life_Expectancy REAL,
     Maternal_Mortality_Ratio INTEGER,
-    Minimum_Wage TEXT, -- No debería ser REAL?
+    Minimum_Wage TEXT,
     Official_Language TEXT,
-    Out_Of_Pocket_Health_Expenditure TEXT, -- No debería ser REAL?
+    Out_Of_Pocket_Health_Expenditure TEXT,
     Physicians_Per_Thousand REAL,
-    Population TEXT, -- No debería ser INTEGER?
+    Population TEXT,
     Labor_Force_Participation_PCT TEXT,
     Tax_Revenue_PCT TEXT,
     Total_Tax_Rate TEXT,
     Unemployment_Rate TEXT,
-    Urban_Population TEXT, -- No debería ser INTEGER?
+    Urban_Population TEXT,
     Latitude REAL,
     Longitude REAL
 );

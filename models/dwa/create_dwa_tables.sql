@@ -1,6 +1,8 @@
--- Script extendido de creación de tablas DWA_ en SQLite basado en un modelo dimensional enriquecido, con trazabilidad UUID
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
 
-PRAGMA foreign_keys = ON; -- Habilitar las foreign keys
+-- SCreación de tablas DWA_ basado en un modelo dimensional enriquecido, con trazabilidad UUID
+PRAGMA foreign_keys = ON; -- Habilición de Foreign Keys
 
 -- Dimensión Clientes
 CREATE TABLE DWA_Customers (
@@ -68,10 +70,10 @@ CREATE TABLE DWA_Time (
     isWeekend BOOLEAN
 );
 
--- Dimensión WorldData - Quizas no llevarla a DWA, sino solo usar algún dato que nos sirva en el INSERT y listo.
+-- Dimensión WorldData
 CREATE TABLE DWA_WorldData2023 (
     Country TEXT PRIMARY KEY,
-    Density_PKm2 TEXT, -- Tiene valores con coma
+    Density_PKm2 TEXT,
     Abbreviation TEXT,
     Agricultural_Land_PCT TEXT,
     Land_Area_Km2 TEXT,
@@ -85,29 +87,29 @@ CREATE TABLE DWA_WorldData2023 (
     Currency_Code TEXT,
     Fertility_Rate REAL,
     Forested_Area_PCT TEXT,
-    Gasoline_Price TEXT, -- No debería ser REAL?
-    GDP TEXT, -- No debería ser REAL?
+    Gasoline_Price TEXT,
+    GDP TEXT,
     Primary_Education_Enrollment_PCT TEXT,
     Tertiary_Education_Enrollment_PCT TEXT,
     Infant_Mortality REAL,
     Largest_City TEXT,
     Life_Expectancy REAL,
     Maternal_Mortality_Ratio INTEGER,
-    Minimum_Wage TEXT, -- No debería ser REAL?
+    Minimum_Wage TEXT,
     Official_Language TEXT,
-    Out_of_Pocket_Health_Expenditure TEXT, -- No debería ser REAL?
+    Out_of_Pocket_Health_Expenditure TEXT,
     Physicians_per_Thousand REAL,
-    Population TEXT, -- No debería ser INTEGER?
+    Population TEXT,
     Labor_Force_Participation_PCT TEXT,
     Tax_Revenue_PCT TEXT,
     Total_Tax_Rate TEXT,
     Unemployment_Rate TEXT,
-    Urban_Population TEXT, -- No debería ser INTEGER?
+    Urban_Population TEXT,
     Latitude REAL,
     Longitude REAL
 );
 
--- Tabla de hechos Ventas (momento de la orden)
+-- Tabla de hechos Ventas
 CREATE TABLE DWA_SalesFact (
     salesKey INTEGER PRIMARY KEY,
     orderID INTEGER,
@@ -128,7 +130,7 @@ CREATE TABLE DWA_SalesFact (
     FOREIGN KEY (orderDateKey) REFERENCES DWA_Time(timeKey)
 );
 
--- Tabla de hechos Entregas (momento del despacho)
+-- Tabla de hechos Entregas
 CREATE TABLE DWA_DeliveriesFact (
     deliveryKey INTEGER PRIMARY KEY,
     orderID INTEGER,

@@ -1,3 +1,6 @@
+# Cancelas, Martín.
+# Nicolau, Jorge.A
+
 # sqlite_utils.py
 import sqlite3
 import os

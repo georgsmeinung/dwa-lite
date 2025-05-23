@@ -1,3 +1,6 @@
+# Cancelas, Martín.
+# Nicolau, Jorge.A
+
 # 13m_register_stg_metadata.py
 import os
 from dotenv import load_dotenv

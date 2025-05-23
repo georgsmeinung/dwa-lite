@@ -1,16 +1,13 @@
--- Script de eliminación de tablas DP_ en SQLite
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
 
--- Producto 1: Ventas consolidadas por producto y mes
+-- Eliminación de tablas DP_ 
 DROP TABLE IF EXISTS DP_SalesByProductMonth;
 
--- Producto 2: Ranking de clientes por facturación
 DROP TABLE IF EXISTS DP_TopCustomersByRevenue;
 
--- Producto 3: Ventas por región y trimestre
 DROP TABLE IF EXISTS DP_RegionalSalesByQuarter;
 
--- Producto 4: Desempeño de empleados por año
 DROP TABLE IF EXISTS DP_EmployeePerformance;
 
--- Producto 5: Productos con devoluciones o cancelaciones
 DROP TABLE IF EXISTS DP_ProductReturns;

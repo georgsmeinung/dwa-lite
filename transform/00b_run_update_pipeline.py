@@ -1,3 +1,6 @@
+# Cancelas, Martín.
+# Nicolau, Jorge.A
+
 # 00b_run_update_pipeline.py
 import subprocess
 import sys

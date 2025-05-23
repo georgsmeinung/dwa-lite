@@ -1,3 +1,6 @@
+# Cancelas, Martín.
+# Nicolau, Jorge.A
+
 """
 Script: update_dwm_from_dwa.py
 Descripción:

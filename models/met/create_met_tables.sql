@@ -1,4 +1,7 @@
--- Script de creación de la capa MET_ en SQLite con soporte para trazabilidad basada en UUID
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
+
+-- Creación de la capa MET_ con soporte para trazabilidad basada en UUID
 
 -- Registro de tablas en el DWA
 CREATE TABLE MET_Tables (

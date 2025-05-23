@@ -1,3 +1,6 @@
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
+
 -- =============================================================================
 -- Script: assign_date_keys_to_facts.sql
 -- Descripción:

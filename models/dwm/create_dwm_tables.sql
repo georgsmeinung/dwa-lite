@@ -1,4 +1,7 @@
--- Script de creación de tablas DWM_ en SQLite con soporte para SCD Tipo 2 y trazabilidad UUID
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
+
+-- Creación de tablas DWM_ con soporte para SCD Tipo 2 y trazabilidad UUID
 
 -- Clientes con historial y trazabilidad
 CREATE TABLE DWM_Customers (

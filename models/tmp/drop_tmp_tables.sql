@@ -1,5 +1,7 @@
--- Script para eliminación de tablas TMP_ en SQLite
+-- Cancelas, Martín.
+-- Nicolau, Jorge.A
 
+-- Eliminación de tablas TMP_
 DROP TABLE IF EXISTS TMP_EmployeeTerritories;
 
 DROP TABLE IF EXISTS TMP_OrderDetails;
