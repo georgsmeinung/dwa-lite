@@ -11,7 +11,8 @@ Descripción:
 
 Uso:
   Ejecutar desde la raíz del proyecto:
-      > python transform/update_csv_to_tmp.py
+      > 10b_load_update_csv_to_tmp.py
+      
 
 Requisitos:
   - La base de datos SQLite debe existir (`db/dwa.sqlite`)
@@ -19,72 +20,89 @@ Requisitos:
   - Se espera que los archivos estén en la carpeta `data/ingesta2/`
 """
 
-import os
 import sqlite3
 import pandas as pd
+import os
 import uuid
+import re
 import get_execution_id as pid
-from datetime import datetime
 from dotenv import load_dotenv
+from datetime import datetime
 
-# Ruta del directorio donde está este script (no el CWD desde donde lo llamás)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 execution_id = pid.get_or_create_execution_id()
 
-# Cargar .env relativo a este script también
+# Cargar .env
 load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))
 
-# Cargar variable 
 DB_PATH = os.getenv("DB_PATH", "")
 CSV_FOLDER = os.getenv("10B_CSV_FOLDER", "")
 USER = os.getenv("10B_USER", "")
 
-# Mapeo explícito de nombres de archivo → tabla destino
-FILENAME_TO_TABLE = {
-    "customers - novedades.csv": "TMP_Customers",
-    "orders - novedades.csv": "TMP_Orders",
-    "order_details - novedades.csv": "TMP_OrderDetails"
+# Mapas explícitos: archivo → tabla TMP_ (para novedades)
+files_tables = [
+    ('customers - novedades.csv', 'TMP_Customers'),
+    ('orders - novedades.csv', 'TMP_Orders'),
+    ('order_details - novedades.csv', 'TMP_OrderDetails')
+]
+
+# Tablas que requieren UUID
+uuid_required_tables = ['TMP_Customers', 'TMP_Orders', 'TMP_OrderDetails']
+
+# Claves primarias por tabla TMP_
+business_keys = {
+    'TMP_Customers': 'customerID',
+    'TMP_Orders': 'orderID',
+    'TMP_OrderDetails': 'orderID'  # asumiendo simplificación
 }
 
-# Agregar uuid solo si es necesario
-TABLES_WITH_UUID = ["TMP_Customers","TMP_Orders","TMP_OrderDetails"]  
-
-# Conexión a SQLite
+# Conexión
 conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
 
-def append_to_tmp_table(filename, tablename):
-    path = os.path.join(BASE_DIR, filename)
-    df = pd.read_csv(path)
+# Limpieza de columnas
+def clean_column(col):
+    col = re.sub(r'[\s\/:\-]+', '_', col)
+    col = re.sub(r'\(_?%?\)', '_PCT', col)
+    col = col.replace('\n', '_')
+    col = re.sub(r'__+', '_', col)
+    return col.strip('_')
 
-    if tablename in TABLES_WITH_UUID:
-        df["uuid"] = [str(uuid.uuid4()) for _ in range(len(df))]
+for file_name, table_name in files_tables:
+    path = os.path.join(CSV_FOLDER, file_name)
+    print(f"Actualizando {path} -> {table_name}")
+    now = datetime.now().isoformat(sep=' ', timespec='seconds')
 
-    # Inserta sin borrar lo existente
-    df.to_sql(tablename, conn, if_exists="append", index=False)
+    try:
+        df = pd.read_csv(path)
+        df.columns = [c.strip().replace(' ', '_').replace('(', '').replace(')', '').replace('%','PCT') for c in df.columns]
+        if file_name == 'world-data-2023.csv':
+            df.columns = [clean_column(col) for col in df.columns]
 
-    print(f"[✓] {filename} -> {tablename} ({len(df)} filas insertadas)")
+        # Agregar UUID si es necesario
+        if table_name in uuid_required_tables:
+            df['uuid'] = [str(uuid.uuid4()) for _ in range(len(df))]
 
-# Apagado de Keys
-cursor.execute("""
-            PRAGMA foreign_keys = OFF;
-        """)
-current = cursor.fetchone()
-        
-# Procesamiento de archivos
-for file in os.listdir(BASE_DIR):
-    if file in FILENAME_TO_TABLE:
-        try:
-            append_to_tmp_table(file, FILENAME_TO_TABLE[file])
-        except Exception as e:
-            print(f"[x] Error al cargar {file}: {e}")
-    else:
-        print(f"[!] Archivo ignorado (sin mapeo definido): {file}")
+        # Reemplazo seguro por clave de negocio
+        key = business_keys.get(table_name)
+        if key and key in df.columns:
+            for _, row in df.iterrows():
+                placeholders = ', '.join(['?'] * len(df.columns))
+                columns = ', '.join(df.columns)
+                sql = f"INSERT OR REPLACE INTO {table_name} ({columns}) VALUES ({placeholders})"
+                cursor.execute(sql, tuple(row))
 
-cursor.execute("""
-            PRAGMA foreign_keys = ON;
-        """)
-current = cursor.fetchone()
+        else:
+            # fallback si no hay clave definida
+            df.to_sql(table_name, conn, if_exists='append', index=False)
 
+        print(f" - OK ({len(df)} filas)")
+
+    except Exception as e:
+        print(f" - ERROR al procesar {file_name}: {e}")
+
+conn.commit()
 conn.close()
+print("Actualización de novedades completada.")
+
