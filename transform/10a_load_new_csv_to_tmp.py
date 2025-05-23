@@ -89,7 +89,10 @@ for file_name, table_name in files_tables:
         if file_name == 'world-data-2023.csv': df.columns = [clean_column(col) for col in df.columns]
                 
         if table_name in uuid_required_tables:
-            df['uuid'] = [str(uuid.uuid4()) for _ in range(len(df))]
+            if 'uuid' not in df.columns:
+                df['uuid'] = None
+            df['uuid'] = df['uuid'].apply(lambda x: str(uuid.uuid4()) if pd.isnull(x) or x == '' else x)
+
 
         df.to_sql(table_name, conn, if_exists='append', index=False)
 
