@@ -33,16 +33,24 @@ def validate_table_quality(DB_PATH, table):
         if dup_count > 0:
             issues.append((table, 'uuid', 'DUPLICATES', int(dup_count), 'HIGH'))
 
-    # Verificación de outliers en columnas numéricas
+    # Verificación de outliers
     numeric_cols = df.select_dtypes(include=[np.number]).columns
     for col in numeric_cols:
         Q1 = df[col].quantile(0.25)
         Q3 = df[col].quantile(0.75)
         IQR = Q3 - Q1
-        outlier_condition = (df[col] < Q1 - 1.5 * IQR) | (df[col] > Q3 + 1.5 * IQR)
-        outlier_count = outlier_condition.sum()
+
+        # Outliers normales (1.5 * IQR)
+        outlier_mask = (df[col] < Q1 - 1.5 * IQR) | (df[col] > Q3 + 1.5 * IQR)
+        outlier_count = outlier_mask.sum()
         if outlier_count > 0:
             issues.append((table, col, 'OUTLIERS', int(outlier_count), 'LOW'))
+
+        # Outliers severos (3 * IQR)
+        severe_outlier_mask = (df[col] < Q1 - 3 * IQR) | (df[col] > Q3 + 3 * IQR)
+        severe_outlier_count = severe_outlier_mask.sum()
+        if severe_outlier_count > 0:
+            issues.append((table, col, 'SEVERE_OUTLIERS', int(severe_outlier_count), 'HIGH'))
 
     # Guardar estadísticas generales
     cursor.execute("""
