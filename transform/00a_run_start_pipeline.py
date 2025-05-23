@@ -5,9 +5,12 @@
 import subprocess
 import sys
 import os
+import get_execution_id as pid
 
 # Determinar ruta base: el directorio donde está este archivo
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+execution_id = pid.get_or_create_execution_id()
 
 # Lista de scripts a ejecutar (relativos al BASE_DIR)
 scripts = [
@@ -47,3 +50,4 @@ def ejecutar_scripts(scripts, detener_si_falla=True):
 
 if __name__ == "__main__":
     ejecutar_scripts(scripts, detener_si_falla=modo_estricto)
+    pid.clear_execution_id()

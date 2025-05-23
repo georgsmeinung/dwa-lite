@@ -5,12 +5,13 @@
 import os
 import sqlite3
 import pandas as pd
+import get_execution_id as pid
 from dotenv import load_dotenv
-from sqlite_utils import ejecutar_sql
-from datetime import datetime
 
 # Ruta del directorio donde está este script (no el CWD desde donde lo llamás)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+execution_id = pid.get_or_create_execution_id()
 
 # Cargar .env relativo a este script también
 load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))

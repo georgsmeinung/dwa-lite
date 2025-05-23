@@ -4,3 +4,4 @@ db/dwa-lite.db-wal
 .vscode/settings.json
 transform/__pycache__/
 *.pyc
+currrent_execution.txt
