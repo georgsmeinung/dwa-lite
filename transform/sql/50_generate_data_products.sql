@@ -105,20 +105,3 @@ JOIN DWA_Products p ON sf.productKey = p.productKey
 JOIN DWA_Time t ON sf.orderDateKey = t.timeKey
 WHERE sf.discount > 0
 GROUP BY p.uuid, p.productID, p.productName;
-
--- 6. Entregas demoradas
-INSERT INTO DP_ShippingDelays (uuid, orderID, customerID, orderDate, requiredDate, shippedDate, deliveryDelayDays)
-SELECT
-    df.uuid,
-    df.orderID,
-    c.customerID,
-    t_shipped.date AS shippedDate,
-    t_required.date AS requiredDate,
-    t_order.date AS orderDate,
-    df.deliveryDelayDays
-FROM DWA_DeliveriesFact df
-JOIN DWA_Customers c ON df.customerKey = c.customerKey
-LEFT JOIN DWA_Time t_shipped ON df.shippedDateKey = t_shipped.timeKey
-LEFT JOIN DWA_Time t_required ON df.requiredDateKey = t_required.timeKey
-LEFT JOIN DWA_Time t_order ON df.shippedDateKey = t_order.timeKey
-WHERE df.isDelivered = 1;
