@@ -1,0 +1,7 @@
+tableName,description
+DWM_Customers,Tabla de datos modelados: DWM_Customers
+DWM_Employees,Tabla de datos modelados: DWM_Employees
+DWM_Products,Tabla de datos modelados: DWM_Products
+DWM_WorldData2023,Tabla de datos modelados: DWM_WorldData2023
+DWM_SalesFact,Tabla de datos modelados: DWM_SalesFact
+DWM_DeliveriesFact,Tabla de datos modelados: DWM_DeliveriesFact

@@ -1,0 +1,6 @@
+tableName,description
+DP_ShippingDelays,Tabla de productos de datos: DP_ShippingDelays
+DP_SalesByProductMonth,Tabla de productos de datos: DP_SalesByProductMonth
+DP_TopCustomersByRevenue,Tabla de productos de datos: DP_TopCustomersByRevenue
+DP_EmployeePerformance,Tabla de productos de datos: DP_EmployeePerformance
+DP_ProductReturns,Tabla de productos de datos: DP_ProductReturns

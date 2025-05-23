@@ -145,6 +145,7 @@ for table in scd_tables:
                 ) VALUES ({', '.join(['?'] * (1 + len(values) + 3))})
             """, (business_id, *values, now, '9999-12-31', 1))
         elif row_differs(values, current):
+            print(f"Actualizando {table['dwm']} para {business_id}")
             # Cierre versión actual
             cursor.execute(f"""
                 UPDATE {table['dwm']}
