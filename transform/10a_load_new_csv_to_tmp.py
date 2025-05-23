@@ -87,11 +87,18 @@ for file_name, table_name in files_tables:
         df.columns = [c.strip().replace(' ', '_').replace('(', '').replace(')', '').replace('%','PCT') for c in df.columns]
         
         if file_name == 'world-data-2023.csv': df.columns = [clean_column(col) for col in df.columns]
-                
+                        
         if table_name in uuid_required_tables:
-            if 'uuid' not in df.columns:
-                df['uuid'] = None
-            df['uuid'] = df['uuid'].apply(lambda x: str(uuid.uuid4()) if pd.isnull(x) or x == '' else x)
+            generated = set()
+            
+            def generate_unique_uuid():
+                new_id = str(uuid.uuid4())
+                while new_id in generated:
+                    new_id = str(uuid.uuid4())
+                generated.add(new_id)
+                return new_id
+
+            df['uuid'] = [generate_unique_uuid() for _ in range(len(df))]
 
 
         df.to_sql(table_name, conn, if_exists='append', index=False)

@@ -82,9 +82,16 @@ for file_name, table_name in files_tables:
 
         # Agregar UUID si es necesario
         if table_name in uuid_required_tables:
-            if 'uuid' not in df.columns:
-                df['uuid'] = None
-            df['uuid'] = df['uuid'].apply(lambda x: str(uuid.uuid4()) if pd.isnull(x) or x == '' else x)
+            generated = set()
+            
+            def generate_unique_uuid():
+                new_id = str(uuid.uuid4())
+                while new_id in generated:
+                    new_id = str(uuid.uuid4())
+                generated.add(new_id)
+                return new_id
+
+            df['uuid'] = [generate_unique_uuid() for _ in range(len(df))]
 
         # Reemplazo seguro por clave de negocio
         key = business_keys.get(table_name)
