@@ -1,0 +1,13 @@
+tableName,description
+STG_Categories,"A table containing the categories of products"
+STG_Products,"A table containing product information"
+STG_Orders,"A table containing order information"
+STG_OrderDetails,"A table containing details of each order"
+STG_Customers,"A table containing customer information"
+STG_Employees,"A table containing employee information"
+STG_Territories,"A table containing territory information"
+STG_EmployeeTerritories,"A table containing the relationship between employees and territories"
+STG_Regions,"A table containing region information"
+STG_Shippers,"A table containing shipper information"
+STG_Suppliers,"A table containing supplier information"
+STG_WorldData2023,"A table containing world data as for the year 2023"

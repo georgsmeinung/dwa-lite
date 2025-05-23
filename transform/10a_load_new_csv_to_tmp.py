@@ -38,6 +38,13 @@ DB_PATH = os.getenv("DB_PATH", "")
 CSV_FOLDER = os.getenv("10A_CSV_FOLDER", "")
 USER = os.getenv("10A_USER", "")
 
+# Generar el execution id
+execution_id = datetime.now().strftime("%Y%m%dT%H%M%S")
+
+# Guardar en un archivo
+with open("current_execution.txt", "w") as f:
+    f.write(execution_id)
+
 # Lista de archivos y tablas destino
 files_tables = [
     ('categories.csv', 'TMP_Categories'),
@@ -55,7 +62,7 @@ files_tables = [
 ]
 
 # Tablas donde se requiere UUID para trazabilidad
-uuid_required_tables = ['TMP_Customers', 'TMP_Employees', 'TMP_Products']
+uuid_required_tables = ['TMP_Categories','TMP_Customers', 'TMP_Employees','TMP_EmployeeTerritories', 'TMP_Employees','TMP_OrderDetails', 'TMP_Orders','TMP_Products','TMP_Regions','TMP_Shippers','TMP_Suppliers','TMP_Territories','TMP_WorldData2023']
 
 # Conexión a SQLite
 conn = sqlite3.connect(DB_PATH)
@@ -93,7 +100,7 @@ for file_name, table_name in files_tables:
                 rejectedRows, loadStatus, loadMessage, createdAt
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """, (
-            file_name, table_name, len(df), len(df), 0, 'SUCCESS', 'OK', now
+            file_name, table_name, len(df), len(df), 0, 'SUCCESS', execution_id , now
         ))
 
         # Registro en MET_Lineage
@@ -103,7 +110,7 @@ for file_name, table_name in files_tables:
                 transformationScript, lineageType, createdAt
             ) VALUES (?, ?, ?, ?, ?, ?)
         """, (
-            file_name, table_name, 'Carga directa desde CSV', None, 'direct', now
+            file_name, table_name, 'Carga directa desde CSV', execution_id, 'direct', now
         ))
 
         print(f" - OK ({len(df)} filas)")
@@ -115,7 +122,7 @@ for file_name, table_name in files_tables:
                 rejectedRows, loadStatus, loadMessage, createdAt
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """, (
-            file_name, table_name, 0, 0, 0, 'FAILURE', str(e), now
+            file_name, table_name, 0, 0, 0, 'FAILURE', execution_id + str(e), now
         ))
 
         print(f" - ERROR al cargar {file_name}: {e}")

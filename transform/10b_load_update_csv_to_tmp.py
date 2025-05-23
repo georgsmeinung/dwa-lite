@@ -34,6 +34,13 @@ DB_PATH = os.getenv("DB_PATH", "")
 CSV_FOLDER = os.getenv("10B_CSV_FOLDER", "")
 USER = os.getenv("10B_USER", "")
 
+# Generar el execution id
+execution_id = datetime.now().strftime("%Y%m%dT%H%M%S")
+
+# Guardar en un archivo
+with open("current_execution.txt", "w") as f:
+    f.write(execution_id)
+
 # Mapeo explícito de nombres de archivo → tabla destino
 FILENAME_TO_TABLE = {
     "customers - novedades.csv": "TMP_Customers",
@@ -41,14 +48,15 @@ FILENAME_TO_TABLE = {
     "order_details - novedades.csv": "TMP_OrderDetails"
 }
 
-TABLES_WITH_UUID = ["TMP_Customers"]  # Agregar uuid solo si es necesario
+# Agregar uuid solo si es necesario
+TABLES_WITH_UUID = ["TMP_Customers","TMP_Orders","TMP_OrderDetails"]  
 
 # Conexión a SQLite
 conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
 
 def append_to_tmp_table(filename, tablename):
-    path = os.path.join(DATA_DIR, filename)
+    path = os.path.join(BASE_DIR, filename)
     df = pd.read_csv(path)
 
     if tablename in TABLES_WITH_UUID:
@@ -71,7 +79,7 @@ for file in os.listdir(BASE_DIR):
         try:
             append_to_tmp_table(file, FILENAME_TO_TABLE[file])
         except Exception as e:
-            print(f"[✘] Error al cargar {file}: {e}")
+            print(f"[x] Error al cargar {file}: {e}")
     else:
         print(f"[!] Archivo ignorado (sin mapeo definido): {file}")
 

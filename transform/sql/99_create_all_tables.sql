@@ -6,7 +6,8 @@ CREATE TABLE TMP_Categories (
     categoryID INTEGER PRIMARY KEY,
     categoryName TEXT,
     description TEXT,
-    picture TEXT
+    picture TEXT,
+    uuid TEXT
 );
 
 CREATE TABLE TMP_Customers (
@@ -27,6 +28,7 @@ CREATE TABLE TMP_Customers (
 CREATE TABLE TMP_EmployeeTerritories (
     employeeID INTEGER,
     territoryID INTEGER,
+    uuid TEXT,
     PRIMARY KEY (employeeID, territoryID),
     FOREIGN KEY (territoryID) REFERENCES TMP_Territories(territoryID),
     FOREIGN KEY (employeeID) REFERENCES TMP_Employees(employeeID)
@@ -60,6 +62,7 @@ CREATE TABLE TMP_OrderDetails (
     unitPrice REAL,
     quantity INTEGER,
     discount REAL,
+    uuid TEXT,
     PRIMARY KEY (orderID, productID),
     FOREIGN KEY (orderID) REFERENCES TMP_Orders(orderID),
     FOREIGN KEY (productID) REFERENCES TMP_Products(productID)
@@ -80,6 +83,7 @@ CREATE TABLE TMP_Orders (
     shipRegion TEXT,
     shipPostalCode TEXT,
     shipCountry TEXT,
+    uuid TEXT,
     FOREIGN KEY (customerID) REFERENCES TMP_Customers(customerID),
     FOREIGN KEY (employeeID) REFERENCES TMP_Employees(employeeID),
     FOREIGN KEY (shipVia) REFERENCES TMP_Shippers(shipperID)
@@ -103,13 +107,15 @@ CREATE TABLE TMP_Products (
 
 CREATE TABLE TMP_Regions (
     regionID INTEGER PRIMARY KEY,
-    regionDescription TEXT
+    regionDescription TEXT,
+    uuid TEXT
 );
 
 CREATE TABLE TMP_Shippers (
     shipperID INTEGER PRIMARY KEY,
     companyName TEXT,
-    phone TEXT
+    phone TEXT,
+    uuid TEXT
 );
 
 CREATE TABLE TMP_Suppliers (
@@ -124,13 +130,15 @@ CREATE TABLE TMP_Suppliers (
     country TEXT,
     phone TEXT,
     fax TEXT,
-    homePage TEXT
+    homePage TEXT,
+    uuid TEXT
 );
 
 CREATE TABLE TMP_Territories (
     territoryID INTEGER PRIMARY KEY,
     territoryDescription TEXT,
     regionID INTEGER,
+    uuid TEXT,
     FOREIGN KEY (regionID) REFERENCES TMP_Regions(regionID)
 );
 
@@ -169,7 +177,8 @@ CREATE TABLE TMP_WorldData2023 (
     Unemployment_Rate TEXT,
     Urban_Population TEXT, -- No debería ser INTEGER?
     Latitude REAL,
-    Longitude REAL
+    Longitude REAL,
+    uuid TEXT
 );
 
 -- Script de creación de la capa MET_ en SQLite con soporte para trazabilidad basada en UUID

@@ -1,9 +1,10 @@
 # ejecutar_sqlite_script_env.py
 import os
-from dotenv import load_dotenv
-from sqlite_utils import ejecutar_sql
 import sqlite3
 import pandas as pd
+from dotenv import load_dotenv
+from sqlite_utils import ejecutar_sql
+from datetime import datetime
 
 # Ruta del directorio donde está este script (no el CWD desde donde lo llamás)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -84,6 +85,23 @@ VALUES ('{col["tableName"]}', '{col["columnName"]}', '{col["dataType"]}', {col["
 # Ejecutar los INSERTs generados previamente
 for stmt in insert_column_sqls:
     cursor.execute(stmt)
+
+# Leer el ID de ejecución actual desde el archivo
+with open("current_execution.txt", "r") as f:
+    execution_id = f.read().strip()
+
+# Generar registro de inicio de ejecución del pipeline
+cursor.execute("""
+INSERT INTO MET_Executions (processName, executedBy, startTime, endTime, status, log)
+VALUES (
+    ?,
+    'headless',
+    datetime('now', '-10 minutes'),
+    datetime('now'),
+    'STARTED',
+    'Full Pipeline Execution'
+);
+""",(execution_id,))
 
 # Guardar cambios
 conn.commit()
