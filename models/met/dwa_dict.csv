@@ -1,0 +1,8 @@
+tableName,description
+DWA_Customers,Tabla de datos transformados: DWA_Customers
+DWA_Employees,Tabla de datos transformados: DWA_Employees
+DWA_Products,Tabla de datos transformados: DWA_Products
+DWA_Time,Tabla de datos transformados: DWA_Time
+DWA_WorldData2023,Tabla de datos transformados: DWA_WorldData2023
+DWA_SalesFact,Tabla de datos transformados: DWA_SalesFact
+DWA_DeliveriesFact,Tabla de datos transformados: DWA_DeliveriesFact

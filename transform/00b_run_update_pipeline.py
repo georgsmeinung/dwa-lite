@@ -6,17 +6,11 @@ import subprocess
 import sys
 import os
 import get_execution_id as pid
-from datetime import datetime
 
 # Determinar ruta base: el directorio donde está este archivo
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Generar el execution id
-execution_id = pid.get_execution_id()
-
-# Guardar en un archivo
-with open("current_execution.txt", "w") as f:
-    f.write(execution_id)
+execution_id = pid.get_or_create_execution_id()
 
 # Lista de scripts a ejecutar (relativos al BASE_DIR)
 scripts = [
