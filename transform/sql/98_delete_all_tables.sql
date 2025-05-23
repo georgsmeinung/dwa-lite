@@ -15,9 +15,6 @@ DROP TABLE IF EXISTS DP_EmployeePerformance;
 -- Producto 5: Productos con devoluciones o cancelaciones
 DROP TABLE IF EXISTS DP_ProductReturns;
 
--- Producto 6: Retrasos en entregas
-DROP TABLE IF EXISTS DP_ShippingDelays;
-
 -- Script de eliminación de tablas DQM_ en SQLite
 
 -- Estadísticas de calidad por tabla y capa

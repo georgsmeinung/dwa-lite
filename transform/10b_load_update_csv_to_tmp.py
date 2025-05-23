@@ -66,7 +66,7 @@ cursor.execute("""
 current = cursor.fetchone()
         
 # Procesamiento de archivos
-for file in os.listdir(DATA_DIR):
+for file in os.listdir(BASE_DIR):
     if file in FILENAME_TO_TABLE:
         try:
             append_to_tmp_table(file, FILENAME_TO_TABLE[file])

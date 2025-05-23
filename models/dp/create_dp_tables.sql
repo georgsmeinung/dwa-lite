@@ -44,15 +44,3 @@ CREATE TABLE DP_ProductReturns (
     returnCount INTEGER,
     totalLostRevenue REAL
 );
-
--- Producto 6: Retrasos en entregas
-CREATE TABLE DP_ShippingDelays (
-    dpID INTEGER PRIMARY KEY AUTOINCREMENT,
-    uuid TEXT, -- UUID del pedido
-    orderID INTEGER,
-    customerID TEXT,
-    orderDate TEXT,
-    requiredDate TEXT,
-    shippedDate TEXT,
-    deliveryDelayDays INTEGER
-);
