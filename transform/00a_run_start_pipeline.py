@@ -15,13 +15,23 @@ execution_id = pid.get_or_create_execution_id()
 # Lista de scripts a ejecutar (relativos al BASE_DIR)
 scripts = [
     "10a_load_new_csv_to_tmp.py",
+    "10m_register_tmp_metadata.py",
+    "10q_tmp_quality_check.py",
     "12_copy_tmp_to_stg.py",
     "13_clean_stg.py",
+    "13m_register_stg_metadata.py",
+    "13q_stg_quality_check.py",
     "15_generate_dwa_time.py",
     "20_transform_stg_to_dwa.py",
     "25_assign_date_keys_to_facts.py",
+    "25m_register_dwa_metadata.py",
+    "25q_dwa_quality_check.py",
     "30_update_dwm_from_dwa.py",
-    "50_generate_data_products.py"
+    "30m_register_dwm_metadata.py",
+    "30q_dwm_quality_check.py",
+    "50_generate_data_products.py",
+    "50m_register_dp_metadata.py",
+    "50q_dp_quality_check.py"
 ]
 
 # Modo de ejecución: True = detener al primer error, False = continuar
