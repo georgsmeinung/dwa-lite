@@ -43,7 +43,7 @@ def validate_table_quality(DB_PATH, table):
         """, (table_name, col, issue_type, count, datetime.now().isoformat(), severity))
     conn.commit()
 
-    print(f"☑️ Validación de calidad completada: {table} ({row_count} filas, {len(issues)} issues)")
+    print(f"`[i]` Validación de calidad completada: {table} ({row_count} filas, {len(issues)} issues)")
     
     conn.close()
 

@@ -1,0 +1,123 @@
+tableName,columnName,description
+STG_Categories,categoryID,Identificador único asociado a la categoría de producto
+STG_Categories,categoryName,Nombre asociado a la categoría de producto
+STG_Categories,description,Description asociado a la categoría de producto
+STG_Categories,picture,Picture asociado a la categoría de producto
+STG_Customers,customerID,Identificador único asociado al cliente
+STG_Customers,companyName,Nombre asociado al cliente
+STG_Customers,contactName,Nombre asociado al cliente
+STG_Customers,contactTitle,Título o cargo asociado al cliente
+STG_Customers,address,Address asociado al cliente
+STG_Customers,city,City asociado al cliente
+STG_Customers,region,Region asociado al cliente
+STG_Customers,postalCode,Postalcode asociado al cliente
+STG_Customers,country,Country asociado al cliente
+STG_Customers,phone,Phone asociado al cliente
+STG_Customers,fax,Fax asociado al cliente
+STG_Customers,uuid,Uuid asociado al cliente
+STG_EmployeeTerritories,employeeID,Identificador único asociado al territorio
+STG_EmployeeTerritories,territoryID,Identificador único asociado al territorio
+STG_Employees,employeeID,Identificador único asociado al empleado
+STG_Employees,lastName,Nombre asociado al empleado
+STG_Employees,firstName,Nombre asociado al empleado
+STG_Employees,title,Title asociado al empleado
+STG_Employees,titleOfCourtesy,Titleofcourtesy asociado al empleado
+STG_Employees,birthDate,Fecha asociado al empleado
+STG_Employees,hireDate,Fecha asociado al empleado
+STG_Employees,address,Address asociado al empleado
+STG_Employees,city,City asociado al empleado
+STG_Employees,region,Region asociado al empleado
+STG_Employees,postalCode,Postalcode asociado al empleado
+STG_Employees,country,Country asociado al empleado
+STG_Employees,homePhone,Teléfono asociado al empleado
+STG_Employees,extension,Extension asociado al empleado
+STG_Employees,photo,Photo asociado al empleado
+STG_Employees,notes,Notes asociado al empleado
+STG_Employees,reportsTo,Reportsto asociado al empleado
+STG_Employees,photoPath,Photopath asociado al empleado
+STG_Employees,uuid,Uuid asociado al empleado
+STG_OrderDetails,orderID,Identificador único asociado al detalle del pedido
+STG_OrderDetails,productID,Identificador único asociado al detalle del pedido
+STG_OrderDetails,unitPrice,Precio asociado al detalle del pedido
+STG_OrderDetails,quantity,Quantity asociado al detalle del pedido
+STG_OrderDetails,discount,Discount asociado al detalle del pedido
+STG_Orders,orderID,Identificador único asociado al pedido
+STG_Orders,customerID,Identificador único asociado al pedido
+STG_Orders,employeeID,Identificador único asociado al pedido
+STG_Orders,orderDate,Fecha asociado al pedido
+STG_Orders,requiredDate,Fecha asociado al pedido
+STG_Orders,shippedDate,Fecha asociado al pedido
+STG_Orders,shipVia,Shipvia asociado al pedido
+STG_Orders,freight,Freight asociado al pedido
+STG_Orders,shipName,Nombre asociado al pedido
+STG_Orders,shipAddress,Dirección asociado al pedido
+STG_Orders,shipCity,Ciudad asociado al pedido
+STG_Orders,shipRegion,Región asociado al pedido
+STG_Orders,shipPostalCode,Código postal asociado al pedido
+STG_Orders,shipCountry,País asociado al pedido
+STG_Products,productID,Identificador único asociado al producto
+STG_Products,productName,Nombre asociado al producto
+STG_Products,supplierID,Identificador único asociado al producto
+STG_Products,categoryID,Identificador único asociado al producto
+STG_Products,quantityPerUnit,Quantityperunit asociado al producto
+STG_Products,unitPrice,Precio asociado al producto
+STG_Products,unitsInStock,Unitsinstock asociado al producto
+STG_Products,unitsOnOrder,Unitsonorder asociado al producto
+STG_Products,reorderLevel,Reorderlevel asociado al producto
+STG_Products,discontinued,Discontinued asociado al producto
+STG_Products,uuid,Uuid asociado al producto
+STG_Regions,regionID,Identificador único asociado a la región
+STG_Regions,regionDescription,Descripción asociado a la región
+STG_Shippers,shipperID,Identificador único asociado a la empresa de envío
+STG_Shippers,companyName,Nombre asociado a la empresa de envío
+STG_Shippers,phone,Phone asociado a la empresa de envío
+STG_Suppliers,supplierID,Identificador único asociado al proveedor
+STG_Suppliers,companyName,Nombre asociado al proveedor
+STG_Suppliers,contactName,Nombre asociado al proveedor
+STG_Suppliers,contactTitle,Título o cargo asociado al proveedor
+STG_Suppliers,address,Address asociado al proveedor
+STG_Suppliers,city,City asociado al proveedor
+STG_Suppliers,region,Region asociado al proveedor
+STG_Suppliers,postalCode,Postalcode asociado al proveedor
+STG_Suppliers,country,Country asociado al proveedor
+STG_Suppliers,phone,Phone asociado al proveedor
+STG_Suppliers,fax,Fax asociado al proveedor
+STG_Suppliers,homePage,Homepage asociado al proveedor
+STG_Territories,territoryID,Identificador único asociado al territorio
+STG_Territories,territoryDescription,Descripción asociado al territorio
+STG_Territories,regionID,Identificador único asociado al territorio
+STG_WorldData2023,Country,País asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Density_P_Km2,Density_p_km2 asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Abbreviation,Abbreviation asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Agricultural_Land_PCT,Agricultural_land_pct asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Land_AreaKm2,Land_areakm2 asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Armed_Forces_Size,Armed_forces_size asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Birth_Rate,Birth_rate asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Calling_Code,Calling_code asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Capital_Major_City,Ciudad asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Co2_Emissions,Co2_emissions asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,CPI,Cpi asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,CPI_Change_PCT,Cpi_change_pct asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Currency_Code,Currency_code asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Fertility_Rate,Fertility_rate asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Forested_Area_PCT,Forested_area_pct asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Gasoline_Price,Precio asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,GDP,Gdp asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Gross_Primary_Education_Enrollment_PCT,Gross_primary_education_enrollment_pct asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Gross_Tertiary_Education_Enrollment_PCT,Gross_tertiary_education_enrollment_pct asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Infant_Mortality,Infant_mortality asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Largest_City,Ciudad asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Life_Expectancy,Life_expectancy asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Maternal_Mortality_Ratio,Maternal_mortality_ratio asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Minimum_Wage,Minimum_wage asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Official_Language,Official_language asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Out_Of_Pocket_Health_Expenditure,Out_of_pocket_health_expenditure asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Physicians_Per_Thousand,Physicians_per_thousand asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Population,Population asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Population_Labor_Force_Participation_PCT,Population_labor_force_participation_pct asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Tax_Revenue_PCT,Tax_revenue_pct asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Total_Tax_Rate,Total_tax_rate asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Unemployment_Rate,Unemployment_rate asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Urban_Population,Urban_population asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Latitude,Latitud geográfica asociado a los indicadores socioeconómicos por país
+STG_WorldData2023,Longitude,Longitud geográfica asociado a los indicadores socioeconómicos por país
