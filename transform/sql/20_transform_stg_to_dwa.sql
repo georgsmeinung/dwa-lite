@@ -86,38 +86,38 @@ FROM STG_WorldData2023;
 
 -- Tablas de Hechos
 INSERT OR REPLACE INTO DWA_SalesFact (
-    orderID, productID, customerID, employeeID,
+    orderID, productKey, customerKey, employeeKey,
     territory, orderDateKey, quantity, unitPrice,
     discount, freight, totalAmount, uuid
 )
 SELECT
     od.orderID,
-    od.productID,
-    o.customerID,
-    o.employeeID,
-    t.territoryDescription,
+    p.productKey,
+    c.customerKey,
+    e.employeeKey,
+    e.territory,
     NULL, -- fecha a completar en capa TIME
     od.quantity,
     od.unitPrice,
     od.discount,
     o.freight,
     (od.unitPrice * od.quantity * (1 - od.discount)) AS totalAmount,
-    lower(hex(randomblob(16)))
+    p.uuid
 FROM STG_OrderDetails od
 JOIN STG_Orders o ON od.orderID = o.orderID
-JOIN STG_Employees e ON o.employeeID = e.employeeID
-LEFT JOIN STG_EmployeeTerritories et ON e.employeeID = et.employeeID
-LEFT JOIN STG_Territories t ON et.territoryID = t.territoryID;
+JOIN DWA_Products p ON od.productID = p.productID
+JOIN DWA_Customers c ON o.customerID = c.customerID
+JOIN DWA_Employees e ON o.employeeID = e.employeeID;
 
 INSERT OR REPLACE INTO DWA_DeliveriesFact (
-    orderID, customerID, employeeID, shipperID,
+    orderID, customerKey, employeeKey, shipperID,
     shippedDateKey, requiredDateKey, deliveryDelayDays,
     freight, isDelivered, uuid
 )
 SELECT
     o.orderID,
-    o.customerID,
-    o.employeeID,
+    c.customerKey,
+    e.employeeKey,
     o.shipVia,
     NULL, -- dateKey de envío a mapear
     NULL, -- dateKey de requerido a mapear
@@ -128,5 +128,7 @@ SELECT
     END AS delay,
     o.freight,
     CASE WHEN o.shippedDate IS NOT NULL THEN 1 ELSE 0 END,
-    lower(hex(randomblob(16)))
-FROM STG_Orders o;
+    c.uuid
+FROM STG_Orders o
+JOIN DWA_Customers c ON o.customerID = c.customerID
+JOIN DWA_Employees e ON o.employeeID = e.employeeID;
