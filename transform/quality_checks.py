@@ -1,3 +1,6 @@
+# Cancelas, Martín.
+# Nicolau, Jorge.
+
 # quality_checks.py
 import sqlite3
 from datetime import datetime
@@ -21,6 +24,10 @@ def validate_table_quality(DB_PATH, table):
     # Cargar tabla completa como DataFrame
     df = pd.read_sql_query(f"SELECT * FROM {table}", conn)
 
+    # Inicializar contadores
+    total_outliers = 0
+    total_duplicates = 0
+
     # Verificación de valores nulos
     nulls = df.isnull().sum()
     for col, count in nulls.items():
@@ -30,6 +37,7 @@ def validate_table_quality(DB_PATH, table):
     # Verificación de duplicados si hay uuid
     if 'uuid' in df.columns:
         dup_count = df['uuid'].duplicated().sum()
+        total_duplicates = int(dup_count)
         if dup_count > 0:
             issues.append((table, 'uuid', 'DUPLICATES', int(dup_count), 'HIGH'))
 
@@ -43,29 +51,35 @@ def validate_table_quality(DB_PATH, table):
         # Outliers normales (1.5 * IQR)
         outlier_mask = (df[col] < Q1 - 1.5 * IQR) | (df[col] > Q3 + 1.5 * IQR)
         outlier_count = outlier_mask.sum()
+        total_outliers += int(outlier_count)
         if outlier_count > 0:
             issues.append((table, col, 'OUTLIERS', int(outlier_count), 'LOW'))
 
         # Outliers severos (3 * IQR)
         severe_outlier_mask = (df[col] < Q1 - 3 * IQR) | (df[col] > Q3 + 3 * IQR)
         severe_outlier_count = severe_outlier_mask.sum()
+        total_outliers += int(severe_outlier_count)
         if severe_outlier_count > 0:
             issues.append((table, col, 'SEVERE_OUTLIERS', int(severe_outlier_count), 'HIGH'))
 
     # Guardar estadísticas generales
     cursor.execute("""
-        INSERT INTO DQM_TableStatistics (tableName, rowCount, nullCount, columnCount, createdAt, dataLayer)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO DQM_TableStatistics (
+            tableName, rowCount, nullCount, columnCount,
+            outlierCount, duplicateCount, createdAt, dataLayer
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     """, (
         table,
         row_count,
         int(nulls.sum()),
-        len(columns),  # cantidad de columnas
+        len(columns),
+        total_outliers,
+        total_duplicates,
         datetime.now().isoformat(),
         table.split('_')[0]
     ))
     conn.commit()
-
 
     # Guardar issues
     for table_name, col, issue_type, count, severity in issues:

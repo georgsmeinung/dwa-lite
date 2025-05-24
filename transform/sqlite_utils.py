@@ -1,5 +1,5 @@
 # Cancelas, Martín.
-# Nicolau, Jorge.A
+# Nicolau, Jorge.
 
 # sqlite_utils.py
 import sqlite3

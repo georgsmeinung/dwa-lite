@@ -1,5 +1,5 @@
 # Cancelas, Martín.
-# Nicolau, Jorge.A
+# Nicolau, Jorge.
 
 # ejecutar_sqlite_script_env.py
 import os

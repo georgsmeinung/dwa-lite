@@ -1,5 +1,5 @@
 # Cancelas, Martín.
-# Nicolau, Jorge.A
+# Nicolau, Jorge.
 
 # 13m_register_stg_metadata.py
 import os

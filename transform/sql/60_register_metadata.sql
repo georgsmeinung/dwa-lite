@@ -1,5 +1,5 @@
 -- Cancelas, Martín.
--- Nicolau, Jorge.A
+-- Nicolau, Jorge.
 
 -- ================================================================================
 -- Script: register_metadata.sql

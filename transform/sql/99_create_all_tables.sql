@@ -1,5 +1,6 @@
 -- Cancelas, Martín.
--- Nicolau, Jorge.A
+-- Nicolau, Jorge.
+
 -- Creación de todas las tablas: TMP, DWA, DWM, DQM, DP y MET.
 -- Las tablas STG se crean durante el pipeline.
 -- Los detalles de cada tabla pueden ser revisados en sus scripts individuales ubicados en la carpeta "models".
