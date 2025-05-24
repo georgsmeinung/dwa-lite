@@ -465,6 +465,7 @@ CREATE TABLE DQM_TableStatistics (
     dqmID INTEGER PRIMARY KEY AUTOINCREMENT,
     tableName TEXT,
     dataLayer TEXT,
+    columnCount INTEGER,
     rowCount INTEGER,
     nullCount INTEGER,
     duplicateCount INTEGER,
