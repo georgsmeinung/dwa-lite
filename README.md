@@ -5,7 +5,6 @@
 
 - [CANCELAS, Martín](https://www.linkedin.com/in/mart%C3%ADn-cancelas-2313a1154/)
 - [NICOLAU, Jorge](https://jorgenicolau.ar/)
-- [VERDEJO, Manuel](https://www.linkedin.com/in/manuel-nicol%C3%A1s-verdejo-b19255126/)
 ---
 # 🧠 DWA Lite – Solución Liviana de Data Warehouse Automation (DWA) con SQLite
 
@@ -116,8 +115,8 @@ El proyecto puede ejecutarse de punta a punta en modo completamente automatizado
 | 3.m  | Metadata y linaje  para DWM_            | Python        | `30m_register_dwm_metadata.py`          | MET_       |
 | 3.q  | Estadísticas de calidad para DWM_       | Python        | `30q_dwm_quality_check.py`              | DQM_       |
 | 5    | Generar productos analíticos            | Python+SQL    | `50_generate_data_products.py`          | DP_        |
-| 3.m  | Metadata y linaje  para DP_             | Python        | `50m_register_dp_metadata.py`           | MET_       |
-| 3.q  | Estadísticas de calidad para DP_        | Python        | `50q_dp_quality_check.py`               | DQM_       |
+| 5.m  | Metadata y linaje  para DP_             | Python        | `50m_register_dp_metadata.py`           | MET_       |
+| 5.q  | Estadísticas de calidad para DP_        | Python        | `50q_dp_quality_check.py`               | DQM_       |
 
 ---
 
@@ -144,15 +143,14 @@ Al final del pipeline se generan seis productos de datos que resumen informació
 | `DP_RegionalSalesByQuarter` | Ventas totales por región geográfica y trimestre calendario.               |
 | `DP_EmployeePerformance`    | Monto total vendido por empleado por año (rendimiento comercial).          |
 | `DP_ProductReturns`         | Órdenes con descuentos como proxy de devoluciones o promociones.           |
-| `DP_ShippingDelays`         | Pedidos entregados con retraso, incluyendo días de demora y bandera lógica.|
 
 ### 🧩 Ejemplo de visualizaciones posibles
 
-- Evolución mensual de ventas por categoría de producto.
-- Comparación interanual del desempeño por empleado o región.
-- Análisis de clientes top 10 por volumen de facturación.
-- Identificación de entregas críticas o fuera de SLA.
-- Tasa de órdenes con descuento por producto o canal.
+- Ranking de vendedores por su facturación y facturación media.
+- Evolución de unidades y facturación a lo largo del período.
+- Países de origen que representan la mayor pérdida de facturación por descuentos o devoluciones.
+- Participación de mercado del origen y destino de las unidades vendidas.
+- Principales clientes por país, nivel de ingreso y costos de transporte.
 
 > Todos estos DP_ están trazados hasta el origen con `uuid`, permitiendo
 > rastrear cada métrica hasta los registros originales de ingreso (`.csv`).
