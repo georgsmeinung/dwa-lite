@@ -1,35 +1,63 @@
--- Cancelas, Martín.
--- Nicolau, Jorge.A
-
 -- =============================================================================
--- Script: transform_tmp_to_dwa.sql
--- Descripción:
---   Este script transforma los datos crudos de la capa TMP_ y los carga
---   en las tablas de la capa DWA_ aplicando reglas de limpieza, enriquecimiento
---   y normalización según el modelo dimensional del DWA.
---
--- Funcionalidad:
---   - Elimina duplicados, normaliza formatos y filtra columnas irrelevantes.
---   - Aplica joins necesarios entre TMP_ y tablas auxiliares (e.g., categorías).
---   - Propaga los UUID de trazabilidad desde TMP_ hacia DWA_.
---   - INSERT OR REPLACEa datos transformados en las tablas de dimensión (Customers, Products, etc.)
---     y en las tablas de hechos (SalesFact, DeliveriesFact).
---   - Calcula métricas derivadas como `totalAmount` en ventas.
---
--- Supuestos:
---   - Las tablas TMP_ ya están pobladas.
---   - La tabla DWA_Time fue generada previamente con las fechas necesarias.
---
--- Recomendación:
---   Ejecutar este script después de la carga de CSV y la generación de DWA_Time,
---   y antes de aplicar SCD2 en la capa DWM_.
---
--- Uso:
---   Se puede ejecutar en forma automática como parte del pipeline o manualmente
---   durante el desarrollo y testing.
+-- Script modificado: STG → DWA sin join con DWA_
 -- =============================================================================
 
--- Tablas de Dimensiones:
+-- Tablas de Dimensiones
+INSERT OR REPLACE INTO DWA_Customers (
+    customerID, companyName, contactName, contactTitle,
+    address, city, postalCode, country, phone, fax, uuid
+)
+SELECT
+    customerID, companyName, contactName, contactTitle,
+    address, city, postalCode, country, phone, fax,
+    lower(hex(randomblob(16)))
+FROM STG_Customers;
+
+INSERT OR REPLACE INTO DWA_Employees (
+    employeeID, fullName, title, birthDate, hireDate,
+    city, country, territory, region, notes, photoPath, uuid
+)
+SELECT
+    e.employeeID,
+    e.firstName || ' ' || e.lastName AS fullName,
+    e.title,
+    e.birthDate,
+    e.hireDate,
+    e.city,
+    e.country,
+    t.territoryDescription AS territory,
+    r.regionDescription AS region,
+    e.notes,
+    e.photoPath,
+    lower(hex(randomblob(16)))
+FROM STG_Employees e
+LEFT JOIN STG_EmployeeTerritories et ON e.employeeID = et.employeeID
+LEFT JOIN STG_Territories t ON et.territoryID = t.territoryID
+LEFT JOIN STG_Regions r ON t.regionID = r.regionID;
+
+INSERT OR REPLACE INTO DWA_Products (
+    productID, productName, categoryName, supplier, countryOrigin,
+    quantityPerUnit, unitPrice, unitsInStock, unitsOnOrder, 
+    reorderLevel, discontinued, uuid
+)
+SELECT
+    p.productID,
+    p.productName,
+    c.categoryName,
+    s.companyName AS supplier,
+    s.country AS countryOrigin,
+    p.quantityPerUnit,
+    p.unitPrice,
+    p.unitsInStock, 
+    p.unitsOnOrder, 
+    p.reorderLevel,
+    p.discontinued,
+    lower(hex(randomblob(16)))
+FROM STG_Products p
+LEFT JOIN STG_Categories c ON p.categoryID = c.categoryID
+LEFT JOIN STG_Suppliers s ON p.supplierID = s.supplierID;
+
+-- Tabla WorldData
 INSERT OR REPLACE INTO DWA_WorldData2023 (
     Country, Density_PKm2, Abbreviation, Agricultural_Land_PCT, Land_Area_Km2,
     Armed_Forces_Size, Birth_Rate, Calling_Code, Capital_Major_City, Co2_Emissions,
@@ -53,94 +81,40 @@ SELECT
     Latitude, Longitude
 FROM STG_WorldData2023;
 
-INSERT OR REPLACE INTO DWA_Customers (
-    customerID, companyName, contactName, contactTitle,
-    address, city, postalCode, country, phone, fax, uuid
-)
-SELECT
-    customerID, companyName, contactName, contactTitle,
-    address, city, postalCode, country, phone, fax, uuid
-FROM STG_Customers;
-
-INSERT OR REPLACE INTO DWA_Employees (
-    employeeID, fullName, title, birthDate, hireDate,
-    city, country, territory, region, notes, photoPath, uuid
-)
-SELECT
-    e.employeeID,
-    e.firstName || ' ' || e.lastName AS fullName,
-    e.title,
-    e.birthDate,
-    e.hireDate,
-    e.city,
-    e.country,
-    t.territoryDescription AS territory,
-    r.regionDescription AS region,
-    e.notes,
-    e.photoPath,
-    e.uuid
-FROM STG_Employees e
-LEFT JOIN STG_EmployeeTerritories et ON e.employeeID = et.employeeID
-LEFT JOIN STG_Territories t ON et.territoryID = t.territoryID
-LEFT JOIN STG_Regions r ON t.regionID = r.regionID;
-
-INSERT OR REPLACE INTO DWA_Products (
-    productID, productName, categoryName, supplier, countryOrigin,
-    quantityPerUnit, unitPrice, unitsInStock, unitsOnOrder, 
-    reorderLevel, discontinued, uuid
-)
-SELECT
-    p.productID,
-    p.productName,
-    c.categoryName,
-    s.companyName AS supplier,
-    s.country AS countryOrigin,
-    p.quantityPerUnit,
-    p.unitPrice,
-    p.unitsInStock, 
-    p.unitsOnOrder, 
-    p.reorderLevel,
-    p.discontinued,
-    p.uuid
-FROM STG_Products p
-LEFT JOIN STG_Categories c ON p.categoryID = c.categoryID
-LEFT JOIN STG_Suppliers s ON p.supplierID = s.supplierID;
-
-
--- Tablas de Hechos:
+-- Tablas de Hechos
 INSERT OR REPLACE INTO DWA_SalesFact (
-    orderID, productKey, customerKey, employeeKey,
+    orderID, productID, customerID, employeeID,
     territory, orderDateKey, quantity, unitPrice,
     discount, freight, totalAmount, uuid
 )
 SELECT
     od.orderID,
-    p.productKey,
-    c.customerKey,
-    e.employeeKey,
-    e.territory,
+    od.productID,
+    o.customerID,
+    o.employeeID,
+    t.territoryDescription,
     NULL, -- fecha a completar en capa TIME
     od.quantity,
     od.unitPrice,
     od.discount,
     o.freight,
     (od.unitPrice * od.quantity * (1 - od.discount)) AS totalAmount,
-    p.uuid
+    lower(hex(randomblob(16)))
 FROM STG_OrderDetails od
 JOIN STG_Orders o ON od.orderID = o.orderID
-JOIN DWA_Products p ON od.productID = p.productID
-JOIN DWA_Customers c ON o.customerID = c.customerID
-JOIN DWA_Employees e ON o.employeeID = e.employeeID;
+JOIN STG_Employees e ON o.employeeID = e.employeeID
+LEFT JOIN STG_EmployeeTerritories et ON e.employeeID = et.employeeID
+LEFT JOIN STG_Territories t ON et.territoryID = t.territoryID;
 
 INSERT OR REPLACE INTO DWA_DeliveriesFact (
-    orderID, customerKey, employeeKey, shipperID,
+    orderID, customerID, employeeID, shipperID,
     shippedDateKey, requiredDateKey, deliveryDelayDays,
     freight, isDelivered, uuid
 )
 SELECT
     o.orderID,
-    c.customerKey,
-    e.employeeKey,
+    o.customerID,
+    o.employeeID,
     o.shipVia,
     NULL, -- dateKey de envío a mapear
     NULL, -- dateKey de requerido a mapear
@@ -151,7 +125,5 @@ SELECT
     END AS delay,
     o.freight,
     CASE WHEN o.shippedDate IS NOT NULL THEN 1 ELSE 0 END,
-    c.uuid
-FROM STG_Orders o
-JOIN DWA_Customers c ON o.customerID = c.customerID
-JOIN DWA_Employees e ON o.employeeID = e.employeeID;
+    lower(hex(randomblob(16)))
+FROM STG_Orders o;
