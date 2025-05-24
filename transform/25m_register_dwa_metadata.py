@@ -1,6 +1,6 @@
 
 # Cancelas, Martín.
-# Nicolau, Jorge.A
+# Nicolau, Jorge.
 
 # 13m_register_dwa_metadata.py
 import os

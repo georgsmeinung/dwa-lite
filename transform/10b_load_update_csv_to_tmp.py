@@ -1,5 +1,5 @@
 # Cancelas, Martín.
-# Nicolau, Jorge.A
+# Nicolau, Jorge.
 
 """
 Script: update_csv_to_tmp.py

@@ -1,5 +1,5 @@
 -- Cancelas, Martín.
--- Nicolau, Jorge.A
+-- Nicolau, Jorge.
 
 -- ================================================================================
 -- Script: generate_data_products.sql

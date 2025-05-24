@@ -1,5 +1,5 @@
 # Cancelas, Martín.
-# Nicolau, Jorge.A
+# Nicolau, Jorge.
 
 import os
 from dotenv import load_dotenv

@@ -1,5 +1,5 @@
 -- Cancelas, Martín.
--- Nicolau, Jorge.A
+-- Nicolau, Jorge.
 
 -- ================================================================================
 -- Script: copy_tmp_to_stg.sql

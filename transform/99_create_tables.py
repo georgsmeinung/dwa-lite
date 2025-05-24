@@ -1,6 +1,7 @@
 # Cancelas, Martín.
 # Nicolau, Jorge.A
 
+
 # ejecutar_sqlite_script_env.py
 import os
 from dotenv import load_dotenv

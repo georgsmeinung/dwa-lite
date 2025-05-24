@@ -1,5 +1,5 @@
 -- Cancelas, Martín.
--- Nicolau, Jorge.A
+-- Nicolau, Jorge.
 
 -- Eliminación de todas las tablas: TMP, DWA, DWM, DQM, DP y MET.
 -- Las tablas STG se eliminan durante el pipeline.
