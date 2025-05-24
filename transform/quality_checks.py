@@ -54,10 +54,18 @@ def validate_table_quality(DB_PATH, table):
 
     # Guardar estadísticas generales
     cursor.execute("""
-        INSERT INTO DQM_TableStatistics (tableName, rowCount, nullCount, createdAt, dataLayer)
-        VALUES (?, ?, ?, ?, ?)
-    """, (table, row_count, int(nulls.sum()), datetime.now().isoformat(), table.split('_')[0]))
+        INSERT INTO DQM_TableStatistics (tableName, rowCount, nullCount, columnCount, createdAt, dataLayer)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (
+        table,
+        row_count,
+        int(nulls.sum()),
+        len(columns),  # cantidad de columnas
+        datetime.now().isoformat(),
+        table.split('_')[0]
+    ))
     conn.commit()
+
 
     # Guardar issues
     for table_name, col, issue_type, count, severity in issues:
