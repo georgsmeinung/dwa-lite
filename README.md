@@ -146,11 +146,11 @@ Al final del pipeline se generan seis productos de datos que resumen informació
 
 ### 🧩 Ejemplo de visualizaciones posibles
 
-- Evolución mensual de ventas por categoría de producto.
-- Comparación interanual del desempeño por empleado o región.
-- Análisis de clientes top 10 por volumen de facturación.
-- Identificación de entregas críticas o fuera de SLA.
-- Tasa de órdenes con descuento por producto o canal.
+- Ranking de vendedores por su facturación y facturación media.
+- Evolución de unidades y facturación a lo largo del período.
+- Países de origen que representan la mayor pérdida de facturación por descuentos o devoluciones.
+- Participación de mercado del origen y destino de las unidades vendidas.
+- Principales clientes por país, nivel de ingreso y costos de transporte.
 
 > Todos estos DP_ están trazados hasta el origen con `uuid`, permitiendo
 > rastrear cada métrica hasta los registros originales de ingreso (`.csv`).
